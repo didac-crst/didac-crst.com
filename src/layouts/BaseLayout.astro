@@ -45,10 +45,57 @@ const imageUrl = new URL(image, SITE.domain).toString();
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <script is:inline>
-      const savedTheme = localStorage.getItem("didac-crst-theme");
-      if (savedTheme && savedTheme !== "system") {
-        document.documentElement.setAttribute("data-theme", savedTheme);
-      }
+      (() => {
+        const storageKey = "didac-crst-theme";
+        const root = document.documentElement;
+        const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+        const normalizeTheme = (value) =>
+          value === "light" || value === "dark" || value === "system" ? value : "system";
+
+        const getPreference = () => normalizeTheme(localStorage.getItem(storageKey));
+        const getEffectiveTheme = (preference) =>
+          preference === "system" ? (media.matches ? "dark" : "light") : preference;
+
+        const applyTheme = (preference, persist = false) => {
+          const theme = normalizeTheme(preference);
+
+          if (persist) {
+            localStorage.setItem(storageKey, theme);
+          }
+
+          if (theme === "system") {
+            root.removeAttribute("data-theme");
+          } else {
+            root.setAttribute("data-theme", theme);
+          }
+
+          root.setAttribute("data-theme-preference", theme);
+          root.setAttribute("data-theme-effective", getEffectiveTheme(theme));
+          window.dispatchEvent(
+            new CustomEvent("didac-theme-change", {
+              detail: {
+                preference: theme,
+                effective: getEffectiveTheme(theme)
+              }
+            })
+          );
+        };
+
+        const savedTheme = getPreference();
+        applyTheme(savedTheme);
+
+        media.addEventListener("change", () => {
+          if (getPreference() === "system") {
+            applyTheme("system");
+          }
+        });
+
+        window.DidacTheme = {
+          getPreference,
+          setPreference: (preference) => applyTheme(preference, true)
+        };
+      })();
     </script>
   </head>
   <body>

@@ -7,17 +7,30 @@ import { projects } from "@/projects";
 import { SITE } from "@/site.config";
 import { getCollection } from "astro:content";
 
-const articles = (await getCollection("writing"))
+const allArticles = (await getCollection("writing"))
   .filter((article) => !article.data.draft)
-  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-  .slice(0, 2);
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const articles = allArticles.slice(0, 2);
+
+const writingHeading =
+  allArticles.length >= 3 ? "Selected Writing" : "Latest Writing";
+const writingTitle =
+  allArticles.length >= 3
+    ? "Notes on durable technical systems."
+    : "Architecture notes for long-lived systems.";
+const projectHeading =
+  projects.length >= 3 ? "Selected Projects" : "Current Project";
+const projectTitle =
+  projects.length >= 3
+    ? "Public work as it becomes ready to document."
+    : "AtlasDocs";
 ---
 
 <BaseLayout>
-  <section class="hero container">
+  <section class="hero page-container">
     <div class="hero-copy">
       <p class="eyebrow">Knowledge Systems · Information Architecture · Applied AI</p>
-      <h1>{SITE.name}</h1>
+      <h1 class="hero-name">{SITE.name}</h1>
       <p class="lede">
         I design systems that turn fragmented information into structured, traceable,
         usable knowledge.
@@ -25,32 +38,31 @@ const articles = (await getCollection("writing"))
       <SocialLinks />
     </div>
     <aside class="positioning" aria-label="Positioning">
-      <p>
-        Use deterministic methods where possible. Add probabilistic intelligence
-        where it earns its complexity.
-      </p>
+      <p>Deterministic when possible.</p>
+      <p>Probabilistic when useful.</p>
+      <p>AI where it earns its complexity.</p>
     </aside>
   </section>
 
   <section class="section">
-    <div class="container stack">
+    <div class="page-container stack">
       <div class="section-heading">
-        <p class="eyebrow">Selected Writing</p>
-        <h2>Notes on durable technical systems.</h2>
+        <p class="eyebrow">{writingHeading}</p>
+        <h2>{writingTitle}</h2>
       </div>
-      <div class="grid two">
+      <div class={`card-grid ${articles.length === 1 ? "single" : ""}`}>
         {articles.map((article) => <ArticleCard article={article} />)}
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container stack">
+    <div class="page-container stack">
       <div class="section-heading">
-        <p class="eyebrow">Selected Projects</p>
-        <h2>Public work as it becomes ready to document.</h2>
+        <p class="eyebrow">{projectHeading}</p>
+        <h2>{projectTitle}</h2>
       </div>
-      <div class="grid two">
+      <div class={`card-grid ${projects.length === 1 ? "single" : ""}`}>
         {projects.map((project) => <ProjectCard project={project} />)}
       </div>
     </div>
@@ -60,10 +72,10 @@ const articles = (await getCollection("writing"))
 <style>
   .hero {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
+    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
     gap: var(--space-7);
     align-items: end;
-    padding-block: clamp(5rem, 11vw, 10rem) var(--space-8);
+    padding-block: var(--space-8);
   }
 
   .hero-copy {
@@ -71,11 +83,11 @@ const articles = (await getCollection("writing"))
     animation: enter var(--duration-medium) ease both;
   }
 
-  .hero h1 {
+  .hero-name {
     margin: 0;
-    max-width: 11ch;
-    font-size: clamp(3.1rem, 2.25rem + 5.4vw, 7.5rem);
-    line-height: 0.92;
+    font-size: clamp(3.5rem, 7vw, 7rem);
+    line-height: 0.95;
+    white-space: nowrap;
   }
 
   .hero .lede {
@@ -84,13 +96,22 @@ const articles = (await getCollection("writing"))
   }
 
   .positioning {
-    padding: var(--space-5);
+    max-width: 32rem;
+    padding: var(--space-5) 0 var(--space-1) var(--space-5);
     border-left: 1px solid var(--color-border);
     color: var(--color-muted);
+    font-size: clamp(1rem, 0.94rem + 0.28vw, 1.16rem);
+    line-height: 1.65;
   }
 
   .positioning p {
     margin: 0;
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .positioning p + p {
+    margin-top: var(--space-2);
   }
 
   .section-heading {
@@ -118,6 +139,10 @@ const articles = (await getCollection("writing"))
     .hero {
       grid-template-columns: 1fr;
       gap: var(--space-5);
+    }
+
+    .hero-name {
+      white-space: normal;
     }
 
     .positioning {

@@ -10,30 +10,18 @@ import { SITE } from "@/site.config";
   description={`Public project notes and open-source work by ${SITE.fullName}.`}
 >
   <section class="section">
-    <div class="container stack">
-      <div class="page-heading">
+    <div class="page-container stack">
+      <div class="page-hero">
         <p class="eyebrow">Projects</p>
-        <h1>Public systems and project documentation.</h1>
+        <h1 class="page-title">Building systems in public.</h1>
         <p class="lede">
-          The project section starts small and will expand as work becomes ready to
-          document publicly.
+          Open engineering projects, architectural experiments, and systems documented
+          as they evolve.
         </p>
       </div>
-      <div class="grid two">
+      <div class={`card-grid ${projects.length === 1 ? "single" : ""}`}>
         {projects.map((project) => <ProjectCard project={project} />)}
       </div>
     </div>
   </section>
 </BaseLayout>
-
-<style>
-  .page-heading {
-    max-width: 48rem;
-  }
-
-  h1 {
-    margin: 0;
-    font-size: clamp(2.4rem, 1.8rem + 2.8vw, 5rem);
-    line-height: 1;
-  }
-</style>

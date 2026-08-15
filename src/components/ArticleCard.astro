@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import ChipList from "./ChipList.astro";
 import { getArticleSlug } from "@/lib/articles";
 
 type Props = {
@@ -25,11 +26,7 @@ const slug = getArticleSlug(article);
   <p>{description}</p>
   {
     tags.length > 0 && (
-      <div class="cluster" aria-label="Tags">
-        {tags.slice(0, 3).map((tag) => (
-          <span class="tag">{tag}</span>
-        ))}
-      </div>
+      <ChipList items={tags.slice(0, 3)} label="Tags" />
     )
   }
 </a>

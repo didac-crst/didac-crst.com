@@ -8,15 +8,61 @@ type Props = {
 const { project } = Astro.props;
 ---
 
-<a class="card project-card" href={`/projects/${project.slug}/`}>
+<article class="card project-card">
   {
     project.image && (
       <img src={project.image.src} alt={project.image.alt} loading="lazy" decoding="async" />
     )
   }
   <div class="meta">
-    <span>{project.status}</span>
+    <span>{project.statusLabel}</span>
   </div>
-  <h3>{project.name}</h3>
+  <h3><a href={`/projects/${project.slug}/`}>{project.name}</a></h3>
   <p>{project.description}</p>
-</a>
+  <p>{project.summary}</p>
+  {
+    project.githubUrl && (
+      <a class="project-link" href={project.githubUrl} rel="noopener noreferrer" target="_blank">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.78.6-3.37-1.2-3.37-1.2-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.35 1.08 2.92.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.48 9.48 0 0 1 12 6.99c.85 0 1.7.11 2.5.34 1.9-1.29 2.74-1.02 2.74-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
+        </svg>
+        <span>View repository</span>
+      </a>
+    )
+  }
+</article>
+
+<style>
+  .project-card h3 a {
+    text-decoration: none;
+  }
+
+  .project-card h3 a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .project-card {
+    position: relative;
+  }
+
+  .project-link {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: fit-content;
+    margin-top: var(--space-1);
+    color: var(--color-text);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .project-link svg {
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
+  }
+</style>

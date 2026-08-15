@@ -2,7 +2,9 @@ export type Project = {
   name: string;
   slug: string;
   description: string;
+  summary: string;
   status: "planned" | "active" | "archived";
+  statusLabel: string;
   externalUrl?: string;
   githubUrl?: string;
   image?: {
@@ -16,7 +18,10 @@ export const projects: Project[] = [
     name: "AtlasDocs",
     slug: "atlasdocs",
     description:
-      "A public placeholder for an information architecture and documentation systems project. Details will be added as the project matures.",
-    status: "planned"
+      "Document intelligence and knowledge architecture.",
+    summary:
+      "An open-source exploration of turning documents and metadata into structured, traceable knowledge while combining deterministic processing with AI only where it adds value.",
+    status: "active",
+    statusLabel: "Open source · Early development"
   }
 ];

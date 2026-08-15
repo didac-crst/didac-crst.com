@@ -13,30 +13,18 @@ const articles = (await getCollection("writing"))
   description="Technical writing on knowledge systems, architecture, and applied AI."
 >
   <section class="section">
-    <div class="container stack">
-      <div class="page-heading">
+    <div class="page-container stack">
+      <div class="page-hero">
         <p class="eyebrow">Writing</p>
-        <h1>Long-form notes for systems that need to stay understandable.</h1>
+        <h1 class="page-title">Architecture notes for long-lived systems.</h1>
         <p class="lede">
-          Articles will collect technical decisions, architectural patterns, diagrams,
-          and field notes as the site develops.
+          Technical decisions, architectural patterns, diagrams, and field notes on
+          building systems that remain understandable over time.
         </p>
       </div>
-      <div class="grid two">
+      <div class={`card-grid ${articles.length === 1 ? "single" : ""}`}>
         {articles.map((article) => <ArticleCard article={article} />)}
       </div>
     </div>
   </section>
 </BaseLayout>
-
-<style>
-  .page-heading {
-    max-width: 48rem;
-  }
-
-  h1 {
-    margin: 0;
-    font-size: clamp(2.4rem, 1.8rem + 2.8vw, 5rem);
-    line-height: 1;
-  }
-</style>

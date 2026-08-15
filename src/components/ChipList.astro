@@ -1,0 +1,23 @@
+---
+type Props = {
+  items: string[];
+  label: string;
+};
+
+const { items, label } = Astro.props;
+---
+
+<ul class="chip-list" aria-label={label}>
+  {items.map((item) => <li class="tag">{item}</li>)}
+</ul>
+
+<style>
+  .chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>
