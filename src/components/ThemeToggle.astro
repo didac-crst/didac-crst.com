@@ -38,12 +38,36 @@
   const trigger = control?.querySelector("[data-theme-trigger]");
   const menu = control?.querySelector("[data-theme-menu]");
   const label = control?.querySelector("[data-theme-label]");
-  const buttons = control?.querySelectorAll("[data-theme-choice]") || [];
+  const buttons = Array.from(control?.querySelectorAll("[data-theme-choice]") || []);
+  let isOpen = false;
 
   function setOpen(open) {
     if (!trigger || !menu) return;
+    isOpen = open;
     trigger.setAttribute("aria-expanded", String(open));
     menu.hidden = !open;
+  }
+
+  function getCheckedButton() {
+    return buttons.find((button) => button.getAttribute("aria-checked") === "true") || buttons[0];
+  }
+
+  function openMenu() {
+    setOpen(true);
+    getCheckedButton()?.focus();
+  }
+
+  function closeMenu(focusTrigger = false) {
+    setOpen(false);
+    if (focusTrigger) {
+      trigger?.focus();
+    }
+  }
+
+  function focusByOffset(offset) {
+    const currentIndex = Math.max(0, buttons.indexOf(document.activeElement));
+    const nextIndex = (currentIndex + offset + buttons.length) % buttons.length;
+    buttons[nextIndex]?.focus();
   }
 
   function renderTheme(theme) {
@@ -60,7 +84,11 @@
   renderTheme(window.DidacTheme?.getPreference?.() || "system");
 
   trigger?.addEventListener("click", () => {
-    setOpen(menu?.hidden ?? true);
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
   buttons.forEach((button) => {
@@ -68,8 +96,29 @@
       const theme = button.dataset.themeChoice || "system";
       window.DidacTheme?.setPreference?.(theme);
       renderTheme(theme);
-      setOpen(false);
-      trigger?.focus();
+      closeMenu(true);
+    });
+
+    button.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        focusByOffset(1);
+      }
+
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        focusByOffset(-1);
+      }
+
+      if (event.key === "Home") {
+        event.preventDefault();
+        buttons[0]?.focus();
+      }
+
+      if (event.key === "End") {
+        event.preventDefault();
+        buttons[buttons.length - 1]?.focus();
+      }
     });
   });
 
@@ -79,14 +128,14 @@
 
   document.addEventListener("click", (event) => {
     if (!control?.contains(event.target)) {
-      setOpen(false);
+      closeMenu();
     }
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      setOpen(false);
-      trigger?.focus();
+    if (event.key === "Escape" && isOpen) {
+      event.preventDefault();
+      closeMenu(true);
     }
   });
 </script>
