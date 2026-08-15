@@ -7,15 +7,15 @@ import { projects } from "@/projects";
 import { SITE } from "@/site.config";
 import { getCollection } from "astro:content";
 
-const articles = (await getCollection("writing"))
+const allArticles = (await getCollection("writing"))
   .filter((article) => !article.data.draft)
-  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-  .slice(0, 2);
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const articles = allArticles.slice(0, 2);
 
 const writingHeading =
-  articles.length >= 3 ? "Selected Writing" : "Latest Writing";
+  allArticles.length >= 3 ? "Selected Writing" : "Latest Writing";
 const writingTitle =
-  articles.length >= 3
+  allArticles.length >= 3
     ? "Notes on durable technical systems."
     : "Architecture notes for long-lived systems.";
 const projectHeading =

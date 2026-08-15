@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ChipList from "@/components/ChipList.astro";
+import { projects } from "@/projects";
 import { SITE } from "@/site.config";
 
 const languages = ["English", "French", "German", "Spanish", "Catalan"];
@@ -12,6 +13,7 @@ const interests = [
   "Machine Learning",
   "Open Source"
 ];
+const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
 ---
 
 <BaseLayout
@@ -205,12 +207,8 @@ const interests = [
           </div>
           <article class="feature-card">
             <p class="eyebrow">AtlasDocs</p>
-            <h3>Document intelligence and knowledge architecture.</h3>
-            <p>
-              An open-source exploration of turning documents and metadata into structured,
-              traceable knowledge while combining deterministic processing with AI only where
-              it adds value.
-            </p>
+            <h3>{atlasDocs?.description ?? "Document intelligence and knowledge architecture."}</h3>
+            <p>{atlasDocs?.summary}</p>
             <a class="button-link" href="/projects/atlasdocs/">View AtlasDocs</a>
           </article>
         </div>
@@ -254,7 +252,7 @@ const interests = [
   .section-intro,
   .timeline p,
   .education-list p,
-  .feature-card p {
+  .feature-card > p:not(.eyebrow) {
     margin: 0;
     color: var(--color-muted);
     font-size: 1.05rem;
