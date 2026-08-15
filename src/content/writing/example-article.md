@@ -40,34 +40,32 @@ Before adding probabilistic behavior, define what can be represented, checked, a
 
 ## A Small Decision Table
 
-<div class="article-wide">
-  <table>
-    <thead>
-      <tr>
-        <th>Problem shape</th>
-        <th>Better first option</th>
-        <th>Reason</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Exact identifiers</td>
-        <td>Parser or rules</td>
-        <td>Deterministic behavior is inspectable.</td>
-      </tr>
-      <tr>
-        <td>Repeated categories</td>
-        <td>Classifier</td>
-        <td>Training data can make boundaries explicit.</td>
-      </tr>
-      <tr>
-        <td>Semantic synthesis</td>
-        <td>Language model</td>
-        <td>Meaning may be implicit in the text.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Problem shape</th>
+      <th>Better first option</th>
+      <th>Reason</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Exact identifiers</td>
+      <td>Parser or rules</td>
+      <td>Deterministic behavior is inspectable.</td>
+    </tr>
+    <tr>
+      <td>Repeated categories</td>
+      <td>Classifier</td>
+      <td>Training data can make boundaries explicit.</td>
+    </tr>
+    <tr>
+      <td>Semantic synthesis</td>
+      <td>Language model</td>
+      <td>Meaning may be implicit in the text.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Example Pipeline
 

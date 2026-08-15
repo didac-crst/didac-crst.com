@@ -1,6 +1,10 @@
+.article-layout {
+  width: min(calc(100% - var(--page-gutter) - var(--page-gutter)), var(--width-article-wide));
+  max-width: var(--width-article-wide);
+}
+
 .article-header {
   width: min(100%, var(--width-article-wide));
-  max-width: var(--width-article-wide);
   padding-block: var(--space-8) var(--space-7);
 }
 
@@ -41,10 +45,10 @@
 }
 
 .article-wide {
-  --article-wide-width: min(var(--width-article-wide), calc(100vw - var(--page-gutter) - var(--page-gutter)));
-  width: var(--article-wide-width);
-  max-width: none;
-  margin-inline: calc((100% - var(--article-wide-width)) / 2);
+  width: 100%;
+  max-width: var(--width-article-wide);
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .article-content > * + * {
@@ -107,7 +111,8 @@
 
 .article-content table {
   display: block;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   overflow-x: auto;
   border-collapse: collapse;
   font-size: 0.95rem;
