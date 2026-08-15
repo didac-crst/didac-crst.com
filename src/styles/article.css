@@ -1,11 +1,11 @@
 .article-layout {
-  width: min(calc(100% - var(--page-gutter) - var(--page-gutter)), var(--width-article-wide));
-  max-width: var(--width-article-wide);
+  width: min(calc(100% - var(--page-gutter) - var(--page-gutter)), var(--width-content));
+  max-width: none;
 }
 
 .article-header {
-  width: min(100%, var(--width-article-wide));
-  max-width: var(--width-article-wide);
+  width: 100%;
+  max-width: none;
   padding-block: var(--space-8) var(--space-7);
 }
 
@@ -17,7 +17,7 @@
 }
 
 .article-header .lede {
-  max-width: var(--width-article-wide);
+  max-width: none;
 }
 
 .article-header .eyebrow {
@@ -37,8 +37,8 @@
 }
 
 .article-content {
-  width: min(100%, var(--width-article-wide));
-  max-width: var(--width-article-wide);
+  width: 100%;
+  max-width: none;
   padding-bottom: var(--space-8);
   color: var(--color-text);
   font-size: 1.05rem;
