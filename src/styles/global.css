@@ -1,5 +1,6 @@
 @import "./tokens.css";
 @import "./article.css";
+@import "./motion.css";
 
 *,
 *::before,
@@ -22,9 +23,8 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    linear-gradient(180deg, rgb(15 118 110 / 0.05), transparent 28rem),
-    var(--color-background);
+  background-color: var(--color-background);
+  background-image: linear-gradient(180deg, rgb(15 118 110 / 0.05), transparent 28rem);
 }
 
 a {
@@ -203,7 +203,8 @@ select {
   transition:
     border-color var(--duration-fast) ease,
     transform var(--duration-fast) ease,
-    background var(--duration-fast) ease;
+    background-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
 }
 
 .card:hover {

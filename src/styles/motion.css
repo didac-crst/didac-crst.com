@@ -1,0 +1,228 @@
+@keyframes motion-enter {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes motion-menu {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+::view-transition-old(root) {
+  animation: motion-page-out var(--motion-medium) var(--ease-standard) both;
+}
+
+::view-transition-new(root) {
+  animation: motion-page-in 420ms var(--ease-enter) both;
+}
+
+@keyframes motion-page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.995);
+  }
+}
+
+@keyframes motion-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+html {
+  transition:
+    background-color var(--motion-medium) var(--ease-standard),
+    color var(--motion-medium) var(--ease-standard);
+}
+
+body,
+.site-header,
+.site-footer,
+.card,
+.button-link,
+.tag,
+.theme-trigger,
+.theme-menu,
+.theme-menu button,
+.article-content blockquote,
+.article-content pre,
+.article-content th,
+.article-content figure svg,
+.article-content figure img {
+  transition:
+    background-color var(--motion-medium) var(--ease-standard),
+    border-color var(--motion-medium) var(--ease-standard),
+    box-shadow var(--motion-medium) var(--ease-standard),
+    color var(--motion-medium) var(--ease-standard);
+}
+
+.motion-ready [data-motion-enter] > *,
+.motion-ready [data-motion-home] .hero-copy > *,
+.motion-ready [data-motion-home] .positioning,
+.motion-ready [data-motion-reveal],
+.motion-ready [data-motion-reveal] .card,
+.motion-ready [data-motion-reveal] .timeline li,
+.motion-ready [data-motion-reveal] .education-item,
+.motion-ready [data-motion-reveal] .tag,
+.motion-ready [data-motion-reveal] .principle-flow li {
+  opacity: 0;
+  transform: translateY(22px) scale(0.985);
+}
+
+.motion-ready [data-motion-enter] > *,
+.motion-ready [data-motion-home] .hero-copy > *,
+.motion-ready [data-motion-home] .positioning {
+  animation: motion-enter var(--motion-slow) var(--ease-enter) both;
+}
+
+.motion-ready [data-motion-home] .hero-copy > :nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.motion-ready [data-motion-home] .hero-copy > :nth-child(2) {
+  animation-delay: 90ms;
+}
+
+.motion-ready [data-motion-home] .hero-copy > :nth-child(3) {
+  animation-delay: 180ms;
+}
+
+.motion-ready [data-motion-home] .hero-copy > :nth-child(4) {
+  animation-delay: 270ms;
+}
+
+.motion-ready [data-motion-home] .positioning {
+  animation-delay: 240ms;
+}
+
+.motion-ready [data-motion-enter] > :nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.motion-ready [data-motion-enter] > :nth-child(2) {
+  animation-delay: 70ms;
+}
+
+.motion-ready [data-motion-enter] > :nth-child(3) {
+  animation-delay: 140ms;
+}
+
+.motion-ready [data-motion-enter] > :nth-child(n + 4) {
+  animation-delay: 210ms;
+}
+
+.motion-ready [data-motion-reveal].is-visible {
+  animation: motion-enter var(--motion-slow) var(--ease-enter) both;
+}
+
+.motion-ready [data-motion-reveal].is-visible .card,
+.motion-ready [data-motion-reveal].is-visible .timeline li,
+.motion-ready [data-motion-reveal].is-visible .education-item,
+.motion-ready [data-motion-reveal].is-visible .tag,
+.motion-ready [data-motion-reveal].is-visible .principle-flow li {
+  animation: motion-enter 500ms var(--ease-enter) both;
+}
+
+.motion-ready [data-motion-reveal].is-visible .card:nth-child(2),
+.motion-ready [data-motion-reveal].is-visible .timeline li:nth-child(2),
+.motion-ready [data-motion-reveal].is-visible .education-item:nth-child(2),
+.motion-ready [data-motion-reveal].is-visible .tag:nth-child(2),
+.motion-ready [data-motion-reveal].is-visible .principle-flow li:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.motion-ready [data-motion-reveal].is-visible .card:nth-child(3),
+.motion-ready [data-motion-reveal].is-visible .timeline li:nth-child(3),
+.motion-ready [data-motion-reveal].is-visible .education-item:nth-child(3),
+.motion-ready [data-motion-reveal].is-visible .tag:nth-child(3),
+.motion-ready [data-motion-reveal].is-visible .principle-flow li:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.motion-ready [data-motion-reveal].is-visible .card:nth-child(4),
+.motion-ready [data-motion-reveal].is-visible .timeline li:nth-child(4),
+.motion-ready [data-motion-reveal].is-visible .education-item:nth-child(4),
+.motion-ready [data-motion-reveal].is-visible .tag:nth-child(4),
+.motion-ready [data-motion-reveal].is-visible .principle-flow li:nth-child(4) {
+  animation-delay: 180ms;
+}
+
+.motion-ready [data-motion-reveal].is-visible .timeline li:nth-child(5),
+.motion-ready [data-motion-reveal].is-visible .tag:nth-child(5) {
+  animation-delay: 240ms;
+}
+
+.motion-ready [data-motion-reveal].is-visible .tag:nth-child(6) {
+  animation-delay: 300ms;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lifted);
+  transform: translateY(-4px) scale(1.005);
+}
+
+.social-links a,
+.project-link,
+.tool-row a,
+.tool-row button,
+.article-panel a {
+  transition:
+    color var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
+}
+
+.social-links a:hover,
+.project-link:hover {
+  transform: translateY(-2px);
+}
+
+.theme-menu:not([hidden]) {
+  animation: motion-menu var(--motion-fast) var(--ease-enter) both;
+  transform-origin: top right;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+
+  .motion-ready [data-motion-enter] > *,
+  .motion-ready [data-motion-home] .hero-copy > *,
+  .motion-ready [data-motion-home] .positioning,
+  .motion-ready [data-motion-reveal],
+  .motion-ready [data-motion-reveal] .card,
+  .motion-ready [data-motion-reveal] .timeline li,
+  .motion-ready [data-motion-reveal] .education-item,
+  .motion-ready [data-motion-reveal] .tag,
+  .motion-ready [data-motion-reveal] .principle-flow li {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

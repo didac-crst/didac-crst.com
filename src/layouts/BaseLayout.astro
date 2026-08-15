@@ -2,6 +2,7 @@
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import { SITE } from "@/site.config";
+import { ClientRouter } from "astro:transitions";
 import "@/styles/global.css";
 
 type Props = {
@@ -44,6 +45,7 @@ const imageUrl = new URL(image, SITE.domain).toString();
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
+    <ClientRouter />
     <script is:inline>
       (() => {
         const storageKey = "didac-crst-theme";
@@ -100,11 +102,86 @@ const imageUrl = new URL(image, SITE.domain).toString();
   </head>
   <body>
     <div class="site-shell">
-      <Header />
+      <Header transition:persist />
       <main class="site-main">
         <slot />
       </main>
       <Footer />
     </div>
+    <script is:inline>
+      (() => {
+        if (window.DidacMotion) return;
+
+        const syncActiveNavigation = () => {
+          const currentPath = window.location.pathname;
+
+          document.querySelectorAll(".primary-nav a").forEach((link) => {
+            const linkPath = new URL(link.getAttribute("href") || "/", window.location.origin).pathname;
+
+            if (linkPath === currentPath) {
+              link.setAttribute("aria-current", "page");
+            } else {
+              link.removeAttribute("aria-current");
+            }
+          });
+        };
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        let observer;
+
+        const decorateArticleContent = () => {
+          document
+            .querySelectorAll(".article-content figure, .article-content table, .article-content pre, .article-content blockquote")
+            .forEach((element) => {
+              element.setAttribute("data-motion-reveal", "");
+            });
+        };
+
+        const revealNow = () => {
+          document.querySelectorAll("[data-motion-reveal]").forEach((element) => {
+            element.classList.add("is-visible");
+          });
+        };
+
+        const init = () => {
+          syncActiveNavigation();
+          decorateArticleContent();
+          document.documentElement.classList.add("motion-ready");
+
+          if (observer) {
+            observer.disconnect();
+          }
+
+          if (reduceMotion.matches) {
+            revealNow();
+            return;
+          }
+
+          observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("is-visible");
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            {
+              rootMargin: "0px 0px -10% 0px",
+              threshold: 0.16
+            }
+          );
+
+          document.querySelectorAll("[data-motion-reveal]:not(.is-visible)").forEach((element) => {
+            observer.observe(element);
+          });
+        };
+
+        window.DidacMotion = { init };
+        document.addEventListener("astro:after-swap", syncActiveNavigation);
+        document.addEventListener("astro:page-load", init);
+        init();
+      })();
+    </script>
   </body>
 </html>

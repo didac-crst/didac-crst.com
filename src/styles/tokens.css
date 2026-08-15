@@ -26,7 +26,13 @@
   --radius-medium: 8px;
   --duration-fast: 150ms;
   --duration-medium: 240ms;
+  --motion-fast: 180ms;
+  --motion-medium: 320ms;
+  --motion-slow: 540ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
   --shadow-subtle: 0 1px 2px rgb(23 23 23 / 0.06), 0 12px 32px rgb(23 23 23 / 0.04);
+  --shadow-lifted: 0 2px 4px rgb(23 23 23 / 0.08), 0 18px 44px rgb(23 23 23 / 0.09);
 }
 
 :root[data-theme="dark"] {
@@ -42,6 +48,7 @@
   --color-code-background: #1f2429;
   --color-code-text: #f4f1ea;
   --shadow-subtle: 0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px rgb(0 0 0 / 0.18);
+  --shadow-lifted: 0 2px 4px rgb(0 0 0 / 0.24), 0 22px 52px rgb(0 0 0 / 0.24);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -58,5 +65,6 @@
     --color-code-background: #1f2429;
     --color-code-text: #f4f1ea;
     --shadow-subtle: 0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px rgb(0 0 0 / 0.18);
+    --shadow-lifted: 0 2px 4px rgb(0 0 0 / 0.24), 0 22px 52px rgb(0 0 0 / 0.24);
   }
 }

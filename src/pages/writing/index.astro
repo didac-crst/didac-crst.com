@@ -14,7 +14,7 @@ const articles = (await getCollection("writing"))
 >
   <section class="section">
     <div class="page-container stack">
-      <div class="page-hero">
+      <div class="page-hero" data-motion-enter>
         <p class="eyebrow">Writing</p>
         <h1 class="page-title">Architecture notes for long-lived systems.</h1>
         <p class="lede">
@@ -22,7 +22,7 @@ const articles = (await getCollection("writing"))
           building systems that remain understandable over time.
         </p>
       </div>
-      <div class={`card-grid ${articles.length === 1 ? "single" : ""}`}>
+      <div class={`card-grid ${articles.length === 1 ? "single" : ""}`} data-motion-reveal>
         {articles.map((article) => <ArticleCard article={article} />)}
       </div>
     </div>
