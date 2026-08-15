@@ -5,6 +5,7 @@
 
 .article-header {
   width: min(100%, var(--width-article-wide));
+  max-width: var(--width-article-wide);
   padding-block: var(--space-8) var(--space-7);
 }
 
@@ -16,7 +17,7 @@
 }
 
 .article-header .lede {
-  max-width: var(--width-reading);
+  max-width: var(--width-article-wide);
 }
 
 .article-header .eyebrow {
@@ -36,8 +37,8 @@
 }
 
 .article-content {
-  width: min(100%, var(--width-reading));
-  max-width: var(--width-reading);
+  width: min(100%, var(--width-article-wide));
+  max-width: var(--width-article-wide);
   padding-bottom: var(--space-8);
   color: var(--color-text);
   font-size: 1.05rem;
@@ -46,9 +47,8 @@
 
 .article-wide {
   width: 100%;
-  max-width: var(--width-article-wide);
-  margin-left: 0;
-  margin-right: 0;
+  max-width: 100%;
+  margin-inline: 0;
 }
 
 .article-content > * + * {
@@ -80,6 +80,8 @@
 }
 
 .article-content blockquote {
+  width: 100%;
+  max-width: 100%;
   margin-inline: 0;
   padding: var(--space-3) var(--space-5);
   border-left: 3px solid var(--color-accent);
@@ -96,6 +98,8 @@
 }
 
 .article-content pre {
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   padding: var(--space-5);
   border: 1px solid var(--color-border);
@@ -111,7 +115,7 @@
 
 .article-content table {
   display: block;
-  width: auto;
+  width: 100%;
   max-width: 100%;
   overflow-x: auto;
   border-collapse: collapse;
@@ -131,6 +135,8 @@
 }
 
 .article-content figure {
+  width: 100%;
+  max-width: 100%;
   margin: 2em 0;
 }
 
