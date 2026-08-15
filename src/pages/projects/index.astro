@@ -2,11 +2,12 @@
 import ProjectCard from "@/components/ProjectCard.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { projects } from "@/projects";
+import { SITE } from "@/site.config";
 ---
 
 <BaseLayout
   title="Projects"
-  description="Public project notes and open-source work by Didac Cristobal Canals."
+  description={`Public project notes and open-source work by ${SITE.fullName}.`}
 >
   <section class="section">
     <div class="container stack">

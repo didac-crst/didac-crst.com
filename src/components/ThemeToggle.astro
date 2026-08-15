@@ -40,28 +40,27 @@
   .theme-toggle {
     display: inline-grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2px;
-    padding: 3px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-medium);
-    background: var(--color-surface-muted);
+    gap: 1px;
+    padding: 2px;
+    border: 1px solid color-mix(in srgb, var(--color-border) 72%, transparent);
+    border-radius: var(--radius-small);
+    background: transparent;
   }
 
   .theme-toggle button {
-    min-height: 2rem;
-    padding: 0.25rem 0.55rem;
+    min-height: 1.75rem;
+    padding: 0.2rem 0.45rem;
     border: 0;
-    border-radius: var(--radius-small);
+    border-radius: 3px;
     background: transparent;
     color: var(--color-muted);
     cursor: pointer;
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 0.72rem;
+    font-weight: 650;
   }
 
   .theme-toggle button[aria-pressed="true"] {
-    background: var(--color-surface);
+    background: var(--color-surface-muted);
     color: var(--color-text);
-    box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
   }
 </style>

@@ -1,18 +1,19 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { SITE } from "@/site.config";
 ---
 
 <BaseLayout
   title="About"
-  description="About Didac Cristobal Canals and the purpose of didac-crst.com."
+  description={`About ${SITE.fullName} and the purpose of didac-crst.com.`}
 >
   <section class="section">
     <div class="reading-container stack">
       <p class="eyebrow">About</p>
       <h1>Technical work, structured knowledge, and long-term systems.</h1>
       <p class="lede">
-        This site is the public home for writing, project notes, and evolving work on
-        knowledge architecture, information systems, and applied AI.
+        {SITE.fullName} — this site is the public home for writing, project notes,
+        and evolving work on knowledge architecture, information systems, and applied AI.
       </p>
       <p>
         The initial content is intentionally sparse. It is meant to grow through real

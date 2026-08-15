@@ -1,7 +1,8 @@
 export const SITE = {
-  name: "Didac Cristóbal Canals",
+  name: "Didac Cristobal",
+  fullName: "Didac Cristóbal Canals",
   domain: "https://didac-crst.com",
-  title: "Didac Cristóbal Canals",
+  title: "Didac Cristobal",
   description:
     "Knowledge systems, information architecture, and applied AI for turning fragmented information into structured, traceable, usable knowledge.",
   github: "https://github.com/didac-crst",
