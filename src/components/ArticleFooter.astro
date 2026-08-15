@@ -27,7 +27,7 @@ const bibtexCitation = `@misc{${bibtexKey},
 }`;
 ---
 
-<footer class="article-footer reading-container">
+<footer class="article-footer page-container">
   <section class="article-tools" aria-labelledby="share-title">
     <div>
       <h2 id="share-title">Share</h2>
@@ -139,6 +139,7 @@ const bibtexCitation = `@misc{${bibtexKey},
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-5);
+    max-width: var(--width-reading);
     padding-top: var(--space-6);
     border-top: 1px solid var(--color-border);
   }
@@ -177,6 +178,7 @@ const bibtexCitation = `@misc{${bibtexKey},
   }
 
   .article-panel {
+    max-width: var(--width-reading);
     padding: var(--space-5);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-medium);

@@ -30,6 +30,7 @@
 }
 
 .article-content {
+  max-width: var(--width-reading);
   padding-bottom: var(--space-8);
   color: var(--color-text);
   font-size: 1.05rem;

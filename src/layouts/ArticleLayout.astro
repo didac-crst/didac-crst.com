@@ -35,43 +35,45 @@ const structuredData = {
 <BaseLayout title={title} description={description} type="article" canonical={`/writing/${articleSlug}/`}>
   <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <article>
-    <header class="article-header reading-container stack">
-      <div class="cluster">
-        <p class="eyebrow">Writing</p>
-        {living && <span class="status-badge">Living article</span>}
-        {version && <span class="status-badge">{version}</span>}
-      </div>
-      <h1>{title}</h1>
-      <p class="lede">{description}</p>
-      <div class="meta">
-        <span>{readingTime} min read</span>
-        <time datetime={published.toISOString()}>
-          Published {published.toLocaleDateString("en", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-          })}
-        </time>
+    <div class="page-container">
+      <header class="article-header stack">
+        <div class="cluster">
+          <p class="eyebrow">Writing</p>
+          {living && <span class="status-badge">Living article</span>}
+          {version && <span class="status-badge">{version}</span>}
+        </div>
+        <h1>{title}</h1>
+        <p class="lede">{description}</p>
+        <div class="meta">
+          <span>{readingTime} min read</span>
+          <time datetime={published.toISOString()}>
+            Published {published.toLocaleDateString("en", {
+              year: "numeric",
+              month: "long",
+              day: "numeric"
+            })}
+          </time>
+          {
+            updated && (
+              <time datetime={updated.toISOString()}>
+                Updated {updated.toLocaleDateString("en", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric"
+                })}
+              </time>
+            )
+          }
+        </div>
         {
-          updated && (
-            <time datetime={updated.toISOString()}>
-              Updated {updated.toLocaleDateString("en", {
-                year: "numeric",
-                month: "long",
-                day: "numeric"
-              })}
-            </time>
+          tags.length > 0 && (
+            <ChipList items={tags} label="Tags" />
           )
         }
+      </header>
+      <div class="article-content">
+        <slot />
       </div>
-      {
-        tags.length > 0 && (
-          <ChipList items={tags} label="Tags" />
-        )
-      }
-    </header>
-    <div class="article-content reading-container">
-      <slot />
     </div>
     <ArticleFooter article={article} relatedArticles={relatedArticles} />
   </article>
