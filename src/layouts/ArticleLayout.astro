@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import ArticleFooter from "@/components/ArticleFooter.astro";
+import ChipList from "@/components/ChipList.astro";
 import type { CollectionEntry } from "astro:content";
 import { getArticleSlug } from "@/lib/articles";
 import { SITE } from "@/site.config";
@@ -65,11 +66,7 @@ const structuredData = {
       </div>
       {
         tags.length > 0 && (
-          <div class="cluster" aria-label="Tags">
-            {tags.map((tag) => (
-              <span class="tag">{tag}</span>
-            ))}
-          </div>
+          <ChipList items={tags} label="Tags" />
         )
       }
     </header>

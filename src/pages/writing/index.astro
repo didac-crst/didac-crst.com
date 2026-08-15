@@ -16,10 +16,10 @@ const articles = (await getCollection("writing"))
     <div class="page-container stack">
       <div class="page-hero">
         <p class="eyebrow">Writing</p>
-        <h1 class="page-title">Long-form notes for systems that need to stay understandable.</h1>
+        <h1 class="page-title">Architecture notes for long-lived systems.</h1>
         <p class="lede">
-          Articles will collect technical decisions, architectural patterns, diagrams,
-          and field notes as the site develops.
+          Technical decisions, architectural patterns, diagrams, and field notes on
+          building systems that remain understandable over time.
         </p>
       </div>
       <div class={`card-grid ${articles.length === 1 ? "single" : ""}`}>

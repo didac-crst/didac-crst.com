@@ -11,6 +11,19 @@ const articles = (await getCollection("writing"))
   .filter((article) => !article.data.draft)
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
   .slice(0, 2);
+
+const writingHeading =
+  articles.length >= 3 ? "Selected Writing" : "Latest Writing";
+const writingTitle =
+  articles.length >= 3
+    ? "Notes on durable technical systems."
+    : "Architecture notes for long-lived systems.";
+const projectHeading =
+  projects.length >= 3 ? "Selected Projects" : "Current Project";
+const projectTitle =
+  projects.length >= 3
+    ? "Public work as it becomes ready to document."
+    : "AtlasDocs";
 ---
 
 <BaseLayout>
@@ -25,18 +38,17 @@ const articles = (await getCollection("writing"))
       <SocialLinks />
     </div>
     <aside class="positioning" aria-label="Positioning">
-      <p>
-        Use deterministic methods where possible. Add probabilistic intelligence
-        where it earns its complexity.
-      </p>
+      <p>Deterministic when possible.</p>
+      <p>Probabilistic when useful.</p>
+      <p>AI where it earns its complexity.</p>
     </aside>
   </section>
 
   <section class="section">
     <div class="page-container stack">
       <div class="section-heading">
-        <p class="eyebrow">Selected Writing</p>
-        <h2>Notes on durable technical systems.</h2>
+        <p class="eyebrow">{writingHeading}</p>
+        <h2>{writingTitle}</h2>
       </div>
       <div class={`card-grid ${articles.length === 1 ? "single" : ""}`}>
         {articles.map((article) => <ArticleCard article={article} />)}
@@ -47,8 +59,8 @@ const articles = (await getCollection("writing"))
   <section class="section">
     <div class="page-container stack">
       <div class="section-heading">
-        <p class="eyebrow">Selected Projects</p>
-        <h2>Public work as it becomes ready to document.</h2>
+        <p class="eyebrow">{projectHeading}</p>
+        <h2>{projectTitle}</h2>
       </div>
       <div class={`card-grid ${projects.length === 1 ? "single" : ""}`}>
         {projects.map((project) => <ProjectCard project={project} />)}
@@ -94,6 +106,12 @@ const articles = (await getCollection("writing"))
 
   .positioning p {
     margin: 0;
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .positioning p + p {
+    margin-top: var(--space-2);
   }
 
   .section-heading {
