@@ -11,7 +11,7 @@ import { SITE } from "@/site.config";
 >
   <section class="section">
     <div class="page-container stack">
-      <div class="page-hero">
+      <div class="page-hero" data-motion-enter>
         <p class="eyebrow">Projects</p>
         <h1 class="page-title">Building systems in public.</h1>
         <p class="lede">
@@ -19,7 +19,7 @@ import { SITE } from "@/site.config";
           as they evolve.
         </p>
       </div>
-      <div class={`card-grid ${projects.length === 1 ? "single" : ""}`}>
+      <div class={`card-grid ${projects.length === 1 ? "single" : ""}`} data-motion-reveal>
         {projects.map((project) => <ProjectCard project={project} />)}
       </div>
     </div>

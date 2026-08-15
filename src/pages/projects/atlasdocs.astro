@@ -11,10 +11,12 @@ const project = projects.find((item) => item.slug === "atlasdocs");
 >
   <section class="section">
     <div class="page-container project-detail">
-      <p class="eyebrow">{project?.statusLabel ?? "Project"}</p>
-      <div class="reading-flow">
+      <div class="page-hero" data-motion-enter>
+        <p class="eyebrow">{project?.statusLabel ?? "Project"}</p>
         <h1>AtlasDocs</h1>
         <p class="lede">{project?.description}</p>
+      </div>
+      <div class="reading-flow" data-motion-reveal>
         <p>{project?.summary}</p>
         {
           project?.githubUrl && (
@@ -36,7 +38,7 @@ const project = projects.find((item) => item.slug === "atlasdocs");
 <style>
   .project-detail {
     display: grid;
-    gap: var(--space-4);
+    gap: var(--space-5);
   }
 
   .reading-flow {

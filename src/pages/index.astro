@@ -27,7 +27,7 @@ const projectTitle =
 ---
 
 <BaseLayout>
-  <section class="hero page-container">
+  <section class="hero page-container" data-motion-home>
     <div class="hero-copy">
       <p class="eyebrow">Knowledge Systems · Information Architecture · Applied AI</p>
       <h1 class="hero-name">{SITE.name}</h1>
@@ -44,7 +44,7 @@ const projectTitle =
     </aside>
   </section>
 
-  <section class="section">
+  <section class="section" data-motion-reveal>
     <div class="page-container stack">
       <div class="section-heading">
         <p class="eyebrow">{writingHeading}</p>
@@ -56,7 +56,7 @@ const projectTitle =
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" data-motion-reveal>
     <div class="page-container stack">
       <div class="section-heading">
         <p class="eyebrow">{projectHeading}</p>
@@ -80,7 +80,6 @@ const projectTitle =
 
   .hero-copy {
     max-width: 58rem;
-    animation: enter var(--duration-medium) ease both;
   }
 
   .hero-name {
@@ -128,17 +127,6 @@ const projectTitle =
     margin: 0;
     font-size: clamp(1.85rem, 1.55rem + 1.1vw, 2.7rem);
     line-height: 1.08;
-  }
-
-  @keyframes enter {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 
   @media (max-width: 860px) {

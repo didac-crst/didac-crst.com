@@ -28,7 +28,7 @@ const bibtexCitation = `@misc{${bibtexKey},
 ---
 
 <footer class="article-footer page-container">
-  <section class="article-tools" aria-labelledby="share-title">
+  <section class="article-tools" aria-labelledby="share-title" data-motion-reveal>
     <div>
       <h2 id="share-title">Share</h2>
       <div class="tool-row">
@@ -51,7 +51,7 @@ const bibtexCitation = `@misc{${bibtexKey},
 
   {
     discussionUrl && (
-      <section class="article-panel">
+      <section class="article-panel" data-motion-reveal>
         <h2>Discuss on GitHub</h2>
         <p>Found a mistake or want to challenge the argument?</p>
         <a href={discussionUrl} rel="noopener noreferrer" target="_blank">Open discussion</a>
@@ -61,7 +61,7 @@ const bibtexCitation = `@misc{${bibtexKey},
 
   {
     (sourceUrl || resources?.length) && (
-      <section class="article-panel">
+      <section class="article-panel" data-motion-reveal>
         <h2>Resources</h2>
         <ul>
           {sourceUrl && (
@@ -81,7 +81,7 @@ const bibtexCitation = `@misc{${bibtexKey},
 
   {
     versionHistory?.length && (
-      <section class="article-panel">
+      <section class="article-panel" data-motion-reveal>
         <h2>Version History</h2>
         <ol class="version-list">
           {versionHistory.map((entry) => (
@@ -104,7 +104,7 @@ const bibtexCitation = `@misc{${bibtexKey},
 
   {
     relatedArticles.length > 0 && (
-      <section class="related-articles">
+      <section class="related-articles" data-motion-reveal>
         <h2>Continue Reading</h2>
         <div class="grid">
           {relatedArticles.map((related) => <ArticleCard article={related} />)}
