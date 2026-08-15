@@ -74,11 +74,6 @@ select {
   flex: 1;
 }
 
-.container {
-  width: min(calc(100% - var(--page-gutter) - var(--page-gutter)), var(--width-content));
-  margin-inline: auto;
-}
-
 .site-container {
   width: min(calc(100% - var(--page-gutter) - var(--page-gutter)), var(--width-site));
   margin-inline: auto;
@@ -125,18 +120,18 @@ select {
 .page-hero {
   display: grid;
   gap: var(--space-4);
-  max-width: 54rem;
+  max-width: none;
 }
 
 .page-title {
   margin: 0;
-  max-width: 13ch;
-  font-size: clamp(2.7rem, 1.9rem + 3.8vw, 5.8rem);
+  max-width: 20ch;
+  font-size: clamp(2.8rem, 2rem + 3vw, 5rem);
   line-height: 0.98;
 }
 
 .page-hero .lede {
-  max-width: 45rem;
+  max-width: 46rem;
 }
 
 .muted {

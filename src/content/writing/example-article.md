@@ -40,11 +40,34 @@ Before adding probabilistic behavior, define what can be represented, checked, a
 
 ## A Small Decision Table
 
-| Problem shape | Better first option | Reason |
-| --- | --- | --- |
-| Exact identifiers | Parser or rules | Deterministic behavior is inspectable. |
-| Repeated categories | Classifier | Training data can make boundaries explicit. |
-| Semantic synthesis | Language model | Meaning may be implicit in the text. |
+<div class="article-wide">
+  <table>
+    <thead>
+      <tr>
+        <th>Problem shape</th>
+        <th>Better first option</th>
+        <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Exact identifiers</td>
+        <td>Parser or rules</td>
+        <td>Deterministic behavior is inspectable.</td>
+      </tr>
+      <tr>
+        <td>Repeated categories</td>
+        <td>Classifier</td>
+        <td>Training data can make boundaries explicit.</td>
+      </tr>
+      <tr>
+        <td>Semantic synthesis</td>
+        <td>Language model</td>
+        <td>Meaning may be implicit in the text.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 ## Example Pipeline
 
@@ -67,7 +90,7 @@ export function normalize(fragment: SourceFragment) {
 
 The article system should support inline SVG diagrams with captions.
 
-<figure>
+<figure class="article-wide">
   <svg viewBox="0 0 760 220" role="img" aria-labelledby="diagram-title diagram-desc">
     <title id="diagram-title">Knowledge pipeline diagram</title>
     <desc id="diagram-desc">A simple flow from source material to structured knowledge.</desc>

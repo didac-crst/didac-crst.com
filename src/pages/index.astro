@@ -72,7 +72,7 @@ const projectTitle =
 <style>
   .hero {
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+    grid-template-columns: minmax(0, 1.55fr) minmax(19rem, 0.75fr);
     gap: var(--space-7);
     align-items: end;
     padding-block: var(--space-8);
@@ -93,6 +93,12 @@ const projectTitle =
   .hero .lede {
     max-width: 40rem;
     margin-block: var(--space-5);
+  }
+
+  @media (min-width: 900px) {
+    .hero .eyebrow {
+      white-space: nowrap;
+    }
   }
 
   .positioning {
