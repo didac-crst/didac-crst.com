@@ -115,17 +115,31 @@ const bibtexCitation = `@misc{${bibtexKey},
 </footer>
 
 <script is:inline>
-  document.querySelectorAll("[data-copy-value]").forEach((button) => {
-    button.addEventListener("click", async () => {
-      const value = button.getAttribute("data-copy-value") || "";
-      await navigator.clipboard.writeText(value);
-      const original = button.textContent;
-      button.textContent = "Copied";
-      window.setTimeout(() => {
-        button.textContent = original;
-      }, 1400);
-    });
-  });
+  (() => {
+    if (window.DidacArticleCopy) {
+      window.DidacArticleCopy.init();
+      return;
+    }
+
+    const init = () => {
+      document.querySelectorAll("[data-copy-value]:not([data-copy-bound])").forEach((button) => {
+        button.setAttribute("data-copy-bound", "true");
+        button.addEventListener("click", async () => {
+          const value = button.getAttribute("data-copy-value") || "";
+          await navigator.clipboard.writeText(value);
+          const original = button.textContent;
+          button.textContent = "Copied";
+          window.setTimeout(() => {
+            button.textContent = original;
+          }, 1400);
+        });
+      });
+    };
+
+    window.DidacArticleCopy = { init };
+    document.addEventListener("astro:page-load", init);
+    init();
+  })();
 </script>
 
 <style>

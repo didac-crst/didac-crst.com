@@ -112,6 +112,20 @@ const imageUrl = new URL(image, SITE.domain).toString();
       (() => {
         if (window.DidacMotion) return;
 
+        const syncActiveNavigation = () => {
+          const currentPath = window.location.pathname;
+
+          document.querySelectorAll(".primary-nav a").forEach((link) => {
+            const linkPath = new URL(link.getAttribute("href") || "/", window.location.origin).pathname;
+
+            if (linkPath === currentPath) {
+              link.setAttribute("aria-current", "page");
+            } else {
+              link.removeAttribute("aria-current");
+            }
+          });
+        };
+
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
         let observer;
 
@@ -130,6 +144,7 @@ const imageUrl = new URL(image, SITE.domain).toString();
         };
 
         const init = () => {
+          syncActiveNavigation();
           decorateArticleContent();
           document.documentElement.classList.add("motion-ready");
 
@@ -163,6 +178,7 @@ const imageUrl = new URL(image, SITE.domain).toString();
         };
 
         window.DidacMotion = { init };
+        document.addEventListener("astro:after-swap", syncActiveNavigation);
         document.addEventListener("astro:page-load", init);
         init();
       })();
