@@ -3,21 +3,41 @@ import { SITE } from "@/site.config";
 ---
 
 <nav class="social-links" aria-label="Social links">
-  <a href={SITE.github} rel="me noopener noreferrer" target="_blank">GitHub</a>
-  <a href={SITE.linkedin} rel="me noopener noreferrer" target="_blank">LinkedIn</a>
+  <a href={SITE.github} rel="me noopener noreferrer" target="_blank" aria-label="GitHub">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.78.6-3.37-1.2-3.37-1.2-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.35 1.08 2.92.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.48 9.48 0 0 1 12 6.99c.85 0 1.7.11 2.5.34 1.9-1.29 2.74-1.02 2.74-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
+    </svg>
+    <span>GitHub</span>
+  </a>
+  <a href={SITE.linkedin} rel="me noopener noreferrer" target="_blank" aria-label="LinkedIn">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5.34 8.94H2.67V21h2.67V8.94ZM4.01 3a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1ZM21.33 14.1c0-3.24-1.73-5.34-4.52-5.34-1.48 0-2.48.81-2.89 1.58h-.04v-1.4h-2.56V21h2.66v-5.96c0-1.57.3-3.09 2.24-3.09 1.92 0 1.95 1.8 1.95 3.19V21h2.66v-6.9Z" />
+    </svg>
+    <span>LinkedIn</span>
+  </a>
 </nav>
 
 <style>
   .social-links {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-3);
+    gap: var(--space-4);
   }
 
   .social-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
     color: var(--color-muted);
     font-weight: 650;
     text-decoration: none;
+  }
+
+  .social-links svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    fill: currentColor;
+    flex: 0 0 auto;
   }
 
   .social-links a:hover {

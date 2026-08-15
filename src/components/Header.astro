@@ -6,24 +6,24 @@ const currentPath = Astro.url.pathname;
 ---
 
 <header class="site-header">
-  <div class="container header-inner">
+  <div class="page-container header-inner">
     <a class="brand" href="/" aria-label={`${SITE.name} home`}>
       <span class="brand-mark" aria-hidden="true">DC</span>
       <span>{SITE.name}</span>
     </a>
-    <div class="nav-tools">
-      <nav class="primary-nav" aria-label="Primary navigation">
-        {
-          NAVIGATION.map((item) => (
-            <a
-              href={item.href}
-              aria-current={currentPath === item.href ? "page" : undefined}
-            >
-              {item.label}
-            </a>
-          ))
-        }
-      </nav>
+    <nav class="primary-nav" aria-label="Primary navigation">
+      {
+        NAVIGATION.map((item) => (
+          <a
+            href={item.href}
+            aria-current={currentPath === item.href ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="header-utility">
       <ThemeToggle />
     </div>
   </div>
@@ -40,20 +40,22 @@ const currentPath = Astro.url.pathname;
   }
 
   .header-inner {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-5);
-    min-height: 4.75rem;
+    gap: clamp(var(--space-4), 4vw, var(--space-7));
+    min-height: 4.25rem;
   }
 
   .brand {
     display: inline-flex;
     align-items: center;
     gap: var(--space-3);
+    min-width: 0;
     color: var(--color-text);
     font-weight: 760;
     text-decoration: none;
+    white-space: nowrap;
   }
 
   .brand-mark {
@@ -69,10 +71,18 @@ const currentPath = Astro.url.pathname;
     letter-spacing: 0.04em;
   }
 
-  .nav-tools,
-  .primary-nav {
+  .primary-nav,
+  .header-utility {
     display: flex;
     align-items: center;
+  }
+
+  .header-utility {
+    justify-content: end;
+  }
+
+  .primary-nav {
+    justify-content: center;
     gap: var(--space-4);
   }
 
@@ -88,24 +98,39 @@ const currentPath = Astro.url.pathname;
     color: var(--color-text);
   }
 
-  @media (max-width: 760px) {
+  @media (max-width: 860px) {
     .header-inner {
-      align-items: flex-start;
-      flex-direction: column;
+      grid-template-columns: 1fr auto;
       gap: var(--space-3);
       padding-block: var(--space-4);
     }
 
-    .nav-tools {
-      align-items: flex-start;
-      flex-direction: column;
-      width: 100%;
+    .header-utility {
+      grid-column: 2;
+      grid-row: 1;
     }
 
     .primary-nav {
+      grid-column: 1 / -1;
+      grid-row: 2;
       width: 100%;
       justify-content: space-between;
       gap: var(--space-2);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .brand {
+      font-size: 0.95rem;
+    }
+
+    .brand-mark {
+      width: 1.85rem;
+      height: 1.85rem;
+    }
+
+    .primary-nav a {
+      font-size: 0.86rem;
     }
   }
 </style>

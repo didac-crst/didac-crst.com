@@ -10,8 +10,10 @@
   --color-accent-strong: #115e59;
   --color-code-background: #ebe9e2;
   --color-code-text: #1f2937;
-  --width-content: 1120px;
-  --width-reading: 720px;
+  --width-site: 1280px;
+  --width-content: 1160px;
+  --width-reading: 760px;
+  --page-gutter: clamp(1.25rem, 3vw, 3rem);
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;

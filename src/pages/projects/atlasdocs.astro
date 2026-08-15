@@ -10,29 +10,42 @@ const project = projects.find((item) => item.slug === "atlasdocs");
   description="AtlasDocs project placeholder and future documentation."
 >
   <section class="section">
-    <div class="reading-container stack">
+    <div class="page-container project-detail">
       <p class="eyebrow">Project · {project?.status}</p>
-      <h1>AtlasDocs</h1>
-      <p class="lede">
-        AtlasDocs is reserved for future public documentation around knowledge systems,
-        information architecture, and structured technical content.
-      </p>
-      <p>
-        Project details, screenshots, repository links, and implementation notes will be
-        added here when they are ready to publish.
-      </p>
-      {
-        project?.githubUrl && (
-          <p>
-            <a class="button-link" href={project.githubUrl}>View repository</a>
-          </p>
-        )
-      }
+      <div class="reading-flow">
+        <h1>AtlasDocs</h1>
+        <p class="lede">
+          AtlasDocs is reserved for future public documentation around knowledge systems,
+          information architecture, and structured technical content.
+        </p>
+        <p>
+          Project details, screenshots, repository links, and implementation notes will be
+          added here when they are ready to publish.
+        </p>
+        {
+          project?.githubUrl && (
+            <p>
+              <a class="button-link" href={project.githubUrl}>View repository</a>
+            </p>
+          )
+        }
+      </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+  .project-detail {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .reading-flow {
+    display: grid;
+    gap: var(--space-4);
+    max-width: var(--width-reading);
+  }
+
   h1 {
     margin: 0;
     font-size: clamp(2.8rem, 2rem + 4vw, 6rem);
@@ -40,6 +53,7 @@ const project = projects.find((item) => item.slug === "atlasdocs");
   }
 
   p:not(.eyebrow) {
+    margin: 0;
     color: var(--color-muted);
     font-size: 1.05rem;
     line-height: 1.75;
