@@ -1,0 +1,38 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="About"
+  description="About Didac Cristobal Canals and the purpose of didac-crst.com."
+>
+  <section class="section">
+    <div class="reading-container stack">
+      <p class="eyebrow">About</p>
+      <h1>Technical work, structured knowledge, and long-term systems.</h1>
+      <p class="lede">
+        This site is the public home for writing, project notes, and evolving work on
+        knowledge architecture, information systems, and applied AI.
+      </p>
+      <p>
+        The initial content is intentionally sparse. It is meant to grow through real
+        articles, diagrams, and project documentation rather than a polished biography
+        written before the work is public.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin: 0;
+    font-size: clamp(2.4rem, 1.8rem + 2.8vw, 5rem);
+    line-height: 1;
+  }
+
+  p:not(.eyebrow) {
+    color: var(--color-muted);
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+</style>

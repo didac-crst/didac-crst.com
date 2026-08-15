@@ -1,0 +1,26 @@
+---
+import { SITE } from "@/site.config";
+---
+
+<nav class="social-links" aria-label="Social links">
+  <a href={SITE.github} rel="me noopener noreferrer" target="_blank">GitHub</a>
+  <a href={SITE.linkedin} rel="me noopener noreferrer" target="_blank">LinkedIn</a>
+</nav>
+
+<style>
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .social-links a {
+    color: var(--color-muted);
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .social-links a:hover {
+    color: var(--color-accent-strong);
+  }
+</style>

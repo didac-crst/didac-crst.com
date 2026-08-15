@@ -1,0 +1,22 @@
+---
+import type { Project } from "@/projects";
+
+type Props = {
+  project: Project;
+};
+
+const { project } = Astro.props;
+---
+
+<a class="card project-card" href={`/projects/${project.slug}/`}>
+  {
+    project.image && (
+      <img src={project.image.src} alt={project.image.alt} loading="lazy" decoding="async" />
+    )
+  }
+  <div class="meta">
+    <span>{project.status}</span>
+  </div>
+  <h3>{project.name}</h3>
+  <p>{project.description}</p>
+</a>

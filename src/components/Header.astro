@@ -1,0 +1,111 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+import { NAVIGATION, SITE } from "@/site.config";
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label={`${SITE.name} home`}>
+      <span class="brand-mark" aria-hidden="true">DC</span>
+      <span>{SITE.name}</span>
+    </a>
+    <div class="nav-tools">
+      <nav class="primary-nav" aria-label="Primary navigation">
+        {
+          NAVIGATION.map((item) => (
+            <a
+              href={item.href}
+              aria-current={currentPath === item.href ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+    background: color-mix(in srgb, var(--color-background) 88%, transparent);
+    backdrop-filter: blur(16px);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+    min-height: 4.75rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-text);
+    font-weight: 760;
+    text-decoration: none;
+  }
+
+  .brand-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+    background: var(--color-surface);
+    color: var(--color-accent-strong);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+  }
+
+  .nav-tools,
+  .primary-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .primary-nav a {
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    font-weight: 680;
+    text-decoration: none;
+  }
+
+  .primary-nav a:hover,
+  .primary-nav a[aria-current="page"] {
+    color: var(--color-text);
+  }
+
+  @media (max-width: 760px) {
+    .header-inner {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-3);
+      padding-block: var(--space-4);
+    }
+
+    .nav-tools {
+      align-items: flex-start;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .primary-nav {
+      width: 100%;
+      justify-content: space-between;
+      gap: var(--space-2);
+    }
+  }
+</style>

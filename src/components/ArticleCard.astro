@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getArticleSlug } from "@/lib/articles";
+
+type Props = {
+  article: CollectionEntry<"writing">;
+};
+
+const { article } = Astro.props;
+const { title, description, published, tags } = article.data;
+const slug = getArticleSlug(article);
+---
+
+<a class="card article-card" href={`/writing/${slug}/`}>
+  <div class="meta">
+    <time datetime={published.toISOString()}>
+      {published.toLocaleDateString("en", {
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+      })}
+    </time>
+  </div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  {
+    tags.length > 0 && (
+      <div class="cluster" aria-label="Tags">
+        {tags.slice(0, 3).map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )
+  }
+</a>

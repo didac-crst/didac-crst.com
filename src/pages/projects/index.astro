@@ -1,0 +1,38 @@
+---
+import ProjectCard from "@/components/ProjectCard.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { projects } from "@/projects";
+---
+
+<BaseLayout
+  title="Projects"
+  description="Public project notes and open-source work by Didac Cristobal Canals."
+>
+  <section class="section">
+    <div class="container stack">
+      <div class="page-heading">
+        <p class="eyebrow">Projects</p>
+        <h1>Public systems and project documentation.</h1>
+        <p class="lede">
+          The project section starts small and will expand as work becomes ready to
+          document publicly.
+        </p>
+      </div>
+      <div class="grid two">
+        {projects.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-heading {
+    max-width: 48rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2.4rem, 1.8rem + 2.8vw, 5rem);
+    line-height: 1;
+  }
+</style>

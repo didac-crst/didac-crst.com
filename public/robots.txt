@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://didac-crst.com/sitemap-index.xml

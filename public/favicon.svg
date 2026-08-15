@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Didac Cristobal Canals">
+  <rect width="64" height="64" rx="12" fill="#111827"/>
+  <path d="M18 18h13c10 0 17 6 17 14s-7 14-17 14H18V18Zm8 7v14h5c6 0 10-3 10-7s-4-7-10-7h-5Z" fill="#f8fafc"/>
+  <path d="M44 46 55 18h-7L37 46h7Z" fill="#38bdf8"/>
+</svg>

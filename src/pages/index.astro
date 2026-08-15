@@ -1,0 +1,127 @@
+---
+import ArticleCard from "@/components/ArticleCard.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import SocialLinks from "@/components/SocialLinks.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { projects } from "@/projects";
+import { SITE } from "@/site.config";
+import { getCollection } from "astro:content";
+
+const articles = (await getCollection("writing"))
+  .filter((article) => !article.data.draft)
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+  .slice(0, 2);
+---
+
+<BaseLayout>
+  <section class="hero container">
+    <div class="hero-copy">
+      <p class="eyebrow">Knowledge Systems · Information Architecture · Applied AI</p>
+      <h1>{SITE.name}</h1>
+      <p class="lede">
+        I design systems that turn fragmented information into structured, traceable,
+        usable knowledge.
+      </p>
+      <SocialLinks />
+    </div>
+    <aside class="positioning" aria-label="Positioning">
+      <p>Technical writing and public project notes on architecture, knowledge systems, and applied AI.</p>
+    </aside>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <div class="section-heading">
+        <p class="eyebrow">Selected Writing</p>
+        <h2>Notes on durable technical systems.</h2>
+      </div>
+      <div class="grid two">
+        {articles.map((article) => <ArticleCard article={article} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <div class="section-heading">
+        <p class="eyebrow">Selected Projects</p>
+        <h2>Public work as it becomes ready to document.</h2>
+      </div>
+      <div class="grid two">
+        {projects.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
+    gap: var(--space-7);
+    align-items: end;
+    padding-block: clamp(5rem, 11vw, 10rem) var(--space-8);
+  }
+
+  .hero-copy {
+    max-width: 58rem;
+    animation: enter var(--duration-medium) ease both;
+  }
+
+  .hero h1 {
+    margin: 0;
+    max-width: 11ch;
+    font-size: clamp(3.1rem, 2.25rem + 5.4vw, 7.5rem);
+    line-height: 0.92;
+  }
+
+  .hero .lede {
+    max-width: 40rem;
+    margin-block: var(--space-5);
+  }
+
+  .positioning {
+    padding: var(--space-5);
+    border-left: 1px solid var(--color-border);
+    color: var(--color-muted);
+  }
+
+  .positioning p {
+    margin: 0;
+  }
+
+  .section-heading {
+    max-width: 42rem;
+  }
+
+  .section-heading h2 {
+    margin: 0;
+    font-size: clamp(1.85rem, 1.55rem + 1.1vw, 2.7rem);
+    line-height: 1.08;
+  }
+
+  @keyframes enter {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+
+    .positioning {
+      max-width: 38rem;
+      padding: var(--space-4) 0 0;
+      border-left: 0;
+      border-top: 1px solid var(--color-border);
+    }
+  }
+</style>

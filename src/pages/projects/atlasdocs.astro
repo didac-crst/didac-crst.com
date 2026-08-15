@@ -1,0 +1,47 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { projects } from "@/projects";
+
+const project = projects.find((item) => item.slug === "atlasdocs");
+---
+
+<BaseLayout
+  title="AtlasDocs"
+  description="AtlasDocs project placeholder and future documentation."
+>
+  <section class="section">
+    <div class="reading-container stack">
+      <p class="eyebrow">Project · {project?.status}</p>
+      <h1>AtlasDocs</h1>
+      <p class="lede">
+        AtlasDocs is reserved for future public documentation around knowledge systems,
+        information architecture, and structured technical content.
+      </p>
+      <p>
+        Project details, screenshots, repository links, and implementation notes will be
+        added here when they are ready to publish.
+      </p>
+      {
+        project?.githubUrl && (
+          <p>
+            <a class="button-link" href={project.githubUrl}>View repository</a>
+          </p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin: 0;
+    font-size: clamp(2.8rem, 2rem + 4vw, 6rem);
+    line-height: 0.95;
+  }
+
+  p:not(.eyebrow) {
+    color: var(--color-muted);
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+</style>

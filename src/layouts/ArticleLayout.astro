@@ -1,0 +1,81 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import ArticleFooter from "@/components/ArticleFooter.astro";
+import type { CollectionEntry } from "astro:content";
+import { getArticleSlug } from "@/lib/articles";
+import { SITE } from "@/site.config";
+
+type Props = {
+  article: CollectionEntry<"writing">;
+  relatedArticles?: CollectionEntry<"writing">[];
+  readingTime: number;
+};
+
+const { article, relatedArticles = [], readingTime } = Astro.props;
+const { title, description, published, updated, tags, living, version } = article.data;
+const articleSlug = getArticleSlug(article);
+const articleUrl = new URL(`/writing/${articleSlug}/`, SITE.domain).toString();
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description,
+  datePublished: published.toISOString(),
+  dateModified: (updated ?? published).toISOString(),
+  author: {
+    "@type": "Person",
+    name: SITE.name,
+    url: SITE.domain
+  },
+  mainEntityOfPage: articleUrl
+};
+---
+
+<BaseLayout title={title} description={description} type="article" canonical={`/writing/${articleSlug}/`}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  <article>
+    <header class="article-header reading-container stack">
+      <div class="cluster">
+        <p class="eyebrow">Writing</p>
+        {living && <span class="status-badge">Living article</span>}
+        {version && <span class="status-badge">{version}</span>}
+      </div>
+      <h1>{title}</h1>
+      <p class="lede">{description}</p>
+      <div class="meta">
+        <span>{readingTime} min read</span>
+        <time datetime={published.toISOString()}>
+          Published {published.toLocaleDateString("en", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          })}
+        </time>
+        {
+          updated && (
+            <time datetime={updated.toISOString()}>
+              Updated {updated.toLocaleDateString("en", {
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+              })}
+            </time>
+          )
+        }
+      </div>
+      {
+        tags.length > 0 && (
+          <div class="cluster" aria-label="Tags">
+            {tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )
+      }
+    </header>
+    <div class="article-content reading-container">
+      <slot />
+    </div>
+    <ArticleFooter article={article} relatedArticles={relatedArticles} />
+  </article>
+</BaseLayout>
