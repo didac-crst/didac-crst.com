@@ -2,6 +2,17 @@
 
 Personal website, technical writing, and open-source projects.
 
+Production: <https://didac-crst.com>
+
+## Stack
+
+- Astro
+- TypeScript
+- Markdown / MDX
+- GitHub Pages
+- GitHub Actions
+- Cloudflare DNS / proxy
+
 ## Development
 
 ```sh
@@ -9,9 +20,10 @@ npm install
 npm run dev
 ```
 
-## Build
+## Validation
 
 ```sh
+npm run check
 npm run build
 ```
 
@@ -23,39 +35,58 @@ npm run preview
 
 ## Deployment
 
-Automatically deployed to GitHub Pages from `main`.
+Pushes to `main` are automatically built and deployed to GitHub Pages.
 
-Before the first deployment, configure the repository on GitHub:
+The custom domain is `didac-crst.com`.
 
-1. Create `didac-crst/didac-crst.com`.
-2. In repository settings, set Pages source to GitHub Actions.
-3. Configure the custom domain as `didac-crst.com`.
-4. Configure Cloudflare DNS separately to point the root domain to GitHub Pages.
+Cloudflare configuration is managed outside this repository.
 
-Then push:
+## Content
 
-```sh
-git init
-git remote add origin git@github.com:didac-crst/didac-crst.com.git
-git branch -M main
-git add .
-git commit -m "Scaffold Astro personal site"
-git push -u origin main
-```
+- Writing: `src/content/writing/`
+- Projects: `src/projects.ts` and `src/pages/projects/`
+- Site identity and social URLs: `src/site.config.ts`
 
-## Cursor Handoff
+Articles support metadata such as:
 
-Open this repository in Cursor and keep the scope narrow:
-
-- Edit site-wide identity and social links in `src/site.config.ts`.
-- Add long-form writing in `src/content/writing/`.
-- Use article metadata for credibility features: `living`, `version`, `discussionUrl`, `sourceUrl`, `resources`, and `versionHistory`.
-- Add project metadata in `src/projects.ts` and project pages in `src/pages/projects/`.
-- Keep visual changes token-driven through `src/styles/tokens.css`.
-- Run `npm run check` and `npm run build` before pushing.
-- Do not add secrets, analytics, backend services, or Cloudflare automation unless explicitly required later.
+- living article status
+- version
+- updated date
+- discussion URL
+- source/resources
+- version history
 
 The article template intentionally supports RSS, reading time, last updated dates, share links, citations, GitHub discussion links, resources, related articles, and version history. It intentionally does not include public view counts, likes, comments, newsletter popups, or engagement counters.
+
+## Design principles
+
+- Static-first and minimal client-side JavaScript.
+- Site-wide styling should be driven by tokens in `src/styles/tokens.css`.
+- Keep page/layout width separate from long-form reading width.
+- Prefer reusable components over page-specific styling.
+- Keep body text left-aligned; do not justify prose.
+- Preserve accessibility and reduced-motion behavior.
+- Avoid unnecessary dependencies.
+
+## Scope
+
+Do not add unless explicitly required:
+
+- backend services
+- analytics/tracking
+- newsletter infrastructure
+- likes or public view counters
+- inline comment systems
+- Cloudflare automation
+- secrets
+
+Discussion may be linked through GitHub rather than embedded as a comment platform.
+
+## Review workflow
+
+Feature work should normally be done in branches and merged through pull requests.
+
+CodeRabbit automatic review is disabled; request a manual full review once implementation, checks, and visual validation are complete.
 
 ## Structure
 
@@ -65,6 +96,7 @@ The article template intentionally supports RSS, reading time, last updated date
 ├── public/
 │   ├── CNAME
 │   ├── favicon.svg
+│   ├── og/
 │   ├── robots.txt
 │   └── images/
 ├── src/

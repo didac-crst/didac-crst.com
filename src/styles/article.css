@@ -1,4 +1,6 @@
 .article-header {
+  width: min(100%, var(--width-article-wide));
+  max-width: var(--width-article-wide);
   padding-block: var(--space-8) var(--space-7);
 }
 
@@ -6,11 +8,11 @@
   margin: 0;
   font-size: clamp(2.2rem, 1.55rem + 3vw, 4.6rem);
   line-height: 0.98;
-  max-width: 20ch;
+  max-width: 52rem;
 }
 
 .article-header .lede {
-  max-width: 42rem;
+  max-width: var(--width-reading);
 }
 
 .article-header .eyebrow {
@@ -30,6 +32,7 @@
 }
 
 .article-content {
+  width: min(100%, var(--width-reading));
   max-width: var(--width-reading);
   padding-bottom: var(--space-8);
   color: var(--color-text);
@@ -38,8 +41,10 @@
 }
 
 .article-wide {
-  width: min(var(--width-article-wide), calc(100vw - var(--page-gutter) - var(--page-gutter)));
+  --article-wide-width: min(var(--width-article-wide), calc(100vw - var(--page-gutter) - var(--page-gutter)));
+  width: var(--article-wide-width);
   max-width: none;
+  margin-inline: calc((100% - var(--article-wide-width)) / 2);
 }
 
 .article-content > * + * {
