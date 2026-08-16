@@ -4,6 +4,10 @@ GitHub Pages cannot set custom response headers from this Astro build. Apply the
 
 This repository documents the intended values for reproducibility. Do not expect them to appear until they are configured in the Cloudflare dashboard. This project does not call the Cloudflare API.
 
+## Prerequisites
+
+Every visitor-facing hostname covered by the rule must use a **Proxied** (orange-cloud) Cloudflare DNS record. **DNS-only** (grey-cloud) records bypass Transform Rules, so the headers will not be applied.
+
 ## Recommended headers
 
 | Header | Value |
@@ -24,10 +28,19 @@ If a future page needs a capability (for example `fullscreen`), re-enable only t
 
 ## Suggested Cloudflare setup
 
-1. Cloudflare Dashboard → **Rules** → **Transform Rules** → **Modify Response Header**.
-2. Rule name: `didac-crst security headers`.
-3. Match: hostname equals `didac-crst.com` (and `www` if used).
-4. Then set each header above (set static / set once).
+1. Confirm each visitor-facing hostname (`didac-crst.com`, and `www` if used) has a **Proxied** DNS record that will match the rule.
+2. Cloudflare Dashboard → **Rules** → **Transform Rules** → **Modify Response Header**.
+3. Rule name: `didac-crst security headers`.
+4. Match: hostname equals `didac-crst.com` (and `www` if used).
+5. For each header above, use **Set static** so the value overwrites any existing header of the same name. Do **not** use **Add static**, which preserves existing values.
+
+## Verify
+
+After deploying the rule, inspect a live response and confirm the three headers are present with the expected values:
+
+```sh
+curl -sI https://didac-crst.com/ | rg -i '^(x-content-type-options|referrer-policy|permissions-policy):'
+```
 
 ## Out of scope for now
 
