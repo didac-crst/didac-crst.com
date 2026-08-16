@@ -39,7 +39,7 @@ Pushes to `main` are automatically built and deployed to GitHub Pages.
 
 The custom domain is `didac-crst.com`.
 
-Cloudflare DNS is managed outside this repository. Security response headers to configure manually are documented in [`docs/cloudflare-security-headers.md`](docs/cloudflare-security-headers.md).
+Cloudflare DNS is managed outside this repository. The current production security-header configuration is documented in [`docs/cloudflare-security-headers.md`](docs/cloudflare-security-headers.md).
 
 ## Content
 
