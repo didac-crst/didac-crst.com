@@ -239,7 +239,19 @@ const imageUrl = new URL(image, SITE.domain).toString();
         const stickyHideOffset = 60;
 
         const setStickyHeaderActive = (active) => {
-          document.querySelector(".site-header")?.classList.toggle("is-sticky", active);
+          const header = document.querySelector(".site-header");
+          const root = document.documentElement;
+          if (!header) return;
+
+          if (active) {
+            root.style.setProperty("--sticky-header-placeholder", `${header.offsetHeight}px`);
+            root.classList.add("has-sticky-header");
+            header.classList.add("is-sticky");
+          } else {
+            header.classList.remove("is-sticky");
+            root.classList.remove("has-sticky-header");
+            root.style.removeProperty("--sticky-header-placeholder");
+          }
         };
 
         const removeStickySentinels = () => {
@@ -452,6 +464,12 @@ const imageUrl = new URL(image, SITE.domain).toString();
           document.addEventListener("astro:page-load", initPageInteractions);
         } else {
           window.DidacUI.initPageInteractions = initPageInteractions;
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initPageInteractions, { once: true });
+        } else {
+          initPageInteractions();
         }
       })();
     </script>

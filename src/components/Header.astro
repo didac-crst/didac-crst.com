@@ -73,12 +73,19 @@ const currentPath = Astro.url.pathname;
   }
 
   .site-header.is-sticky {
+    position: fixed;
+    right: 0;
+    left: 0;
     border-bottom-color: var(--color-border);
     background: var(--sticky-header-background);
     box-shadow: 0 1px 0 rgb(0 0 0 / 0.02);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     animation: sticky-header-enter 180ms var(--ease-standard) both;
+  }
+
+  :global(.has-sticky-header) :global(.site-shell) {
+    padding-top: var(--sticky-header-placeholder, 0px);
   }
 
   .header-inner {
