@@ -4,7 +4,7 @@ import ProjectCard from "@/components/ProjectCard.astro";
 import SocialLinks from "@/components/SocialLinks.astro";
 import home from "@/home.config.json";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { joinOxford } from "@/lib/meta";
+import { homeJsonLd } from "@/lib/structured-data";
 import { projects } from "@/projects";
 import { SITE } from "@/site.config";
 import { getCollection } from "astro:content";
@@ -28,10 +28,13 @@ const projectTitle =
     : "AtlasDocs";
 
 const { motto, pillars } = home;
-const homeDescription = `${motto.join(" ")} Explore ${joinOxford(pillars.map((pillar) => pillar.toLowerCase()))}.`;
+const homeDescription =
+  `${motto.join(" ")} Focus areas: ${pillars.join(", ")}.`;
+const structuredData = homeJsonLd();
 ---
 
 <BaseLayout description={homeDescription}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <section class="hero page-container" data-motion-home>
     <div class="hero-copy">
       <div class="hero-lockup">

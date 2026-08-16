@@ -9,12 +9,21 @@ export const SITE = {
   linkedin: "https://linkedin.com/in/didac-crst",
   repository: "https://github.com/didac-crst/didac-crst.com",
   logo: "/brand/dc-logo.png",
+  portrait: "/images/didac-cristobal.webp",
   faviconIco: "/favicon.ico",
   favicon16: "/brand/favicon-16.png",
   favicon32: "/brand/favicon-32.png",
   favicon48: "/brand/favicon-48.png",
   appleTouchIcon: "/brand/apple-touch-icon.png",
-  defaultOgImage: "/brand/og-default.png"
+  defaultOgImage: "/brand/og-default.png",
+  knowsAbout: [
+    "Knowledge Engineering",
+    "Information Architecture",
+    "Software Architecture",
+    "Decision Intelligence",
+    "AI-Enhanced Systems",
+    "Open Source"
+  ] as const
 } as const;
 
 export const NAVIGATION = [
