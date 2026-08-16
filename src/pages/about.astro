@@ -4,13 +4,13 @@ import ChipList from "@/components/ChipList.astro";
 import { projects } from "@/projects";
 import { SITE } from "@/site.config";
 
-const languages = ["English", "French", "German", "Spanish", "Catalan"];
+const languages = ["English", "French", "German", "Spanish", "Catalan", "Italian"];
 const interests = [
   "Knowledge Engineering",
-  "Structured Information",
-  "AI-Enhanced Systems",
-  "Document Intelligence",
-  "Machine Learning",
+  "Information Architecture",
+  "Software Architecture",
+  "Decision Intelligence",
+  "AI-Augmented Systems",
   "Open Source"
 ];
 const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
@@ -23,50 +23,65 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
   <section class="section">
     <div class="page-container about-page">
       <header class="page-hero" data-motion-enter>
-        <p class="eyebrow">About</p>
-        <h1 class="page-title">Engineering information that stays understandable.</h1>
-        <div class="reading-flow">
-          <p class="lede">
-            I am an engineer working at the intersection of information systems, data,
-            knowledge architecture, and applied AI.
-          </p>
-          <p>
-            I design systems by choosing the simplest reliable method for each problem:
-            deterministic logic where rules are sufficient, statistical and machine-learning
-            methods where they fit, and language models where semantic reasoning genuinely
-            adds value.
-          </p>
+        <div class="about-hero-title">
+          <p class="eyebrow">About</p>
+          <h1 class="page-title">Engineering information that stays understandable.</h1>
+        </div>
+        <div class="about-hero-body">
+          <figure class="about-portrait">
+            <img
+              src="/images/didac-cristobal.webp"
+              alt="Portrait of Didac Cristobal"
+              width="440"
+              height="440"
+              loading="eager"
+              decoding="async"
+            />
+            <figcaption>
+              <strong>Didac Cristobal</strong>
+              <span>Toulouse, France</span>
+            </figcaption>
+          </figure>
+          <div class="about-hero-content">
+            <div class="reading-flow">
+              <p class="lede">
+                I am an engineer working at the intersection of information systems, data,
+                knowledge architecture, and applied AI.
+              </p>
+              <p>
+                I design systems by choosing the simplest reliable method for each problem:
+                deterministic logic where rules are sufficient, statistical and machine-learning
+                methods where they fit, and language models where semantic reasoning genuinely
+                adds value.
+              </p>
+            </div>
+            <section class="hero-subsection" aria-labelledby="how-i-work-heading">
+              <h2 id="how-i-work-heading">How I work</h2>
+              <div class="reading-flow">
+                <p>
+                  I approach problems as systems rather than isolated features.
+                </p>
+                <p>
+                  That usually means understanding where information comes from, how it changes,
+                  how reliable it is, how different concepts relate to one another, and which
+                  parts of the process should remain deterministic.
+                </p>
+                <p>
+                  I am particularly interested in architectures that combine structured data,
+                  documents, ontologies, classifiers, clustering, embeddings, and language models
+                  without making probabilistic AI responsible for problems that can be solved more
+                  predictably.
+                </p>
+              </div>
+            </section>
+            <ol class="principle-flow hero-principles" aria-label="Architectural principle">
+              <li>Deterministic when possible</li>
+              <li>Statistical when appropriate</li>
+              <li>Semantic AI when valuable</li>
+            </ol>
+          </div>
         </div>
       </header>
-
-      <section class="about-section" data-motion-reveal>
-        <div class="section-label">
-          <h2>How I work</h2>
-        </div>
-        <div class="section-body">
-          <div class="reading-flow">
-            <p>
-              I approach problems as systems rather than isolated features.
-            </p>
-            <p>
-              That usually means understanding where information comes from, how it changes,
-              how reliable it is, how different concepts relate to one another, and which
-              parts of the process should remain deterministic.
-            </p>
-            <p>
-              I am particularly interested in architectures that combine structured data,
-              documents, ontologies, classifiers, clustering, embeddings, and language models
-              without making probabilistic AI responsible for problems that can be solved more
-              predictably.
-            </p>
-          </div>
-          <ol class="principle-flow" aria-label="Architectural principle">
-            <li>Deterministic when possible</li>
-            <li>Statistical when appropriate</li>
-            <li>Semantic AI when valuable</li>
-          </ol>
-        </div>
-      </section>
 
       <section class="about-section" data-motion-reveal>
         <div class="section-label">
@@ -75,53 +90,67 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
         <div class="section-body">
           <ol class="timeline">
             <li>
-              <div>
-                <strong>Airbus</strong>
-                <span>2011 → present</span>
-              </div>
-            </li>
-            <li>
-              <div>
-                <strong>Information Systems</strong>
-                <span>2011–2018</span>
+              <div class="experience-heading">
+                <h3>Quality Engineering & Analytics</h3>
+                <p>
+                  <span class="metadata-pill">Airbus</span>
+                  <time datetime="2025">2025–Present</time>
+                  <span class="metadata-pill">Toulouse</span>
+                </p>
               </div>
               <p>
-                Started in information systems and project delivery, working on enterprise
-                systems and the relationship between technical platforms and operational
-                processes.
+                Working on large-scale quality analytics and AI initiatives across engineering,
+                with a growing focus on transforming fragmented operational information into
+                trusted knowledge. This naturally evolved into designing architectures that
+                combine deterministic systems, structured data and language models to solve
+                complex information problems.
               </p>
             </li>
             <li>
-              <div>
-                <strong>Product Management</strong>
-                <span>2018–2022</span>
+              <div class="experience-heading">
+                <h3>Flight Data Analytics & Predictive Maintenance</h3>
+                <p>
+                  <span class="metadata-pill">Airbus</span>
+                  <time datetime="2022/2025">2022–2025</time>
+                  <span class="metadata-pill">Hamburg</span>
+                </p>
               </div>
               <p>
-                Moved into product management at Satair, adding product strategy, users,
-                business priorities, and organizational constraints to the engineering
-                perspective.
+                Worked at the intersection of engineering, operational data and statistical
+                analysis, building solutions where decisions were increasingly driven by
+                evidence rather than intuition. This strengthened my understanding of how data
+                becomes actionable knowledge.
               </p>
             </li>
             <li>
-              <div>
-                <strong>Flight Data Analytics & Predictive Maintenance</strong>
-                <span>2022–2025</span>
+              <div class="experience-heading">
+                <h3>Product Management</h3>
+                <p>
+                  <span class="metadata-pill">Satair</span>
+                  <time datetime="2018/2022">2018–2022</time>
+                  <span class="metadata-pill">Hamburg</span>
+                </p>
               </div>
               <p>
-                Worked with aircraft operational data, analytics, and predictive-maintenance
-                problems, strengthening the connection between data engineering, statistical
-                analysis, and real-world decision making.
+                Expanded beyond engineering into product strategy, customer value and business
+                decision-making. This perspective taught me that useful systems must balance
+                technical correctness with operational and commercial realities.
               </p>
             </li>
             <li>
-              <div>
-                <strong>Quality Engineering & Analytics</strong>
-                <span>2025–present</span>
+              <div class="experience-heading">
+                <h3>Information Systems</h3>
+                <p>
+                  <span class="metadata-pill">Airbus</span>
+                  <time datetime="2011/2018">2011–2018</time>
+                  <span class="metadata-pill">Hamburg</span>
+                </p>
               </div>
               <p>
-                Working across quality and engineering analytics, with a growing focus on how
-                large organizations can transform fragmented operational information into
-                trusted knowledge.
+                Built the engineering foundation by designing enterprise information systems
+                across SAP, PLM and manufacturing. This is where I learned that successful
+                software depends as much on information flow, process design and long-term
+                maintainability as on technology itself.
               </p>
             </li>
           </ol>
@@ -130,17 +159,31 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
 
       <section class="about-section" data-motion-reveal>
         <div class="section-label">
-          <h2>One problem, different perspectives</h2>
+          <h2>Different perspectives. One architecture.</h2>
         </div>
         <div class="section-body reading-flow">
           <p>
-            Moving between information systems, product management, data analytics, and
-            engineering quality has shaped how I approach architecture.
+            Each role taught me to solve the same underlying problem from a different
+            perspective. Together they shaped the way I design information architectures today.
           </p>
           <p>
-            Technical correctness is only one part of a useful system. It also needs to fit
-            the organization, preserve the meaning of information, remain understandable over
-            time, and support the people who ultimately make decisions with it.
+            As an information systems engineer, I learned that software succeeds only when
+            information flows reliably across an organization. Product management taught me
+            that good systems must balance engineering decisions with business priorities and
+            user needs. Data analytics showed me how evidence can improve decisions. Quality
+            engineering made me realize that many organizations do not struggle because they
+            lack data; they struggle because they cannot turn fragmented information into
+            trusted knowledge.
+          </p>
+          <p>
+            Technical correctness is only one part of a useful system. It also has to fit the
+            organization, preserve the meaning of information over time, remain understandable,
+            and help people make better decisions.
+          </p>
+          <p>
+            That is why I increasingly design architectures that combine deterministic logic,
+            structured knowledge, and language models, using each where it contributes the most
+            value instead of expecting AI to solve every problem.
           </p>
         </div>
       </section>
@@ -156,21 +199,59 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
           </p>
           <div class="education-list">
             <div class="education-item">
-              <strong>ESADE</strong>
-              <p>Executive MBA</p>
-              <span>Exchange at International University of Japan</span>
+              <div class="item-heading">
+                <h3>Executive MBA</h3>
+                <p>
+                  <span class="metadata-pill">ESADE Business School</span>
+                  <time datetime="2016/2018">2016–2018</time>
+                  <span class="metadata-pill">Barcelona</span>
+                </p>
+              </div>
+              <p>
+                Specialized in strategic management, innovation and business leadership.
+                Exchange semester at the International University of Japan.
+              </p>
             </div>
             <div class="education-item">
-              <strong>INPG / UPC</strong>
-              <p>MSc Electronic Engineering · Double degree</p>
+              <div class="item-heading">
+                <h3>MSc Electronic Engineering · Dual Degree</h3>
+                <p>
+                  <span class="metadata-pill">Grenoble INP · Phelma</span>
+                  <time datetime="2007/2009">2007–2009</time>
+                  <span class="metadata-pill">Grenoble</span>
+                </p>
+              </div>
+              <p>
+                Specialized in electronics, signal processing and information theory while
+                completing a dual-degree program with UPC.
+              </p>
             </div>
             <div class="education-item">
-              <strong>UPC</strong>
-              <p>MSc Telecommunications Engineering</p>
+              <div class="item-heading">
+                <h3>MSc Telecommunications Engineering</h3>
+                <p>
+                  <span class="metadata-pill">UPC · TelecomBCN</span>
+                  <time datetime="2005/2008">2005–2008</time>
+                  <span class="metadata-pill">Barcelona</span>
+                </p>
+              </div>
+              <p>
+                Focused on telecommunications systems, networking and signal processing.
+              </p>
             </div>
             <div class="education-item">
-              <strong>UPC</strong>
-              <p>BSc Telecommunications Engineering</p>
+              <div class="item-heading">
+                <h3>BSc Telecommunications Engineering</h3>
+                <p>
+                  <span class="metadata-pill">UPC</span>
+                  <time datetime="2001/2005">2001–2005</time>
+                  <span class="metadata-pill">Barcelona</span>
+                </p>
+              </div>
+              <p>
+                Built the engineering foundations in mathematics, electronics and
+                telecommunications.
+              </p>
             </div>
           </div>
         </div>
@@ -238,6 +319,60 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
     gap: var(--space-8);
   }
 
+  .about-page .page-hero {
+    gap: var(--space-6);
+  }
+
+  .about-hero-title {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .about-hero-body {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.32fr) minmax(0, 1fr);
+    align-items: start;
+    column-gap: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .about-hero-content {
+    grid-column: 2;
+    display: grid;
+    align-content: start;
+    gap: var(--space-4);
+  }
+
+  .about-portrait {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    max-width: 13.75rem;
+  }
+
+  .about-portrait img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid var(--color-border);
+    border-radius: calc(var(--radius-medium) + 4px);
+    object-fit: cover;
+  }
+
+  .about-portrait figcaption {
+    display: grid;
+    gap: 0.15rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+
+  .about-portrait figcaption strong {
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
   .reading-flow,
   .section-intro {
     max-width: var(--width-reading);
@@ -275,15 +410,44 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
     position: sticky;
     top: 6rem;
     margin: 0;
-    color: var(--color-text);
+    color: var(--color-accent-strong);
     font-size: 0.9rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
+  @media (max-width: 760px) {
+    .about-hero-body {
+      grid-template-columns: 1fr;
+      row-gap: var(--space-5);
+    }
+
+    .about-hero-content {
+      grid-column: 1;
+    }
+
+    .about-portrait {
+      width: min(10rem, 48vw);
+    }
+  }
+
   .section-body {
     display: grid;
     gap: var(--space-5);
+  }
+
+  .hero-subsection {
+    display: grid;
+    gap: var(--space-3);
+    margin-top: 1.25rem;
+  }
+
+  .hero-subsection h2 {
+    margin: 0;
+    color: var(--color-accent-strong);
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .principle-flow {
@@ -315,9 +479,13 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
     background: var(--color-accent);
   }
 
+  .hero-principles {
+    margin-top: 0;
+  }
+
   .timeline {
     display: grid;
-    gap: var(--space-5);
+    gap: var(--space-6);
     max-width: 54rem;
     margin: 0;
     padding: 0;
@@ -326,28 +494,46 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
 
   .timeline li {
     display: grid;
-    gap: var(--space-2);
+    gap: var(--space-4);
     padding-left: var(--space-5);
     border-left: 1px solid var(--color-border);
   }
 
-  .timeline li > div {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
+  .experience-heading,
+  .item-heading {
+    display: grid;
     gap: var(--space-2);
   }
 
-  .timeline strong {
+  .experience-heading h3,
+  .item-heading h3 {
+    margin: 0;
     color: var(--color-text);
-    font-size: 1.08rem;
+    font-size: 1.18rem;
+    line-height: 1.3;
   }
 
-  .timeline span,
-  .education-list span {
-    color: var(--color-muted);
-    font-size: 0.9rem;
+  .experience-heading p,
+  .item-heading p {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin: 0;
+  }
+
+  .experience-heading .metadata-pill,
+  .experience-heading time,
+  .item-heading .metadata-pill,
+  .item-heading time {
+    width: fit-content;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid color-mix(in srgb, var(--color-warm-accent) 42%, var(--color-border));
+    border-radius: 999px;
+    color: var(--color-warm-accent);
+    font-size: 0.8rem;
+    font-weight: 650;
+    line-height: 1.2;
   }
 
   .education-list {
@@ -358,20 +544,13 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
 
   .education-item {
     display: grid;
-    gap: var(--space-1);
-    padding-bottom: var(--space-4);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 72%, transparent);
+    gap: var(--space-4);
+    padding-left: var(--space-5);
+    border-left: 1px solid var(--color-border);
   }
 
   .education-item:last-child {
     padding-bottom: 0;
-    border-bottom: 0;
-  }
-
-  .education-item strong {
-    color: var(--color-text);
-    font-size: 1.12rem;
-    line-height: 1.3;
   }
 
   .feature-card {

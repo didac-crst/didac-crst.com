@@ -265,14 +265,14 @@ select {
 .tag {
   display: inline-flex;
   align-items: center;
-  min-height: 1.65rem;
-  padding: 0.18rem 0.55rem;
-  border: 1px solid color-mix(in srgb, var(--color-warm-accent) 38%, var(--color-border));
+  width: fit-content;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--color-warm-accent) 42%, var(--color-border));
   border-radius: 999px;
-  background: color-mix(in srgb, var(--color-warm-accent) 7%, transparent);
   color: var(--color-warm-accent);
-  font-size: 0.78rem;
-  line-height: 1;
+  font-size: 0.8rem;
+  font-weight: 650;
+  line-height: 1.2;
 }
 
 @media (max-width: 860px) {
