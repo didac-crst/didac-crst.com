@@ -36,11 +36,32 @@ If a future page needs a capability (for example `fullscreen`), re-enable only t
 
 ## Verify
 
-After deploying the rule, inspect a live response and confirm the three headers are present with the expected values:
+After deploying the rule, confirm each header is present with the expected value on every visitor-facing host (apex and `www` if used):
 
 ```sh
-curl -sI https://didac-crst.com/ | rg -i '^(x-content-type-options|referrer-policy|permissions-policy):'
+permissions_policy='accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), interest-cohort=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()'
+
+verify_host() {
+  host="$1"
+  headers="$(curl -fsS -D - -o /dev/null "https://${host}/" | tr -d '\r')"
+  for expected in \
+    'X-Content-Type-Options: nosniff' \
+    'Referrer-Policy: strict-origin-when-cross-origin' \
+    "Permissions-Policy: ${permissions_policy}"
+  do
+    printf '%s\n' "$headers" | rg -i -F -q -- "$expected" || {
+      echo "Missing or incorrect on ${host}: ${expected}" >&2
+      return 1
+    }
+  done
+  echo "OK ${host}"
+}
+
+verify_host didac-crst.com
+verify_host www.didac-crst.com
 ```
+
+Skip the `www` check if that hostname is not visitor-facing.
 
 ## Out of scope for now
 
