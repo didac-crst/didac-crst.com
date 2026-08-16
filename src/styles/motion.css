@@ -1,24 +1,36 @@
 @keyframes motion-enter {
   from {
     opacity: 0;
-    transform: translateY(22px) scale(0.985);
+    transform: translateY(20px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
+  }
+}
+
+@keyframes motion-hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @keyframes motion-menu {
   from {
     opacity: 0;
-    transform: translateY(-6px) scale(0.98);
+    transform: translateY(-6px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
@@ -33,7 +45,7 @@
 @keyframes motion-page-out {
   to {
     opacity: 0;
-    transform: translateY(-8px) scale(0.995);
+    transform: translateY(-8px);
   }
 }
 
@@ -74,6 +86,7 @@ body,
 .motion-ready [data-motion-enter] > *,
 .motion-ready [data-motion-home] .hero-copy > *,
 .motion-ready [data-motion-home] .positioning,
+.motion-ready [data-motion-home] .hero-actions,
 .motion-ready [data-motion-reveal],
 .motion-ready [data-motion-reveal] .card,
 .motion-ready [data-motion-reveal] .timeline li,
@@ -81,13 +94,17 @@ body,
 .motion-ready [data-motion-reveal] .tag,
 .motion-ready [data-motion-reveal] .principle-flow li {
   opacity: 0;
-  transform: translateY(22px) scale(0.985);
+  transform: translateY(20px);
 }
 
 .motion-ready [data-motion-enter] > *,
-.motion-ready [data-motion-home] .hero-copy > *,
-.motion-ready [data-motion-home] .positioning {
+.motion-ready [data-motion-home] .positioning,
+.motion-ready [data-motion-home] .hero-actions {
   animation: motion-enter var(--motion-slow) var(--ease-enter) both;
+}
+
+.motion-ready [data-motion-home] .hero-copy > * {
+  animation: motion-hero-enter 450ms var(--ease-enter) both;
 }
 
 .motion-ready [data-motion-home] .hero-copy > :nth-child(1) {
@@ -95,19 +112,27 @@ body,
 }
 
 .motion-ready [data-motion-home] .hero-copy > :nth-child(2) {
-  animation-delay: 90ms;
+  animation-delay: 80ms;
 }
 
 .motion-ready [data-motion-home] .hero-copy > :nth-child(3) {
-  animation-delay: 180ms;
+  animation-delay: 140ms;
 }
 
 .motion-ready [data-motion-home] .hero-copy > :nth-child(4) {
-  animation-delay: 270ms;
+  animation-delay: 180ms;
+}
+
+.motion-ready [data-motion-home] .hero-copy > :nth-child(5) {
+  animation-delay: 240ms;
 }
 
 .motion-ready [data-motion-home] .positioning {
   animation-delay: 240ms;
+}
+
+.motion-ready [data-motion-home] .hero-actions {
+  animation-delay: 180ms;
 }
 
 .motion-ready [data-motion-enter] > :nth-child(1) {
@@ -173,7 +198,7 @@ body,
 
 .card:hover {
   box-shadow: var(--shadow-lifted);
-  transform: translateY(-4px) scale(1.005);
+  transform: translateY(-4px);
 }
 
 .social-links a,
@@ -216,6 +241,7 @@ body,
   .motion-ready [data-motion-enter] > *,
   .motion-ready [data-motion-home] .hero-copy > *,
   .motion-ready [data-motion-home] .positioning,
+  .motion-ready [data-motion-home] .hero-actions,
   .motion-ready [data-motion-reveal],
   .motion-ready [data-motion-reveal] .card,
   .motion-ready [data-motion-reveal] .timeline li,

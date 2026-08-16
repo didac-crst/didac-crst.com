@@ -10,6 +10,7 @@
 
 html {
   min-width: 320px;
+  overflow-x: hidden;
   scrollbar-gutter: stable;
   background: var(--color-background);
   color: var(--color-text);
@@ -23,6 +24,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   background-color: var(--color-background);
   background-image: linear-gradient(180deg, rgb(15 118 110 / 0.05), transparent 28rem);
 }
@@ -68,6 +70,7 @@ select {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .site-main {
@@ -109,6 +112,23 @@ select {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.hero-disciplines {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.hero-disciplines > span {
+  white-space: nowrap;
+}
+
+.hero-disciplines > span:not(:last-child)::after {
+  content: "·";
+  display: inline-block;
+  margin-inline: 0.55rem;
+  color: var(--color-warm-accent);
 }
 
 .lede {
@@ -216,8 +236,17 @@ select {
 .card h2,
 .card h3 {
   margin: 0;
+  color: var(--color-text);
   font-size: clamp(1.12rem, 1rem + 0.35vw, 1.35rem);
   line-height: 1.3;
+  transition: color var(--duration-fast) ease;
+}
+
+.card:hover h2,
+.card:hover h3,
+.card:hover h2 a,
+.card:hover h3 a {
+  color: var(--color-accent-strong);
 }
 
 .card p {
@@ -229,7 +258,7 @@ select {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  color: var(--color-muted);
+  color: var(--color-warm-accent);
   font-size: 0.88rem;
 }
 
@@ -238,11 +267,27 @@ select {
   align-items: center;
   min-height: 1.65rem;
   padding: 0.18rem 0.55rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid color-mix(in srgb, var(--color-warm-accent) 38%, var(--color-border));
   border-radius: 999px;
-  color: var(--color-muted);
+  background: color-mix(in srgb, var(--color-warm-accent) 7%, transparent);
+  color: var(--color-warm-accent);
   font-size: 0.78rem;
   line-height: 1;
+}
+
+@media (max-width: 860px) {
+  .hero-disciplines {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .hero-disciplines > span {
+    white-space: normal;
+  }
+
+  .hero-disciplines > span::after {
+    content: none !important;
+  }
 }
 
 @media (max-width: 760px) {
