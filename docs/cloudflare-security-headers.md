@@ -1,69 +1,119 @@
 # Cloudflare security headers
 
-GitHub Pages cannot set custom response headers from this Astro build. Apply these with a Cloudflare **Transform Rule** → **Modify Response Header** (or equivalent Response Header transform) on `didac-crst.com`.
+GitHub Pages cannot set custom response headers from this Astro build. Security headers are therefore configured at Cloudflare.
 
-This repository documents the intended values for reproducibility. Do not expect them to appear until they are configured in the Cloudflare dashboard. This project does not call the Cloudflare API.
+This document records the production security configuration and the design decisions behind it so it can be reproduced after migrations or infrastructure changes. The project does not call the Cloudflare API.
+
+## Design principles
+
+This website follows a conservative hardening strategy:
+
+- enable low-risk security headers;
+- keep the configuration understandable;
+- avoid policies that require continuous maintenance (such as CSP) until they provide clear value.
 
 ## Prerequisites
 
-Every visitor-facing hostname covered by the rule must use a **Proxied** (orange-cloud) Cloudflare DNS record. **DNS-only** (grey-cloud) records bypass Transform Rules, so the headers will not be applied.
+Visitor-facing hostnames must use **Proxied** (orange-cloud) Cloudflare DNS records. DNS-only records bypass Cloudflare response transforms and managed security headers.
 
-## Recommended headers
+## Production configuration
 
-| Header | Value |
-|--------|--------|
-| `X-Content-Type-Options` | `nosniff` |
-| `Referrer-Policy` | `strict-origin-when-cross-origin` |
-| `Permissions-Policy` | See below |
+### 1. Managed Security Headers
 
-### Permissions-Policy (conservative)
+Provides baseline browser hardening:
 
-Disable powerful browser features this static site does not use:
+- prevent MIME sniffing;
+- prevent framing by other sites;
+- restrict referrer information.
+
+Configured in Cloudflare:
+
+Cloudflare Dashboard → **Rules** → **Settings** → **Managed Transforms** → **HTTP response headers** → **Add security headers**
+
+Response headers:
 
 ```txt
-accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), interest-cohort=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: same-origin
 ```
 
-If a future page needs a capability (for example `fullscreen`), re-enable only that directive.
+`Referrer-Policy: same-origin` is chosen because this website does not require referrer information to be sent to third-party origins.
 
-## Suggested Cloudflare setup
+Do not duplicate these with custom response-header rules unless there is a specific reason to override them.
 
-1. Confirm each visitor-facing hostname (`didac-crst.com`, and `www` if used) has a **Proxied** DNS record that will match the rule.
-2. Cloudflare Dashboard → **Rules** → **Transform Rules** → **Modify Response Header**.
-3. Rule name: `didac-crst security headers`.
-4. Match: hostname equals `didac-crst.com` (and `www` if used).
-5. For each header above, use **Set static** so the value overwrites any existing header of the same name. Do **not** use **Add static**, which preserves existing values.
+### 2. HSTS
+
+Ensures browsers always use HTTPS for this domain after the first successful visit.
+
+Configured in Cloudflare:
+
+Cloudflare Dashboard → **SSL/TLS** → **Edge Certificates** → **HTTP Strict Transport Security (HSTS)**
+
+Response header:
+
+```txt
+Strict-Transport-Security: max-age=31536000
+```
+
+Settings:
+
+- HSTS enabled
+- Max age: 12 months (`31536000`)
+- `includeSubDomains`: disabled
+- Preload: disabled
+- No-Sniff option: disabled, because `X-Content-Type-Options` is already provided by Managed Security Headers
+
+### 3. Permissions-Policy
+
+Restricts browser capabilities that are not required by this static website.
+
+Configured in Cloudflare:
+
+Cloudflare Dashboard → **Rules** → **Transform Rules** → **Modify Response Header**
+
+- **Rule name:** `didac-crst permissions policy`
+- **Match:** hostname is in:
+  - `didac-crst.com`
+  - `www.didac-crst.com`
+- **Action:** **Set static**
+
+Response header:
+
+```txt
+Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+```
+
+The rule is intentionally scoped to the public website hostnames so it does not affect unrelated proxied subdomains or services.
 
 ## Verify
 
-After deploying the rule, confirm each header is present with the expected value on every visitor-facing host (apex and `www` if used):
+`curl` is the authoritative verification because it inspects the actual HTTP response:
 
 ```sh
-permissions_policy='accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), interest-cohort=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()'
-
-verify_host() {
-  host="$1"
-  headers="$(curl -fsS -D - -o /dev/null "https://${host}/" | tr -d '\r')"
-  for expected in \
-    'X-Content-Type-Options: nosniff' \
-    'Referrer-Policy: strict-origin-when-cross-origin' \
-    "Permissions-Policy: ${permissions_policy}"
-  do
-    printf '%s\n' "$headers" | rg -i -F -q -- "$expected" || {
-      echo "Missing or incorrect on ${host}: ${expected}" >&2
-      return 1
-    }
-  done
-  echo "OK ${host}"
-}
-
-verify_host didac-crst.com
-verify_host www.didac-crst.com
+curl -sI https://didac-crst.com/
 ```
 
-Skip the `www` check if that hostname is not visitor-facing.
+Expected headers include:
+
+```txt
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+referrer-policy: same-origin
+strict-transport-security: max-age=31536000
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+```
+
+[SecurityHeaders.com](https://securityheaders.com/?q=https://didac-crst.com&followRedirects=on) can be used as a quick external smoke test. An **A** rating is the intended baseline. **Content-Security-Policy** is intentionally deferred because an incorrect CSP is more harmful than having no CSP. It should be introduced only after a dedicated design and testing phase.
 
 ## Out of scope for now
 
-- **Content-Security-Policy** — useful next hardening step; needs careful allowlists for inline theme scripts and any future assets. Add later, not in the first pass.
-- Automated application via Cloudflare API or Workers — intentionally avoided so this site stays a static GitHub Pages deploy.
+### Content-Security-Policy
+
+CSP is intentionally deferred.
+
+It can provide stronger XSS protection, but it requires careful allowlists for Astro inline scripts, theme logic, future analytics, embeds, fonts, and other external assets. Introduce it separately and test before deployment.
+
+### Automation
+
+Cloudflare API, Workers, or infrastructure-as-code changes are intentionally out of scope. The current configuration is applied manually in the Cloudflare dashboard and documented here.
