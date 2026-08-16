@@ -8,7 +8,7 @@ const currentPath = Astro.url.pathname;
 <header class="site-header">
   <div class="page-container header-inner">
     <a class="brand" href="/" aria-label={`${SITE.name} home`}>
-      <span class="brand-mark" aria-hidden="true">DC</span>
+      <img class="brand-mark" src={SITE.logo} alt="" width="40" height="40" aria-hidden="true" />
       <span>{SITE.name}</span>
     </a>
     <nav class="primary-nav" aria-label="Primary navigation">
@@ -26,6 +26,36 @@ const currentPath = Astro.url.pathname;
     <div class="header-utility">
       <ThemeToggle />
     </div>
+    <button
+      class="mobile-menu-trigger"
+      type="button"
+      aria-label="Menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-mobile-menu-trigger
+    >
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
+      <nav class="mobile-nav" aria-label="Mobile navigation">
+        {
+          NAVIGATION.map((item) => (
+            <a
+              href={item.href}
+              aria-current={currentPath === item.href ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <div class="mobile-theme">
+        <span>Theme</span>
+        <ThemeToggle />
+      </div>
+    </div>
   </div>
 </header>
 
@@ -33,7 +63,7 @@ const currentPath = Astro.url.pathname;
   .site-header {
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 100;
     border-bottom: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
     background: color-mix(in srgb, var(--color-background) 88%, transparent);
     backdrop-filter: blur(16px);
@@ -45,12 +75,13 @@ const currentPath = Astro.url.pathname;
     align-items: center;
     gap: clamp(var(--space-4), 4vw, var(--space-7));
     min-height: 4.25rem;
+    min-width: 0;
   }
 
   .brand {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: 0.7rem;
     min-width: 0;
     color: var(--color-text);
     font-weight: 760;
@@ -59,23 +90,25 @@ const currentPath = Astro.url.pathname;
     justify-self: start;
   }
 
+  .brand span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .brand-mark {
-    display: inline-grid;
-    place-items: center;
-    width: 2rem;
-    height: 2rem;
-    border: 1px solid var(--color-border);
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 auto;
     border-radius: var(--radius-small);
-    background: var(--color-surface);
-    color: var(--color-accent-strong);
-    font-size: 0.78rem;
-    letter-spacing: 0.04em;
+    object-fit: contain;
   }
 
   .primary-nav,
   .header-utility {
     display: flex;
     align-items: center;
+    min-width: 0;
   }
 
   .header-utility {
@@ -87,6 +120,8 @@ const currentPath = Astro.url.pathname;
     justify-content: center;
     justify-self: center;
     gap: var(--space-4);
+    max-width: 100%;
+    min-width: 0;
   }
 
   .primary-nav a {
@@ -95,6 +130,7 @@ const currentPath = Astro.url.pathname;
     font-size: 0.92rem;
     font-weight: 680;
     text-decoration: none;
+    white-space: nowrap;
     transition: color var(--motion-fast) var(--ease-standard);
   }
 
@@ -125,39 +161,133 @@ const currentPath = Astro.url.pathname;
     transform: scaleX(1);
   }
 
+  .mobile-menu-trigger,
+  .mobile-menu {
+    display: none;
+  }
+
+  .mobile-menu-trigger {
+    width: 2.5rem;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.28rem;
+    border: 1px solid color-mix(in srgb, var(--color-border) 72%, transparent);
+    border-radius: var(--radius-small);
+    background: transparent;
+    color: var(--color-text);
+    cursor: pointer;
+    justify-self: end;
+  }
+
+  .mobile-menu-trigger span {
+    width: 1rem;
+    height: 1px;
+    background: currentColor;
+    transition:
+      transform var(--motion-fast) var(--ease-standard),
+      opacity var(--motion-fast) var(--ease-standard);
+  }
+
+  .mobile-menu-trigger[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(0.29rem) rotate(45deg);
+  }
+
+  .mobile-menu-trigger[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-trigger[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-0.29rem) rotate(-45deg);
+  }
+
+  .mobile-menu {
+    grid-column: 1 / -1;
+    min-width: 0;
+    max-width: 100%;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-subtle);
+  }
+
+  .mobile-nav {
+    display: grid;
+    min-width: 0;
+    gap: var(--space-1);
+  }
+
+  .mobile-nav a {
+    padding: 0.62rem 0.7rem;
+    border-radius: var(--radius-small);
+    color: var(--color-muted);
+    font-weight: 700;
+    text-decoration: none;
+    min-width: 0;
+  }
+
+  .mobile-nav a:hover,
+  .mobile-nav a[aria-current="page"] {
+    background: var(--color-surface-muted);
+    color: var(--color-text);
+  }
+
+  .mobile-theme {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+    padding: var(--space-3) 0.7rem 0;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: 0.84rem;
+    font-weight: 700;
+  }
+
   @media (max-width: 860px) {
     .header-inner {
+      gap: var(--space-4);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .header-inner {
       grid-template-columns: 1fr auto;
-      gap: var(--space-3);
-      padding-block: var(--space-4);
+      min-height: 3.75rem;
+      padding-block: var(--space-2);
     }
 
+    .primary-nav,
     .header-utility {
-      grid-column: 2;
-      grid-row: 1;
+      display: none;
     }
 
-    .primary-nav {
-      grid-column: 1 / -1;
-      grid-row: 2;
-      width: 100%;
-      justify-content: space-between;
-      gap: var(--space-2);
+    .mobile-menu-trigger {
+      display: inline-flex;
+    }
+
+    .mobile-menu:not([hidden]) {
+      display: block;
     }
   }
 
   @media (max-width: 420px) {
     .brand {
+      gap: 0.55rem;
       font-size: 0.95rem;
     }
 
     .brand-mark {
-      width: 1.85rem;
-      height: 1.85rem;
+      width: 2.25rem;
+      height: 2.25rem;
     }
 
-    .primary-nav a {
-      font-size: 0.86rem;
+    .mobile-menu-trigger {
+      width: 2.35rem;
+      height: 2.35rem;
     }
   }
 </style>

@@ -17,7 +17,7 @@ const {
   title = SITE.title,
   description = SITE.description,
   canonical,
-  image = "/og/default.png",
+  image = SITE.defaultOgImage,
   type = "website"
 } = Astro.props;
 
@@ -35,35 +35,53 @@ const imageUrl = new URL(image, SITE.domain).toString();
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href={SITE.faviconIco} sizes="any" />
+    <link rel="icon" type="image/png" sizes="16x16" href={SITE.favicon16} />
+    <link rel="icon" type="image/png" sizes="32x32" href={SITE.favicon32} />
+    <link rel="icon" type="image/png" sizes="48x48" href={SITE.favicon48} />
+    <link rel="apple-touch-icon" sizes="180x180" href={SITE.appleTouchIcon} />
     <link rel="alternate" type="application/rss+xml" title={`${SITE.title} Writing`} href="/rss.xml" />
     <meta property="og:type" content={type} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
     <ClientRouter />
     <script is:inline>
       (() => {
         const storageKey = "didac-crst-theme";
-        const root = document.documentElement;
         const media = window.matchMedia("(prefers-color-scheme: dark)");
 
         const normalizeTheme = (value) =>
           value === "light" || value === "dark" || value === "system" ? value : "system";
 
-        const getPreference = () => normalizeTheme(localStorage.getItem(storageKey));
+        const getPreference = () => {
+          try {
+            return normalizeTheme(localStorage.getItem(storageKey));
+          } catch {
+            return "system";
+          }
+        };
+
         const getEffectiveTheme = (preference) =>
           preference === "system" ? (media.matches ? "dark" : "light") : preference;
 
-        const applyTheme = (preference, persist = false) => {
+        const applyThemePreference = (preference = getPreference(), persist = false) => {
           const theme = normalizeTheme(preference);
+          const root = document.documentElement;
 
           if (persist) {
-            localStorage.setItem(storageKey, theme);
+            try {
+              localStorage.setItem(storageKey, theme);
+            } catch {
+              // Ignore storage errors; the current document can still reflect the choice.
+            }
           }
 
           if (theme === "system") {
@@ -84,25 +102,35 @@ const imageUrl = new URL(image, SITE.domain).toString();
           );
         };
 
-        const savedTheme = getPreference();
-        applyTheme(savedTheme);
+        applyThemePreference();
 
-        media.addEventListener("change", () => {
-          if (getPreference() === "system") {
-            applyTheme("system");
-          }
-        });
+        if (!window.DidacTheme) {
+          media.addEventListener("change", () => {
+            if (getPreference() === "system") {
+              applyThemePreference("system");
+            }
+          });
 
-        window.DidacTheme = {
-          getPreference,
-          setPreference: (preference) => applyTheme(preference, true)
-        };
+          document.addEventListener("astro:after-swap", () => {
+            applyThemePreference();
+          });
+
+          window.DidacTheme = {
+            getPreference,
+            applyThemePreference,
+            setPreference: (preference) => applyThemePreference(preference, true)
+          };
+        } else {
+          window.DidacTheme.applyThemePreference = applyThemePreference;
+          window.DidacTheme.getPreference = getPreference;
+          window.DidacTheme.setPreference = (preference) => applyThemePreference(preference, true);
+        }
       })();
     </script>
   </head>
   <body>
     <div class="site-shell">
-      <Header transition:persist />
+      <Header />
       <main class="site-main">
         <slot />
       </main>
@@ -110,12 +138,12 @@ const imageUrl = new URL(image, SITE.domain).toString();
     </div>
     <script is:inline>
       (() => {
-        if (window.DidacMotion) return;
+        const getElement = (target) => (target instanceof Element ? target : target?.parentElement);
 
         const syncActiveNavigation = () => {
           const currentPath = window.location.pathname;
 
-          document.querySelectorAll(".primary-nav a").forEach((link) => {
+          document.querySelectorAll(".primary-nav a, .mobile-nav a").forEach((link) => {
             const linkPath = new URL(link.getAttribute("href") || "/", window.location.origin).pathname;
 
             if (linkPath === currentPath) {
@@ -126,8 +154,83 @@ const imageUrl = new URL(image, SITE.domain).toString();
           });
         };
 
+        const renderThemeControl = (control, theme) => {
+          const trigger = control.querySelector("[data-theme-trigger]");
+          const label = control.querySelector("[data-theme-label]");
+          const buttons = Array.from(control.querySelectorAll("[data-theme-choice]"));
+
+          control.dataset.themePreference = theme;
+
+          if (label) {
+            label.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+            trigger?.setAttribute("aria-label", `Theme: ${label.textContent}`);
+          }
+
+          buttons.forEach((button) => {
+            button.setAttribute("aria-checked", button.dataset.themeChoice === theme ? "true" : "false");
+          });
+        };
+
+        const renderThemeControls = () => {
+          const preference = window.DidacTheme?.getPreference?.() || "system";
+          document.querySelectorAll("[data-theme-control]").forEach((control) => {
+            renderThemeControl(control, preference);
+          });
+        };
+
+        const closeThemeMenu = (control, focusTrigger = false) => {
+          const trigger = control?.querySelector("[data-theme-trigger]");
+          const menu = control?.querySelector("[data-theme-menu]");
+          if (!trigger || !menu) return;
+
+          trigger.setAttribute("aria-expanded", "false");
+          menu.hidden = true;
+
+          if (focusTrigger) {
+            trigger.focus();
+          }
+        };
+
+        const closeAllThemeMenus = () => {
+          document.querySelectorAll("[data-theme-control]").forEach((control) => closeThemeMenu(control));
+        };
+
+        const openThemeMenu = (control) => {
+          const trigger = control.querySelector("[data-theme-trigger]");
+          const menu = control.querySelector("[data-theme-menu]");
+          const checkedButton =
+            control.querySelector('[data-theme-choice][aria-checked="true"]') ||
+            control.querySelector("[data-theme-choice]");
+          if (!trigger || !menu) return;
+
+          closeAllThemeMenus();
+          trigger.setAttribute("aria-expanded", "true");
+          menu.hidden = false;
+          checkedButton?.focus();
+        };
+
+        const toggleThemeMenu = (control) => {
+          const trigger = control.querySelector("[data-theme-trigger]");
+          const isOpen = trigger?.getAttribute("aria-expanded") === "true";
+          if (isOpen) {
+            closeThemeMenu(control);
+          } else {
+            openThemeMenu(control);
+          }
+        };
+
+        const setMobileMenuOpen = (open) => {
+          const trigger = document.querySelector("[data-mobile-menu-trigger]");
+          const menu = document.querySelector("[data-mobile-menu]");
+          if (!trigger || !menu) return;
+
+          trigger.setAttribute("aria-expanded", String(open));
+          menu.hidden = !open;
+        };
+
+        const closeMobileMenu = () => setMobileMenuOpen(false);
+
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-        let observer;
 
         const decorateArticleContent = () => {
           document
@@ -143,13 +246,16 @@ const imageUrl = new URL(image, SITE.domain).toString();
           });
         };
 
-        const init = () => {
+        const initPageInteractions = () => {
           syncActiveNavigation();
+          renderThemeControls();
+          closeAllThemeMenus();
+          closeMobileMenu();
           decorateArticleContent();
           document.documentElement.classList.add("motion-ready");
 
-          if (observer) {
-            observer.disconnect();
+          if (window.DidacUI?.motionObserver) {
+            window.DidacUI.motionObserver.disconnect();
           }
 
           if (reduceMotion.matches) {
@@ -157,12 +263,12 @@ const imageUrl = new URL(image, SITE.domain).toString();
             return;
           }
 
-          observer = new IntersectionObserver(
+          window.DidacUI.motionObserver = new IntersectionObserver(
             (entries) => {
               entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                   entry.target.classList.add("is-visible");
-                  observer.unobserve(entry.target);
+                  window.DidacUI.motionObserver?.unobserve(entry.target);
                 }
               });
             },
@@ -173,14 +279,110 @@ const imageUrl = new URL(image, SITE.domain).toString();
           );
 
           document.querySelectorAll("[data-motion-reveal]:not(.is-visible)").forEach((element) => {
-            observer.observe(element);
+            window.DidacUI.motionObserver?.observe(element);
           });
         };
 
-        window.DidacMotion = { init };
-        document.addEventListener("astro:after-swap", syncActiveNavigation);
-        document.addEventListener("astro:page-load", init);
-        init();
+        if (!window.DidacUI) {
+          window.DidacUI = {
+            motionObserver: null,
+            initPageInteractions
+          };
+
+          document.addEventListener("click", (event) => {
+            const target = getElement(event.target);
+            if (!target) return;
+
+            const themeChoice = target.closest("[data-theme-choice]");
+            if (themeChoice) {
+              const control = themeChoice.closest("[data-theme-control]");
+              const theme = themeChoice.dataset.themeChoice || "system";
+              window.DidacTheme?.setPreference?.(theme);
+              renderThemeControls();
+              closeThemeMenu(control, true);
+              return;
+            }
+
+            const themeTrigger = target.closest("[data-theme-trigger]");
+            if (themeTrigger) {
+              const control = themeTrigger.closest("[data-theme-control]");
+              if (control) {
+                toggleThemeMenu(control);
+              }
+              return;
+            }
+
+            const mobileTrigger = target.closest("[data-mobile-menu-trigger]");
+            if (mobileTrigger) {
+              setMobileMenuOpen(mobileTrigger.getAttribute("aria-expanded") !== "true");
+              return;
+            }
+
+            if (target.closest(".mobile-nav a")) {
+              closeMobileMenu();
+              return;
+            }
+
+            if (!target.closest("[data-theme-control]")) {
+              closeAllThemeMenus();
+            }
+          });
+
+          document.addEventListener("keydown", (event) => {
+            const target = getElement(event.target);
+
+            if (event.key === "Escape") {
+              const openThemeControl = document.querySelector('[data-theme-trigger][aria-expanded="true"]')?.closest("[data-theme-control]");
+              if (openThemeControl) {
+                event.preventDefault();
+                closeThemeMenu(openThemeControl, true);
+              }
+
+              const mobileTrigger = document.querySelector("[data-mobile-menu-trigger]");
+              if (mobileTrigger?.getAttribute("aria-expanded") === "true") {
+                event.preventDefault();
+                closeMobileMenu();
+                mobileTrigger.focus();
+              }
+            }
+
+            const activeChoice = target?.closest("[data-theme-choice]");
+            if (!activeChoice) return;
+
+            const control = activeChoice.closest("[data-theme-control]");
+            const buttons = Array.from(control?.querySelectorAll("[data-theme-choice]") || []);
+            const currentIndex = buttons.indexOf(activeChoice);
+
+            if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+              event.preventDefault();
+              const offset = event.key === "ArrowDown" ? 1 : -1;
+              const nextIndex = (currentIndex + offset + buttons.length) % buttons.length;
+              buttons[nextIndex]?.focus();
+            }
+
+            if (event.key === "Home") {
+              event.preventDefault();
+              buttons[0]?.focus();
+            }
+
+            if (event.key === "End") {
+              event.preventDefault();
+              buttons[buttons.length - 1]?.focus();
+            }
+          });
+
+          window.addEventListener("resize", () => {
+            if (window.innerWidth > 760) {
+              closeMobileMenu();
+            }
+          });
+
+          window.addEventListener("didac-theme-change", renderThemeControls);
+
+          document.addEventListener("astro:page-load", initPageInteractions);
+        } else {
+          window.DidacUI.initPageInteractions = initPageInteractions;
+        }
       })();
     </script>
   </body>
