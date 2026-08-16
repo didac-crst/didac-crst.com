@@ -61,31 +61,22 @@ const currentPath = Astro.url.pathname;
 
 <style>
   .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid transparent;
-    background: color-mix(in srgb, var(--color-background) 88%, transparent);
-    transition:
-      background-color var(--motion-fast) var(--ease-standard),
-      border-color var(--motion-fast) var(--ease-standard),
-      box-shadow var(--motion-fast) var(--ease-standard);
-  }
-
-  .site-header.is-sticky {
     position: fixed;
+    top: 0;
     right: 0;
     left: 0;
-    border-bottom-color: var(--color-border);
-    background: var(--sticky-header-background);
-    box-shadow: 0 1px 0 rgb(0 0 0 / 0.02);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    animation: sticky-header-enter 180ms var(--ease-standard) both;
+    z-index: 100;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 72%, transparent);
+    background: color-mix(in srgb, var(--color-background) 82%, transparent);
+    backdrop-filter: blur(6px) saturate(96%);
+    -webkit-backdrop-filter: blur(6px) saturate(96%);
+    transition:
+      background-color var(--motion-fast) var(--ease-standard),
+      border-color var(--motion-fast) var(--ease-standard);
   }
 
-  :global(.has-sticky-header) :global(.site-shell) {
-    padding-top: var(--sticky-header-placeholder, 0px);
+  :global(.site-shell) {
+    padding-top: 4.25rem;
   }
 
   .header-inner {
@@ -96,10 +87,6 @@ const currentPath = Astro.url.pathname;
     min-height: 4.25rem;
     min-width: 0;
     transition: min-height var(--motion-fast) var(--ease-standard);
-  }
-
-  .site-header.is-sticky .header-inner {
-    min-height: 3.75rem;
   }
 
   .brand {
@@ -280,6 +267,10 @@ const currentPath = Astro.url.pathname;
   }
 
   @media (max-width: 760px) {
+    :global(.site-shell) {
+      padding-top: 3.75rem;
+    }
+
     .header-inner {
       grid-template-columns: 1fr auto;
       min-height: 3.75rem;
@@ -299,9 +290,6 @@ const currentPath = Astro.url.pathname;
       display: block;
     }
 
-    .site-header.is-sticky .header-inner {
-      min-height: 3.5rem;
-    }
   }
 
   @media (max-width: 420px) {
@@ -321,33 +309,13 @@ const currentPath = Astro.url.pathname;
     }
   }
 
-  @keyframes sticky-header-enter {
-    from {
-      opacity: 0;
-      transform: translateY(-8px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) .site-header {
+      background: color-mix(in srgb, var(--color-background) 78%, transparent);
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .site-header.is-sticky {
-      animation-duration: 100ms;
-    }
-
-    @keyframes sticky-header-enter {
-      from {
-        opacity: 0;
-        transform: none;
-      }
-
-      to {
-        opacity: 1;
-        transform: none;
-      }
-    }
+  :global(:root[data-theme="dark"]) .site-header {
+    background: color-mix(in srgb, var(--color-background) 78%, transparent);
   }
 </style>

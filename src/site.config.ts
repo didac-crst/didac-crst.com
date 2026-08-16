@@ -4,7 +4,7 @@ export const SITE = {
   domain: "https://didac-crst.com",
   title: "Didac Cristobal",
   description:
-    "Knowledge systems, information architecture, and applied AI for turning fragmented information into structured, traceable, usable knowledge.",
+    "Engineering systems that transform information into trusted knowledge.",
   github: "https://github.com/didac-crst",
   linkedin: "https://linkedin.com/in/didac-crst",
   repository: "https://github.com/didac-crst/didac-crst.com",
