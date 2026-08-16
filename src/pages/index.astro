@@ -4,6 +4,7 @@ import ProjectCard from "@/components/ProjectCard.astro";
 import SocialLinks from "@/components/SocialLinks.astro";
 import home from "@/home.config.json";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { joinOxford } from "@/lib/meta";
 import { projects } from "@/projects";
 import { SITE } from "@/site.config";
 import { getCollection } from "astro:content";
@@ -27,9 +28,10 @@ const projectTitle =
     : "AtlasDocs";
 
 const { motto, pillars } = home;
+const homeDescription = `${motto.join(" ")} Explore ${joinOxford(pillars.map((pillar) => pillar.toLowerCase()))}.`;
 ---
 
-<BaseLayout>
+<BaseLayout description={homeDescription}>
   <section class="hero page-container" data-motion-home>
     <div class="hero-copy">
       <div class="hero-lockup">
