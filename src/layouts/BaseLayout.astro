@@ -248,16 +248,41 @@ const imageUrl = new URL(image, SITE.domain).toString();
         const stickyShowOffset = 120;
         const stickyHideOffset = 60;
 
+        const updateStickyHeaderPlaceholder = (header = document.querySelector(".site-header")) => {
+          const root = document.documentElement;
+          if (!header || !root.classList.contains("has-sticky-header")) return;
+
+          root.style.setProperty("--sticky-header-placeholder", `${header.offsetHeight}px`);
+        };
+
+        const stopStickyHeaderResizeObserver = () => {
+          if (window.DidacUI?.stickyResizeObserver) {
+            window.DidacUI.stickyResizeObserver.disconnect();
+            window.DidacUI.stickyResizeObserver = null;
+          }
+        };
+
+        const observeStickyHeaderSize = (header) => {
+          if (window.DidacUI?.stickyResizeObserver || !("ResizeObserver" in window)) return;
+
+          window.DidacUI.stickyResizeObserver = new ResizeObserver(() => {
+            updateStickyHeaderPlaceholder(header);
+          });
+          window.DidacUI.stickyResizeObserver.observe(header);
+        };
+
         const setStickyHeaderActive = (active) => {
           const header = document.querySelector(".site-header");
           const root = document.documentElement;
           if (!header) return;
 
           if (active) {
-            root.style.setProperty("--sticky-header-placeholder", `${header.offsetHeight}px`);
-            root.classList.add("has-sticky-header");
             header.classList.add("is-sticky");
+            root.classList.add("has-sticky-header");
+            updateStickyHeaderPlaceholder(header);
+            observeStickyHeaderSize(header);
           } else {
+            stopStickyHeaderResizeObserver();
             header.classList.remove("is-sticky");
             root.classList.remove("has-sticky-header");
             root.style.removeProperty("--sticky-header-placeholder");
@@ -292,6 +317,7 @@ const imageUrl = new URL(image, SITE.domain).toString();
           if (window.DidacUI?.stickyObserver) {
             window.DidacUI.stickyObserver.disconnect();
           }
+          stopStickyHeaderResizeObserver();
 
           removeStickySentinels();
 
@@ -378,6 +404,7 @@ const imageUrl = new URL(image, SITE.domain).toString();
           window.DidacUI = {
             motionObserver: null,
             stickyObserver: null,
+            stickyResizeObserver: null,
             initPageInteractions
           };
 
@@ -467,6 +494,8 @@ const imageUrl = new URL(image, SITE.domain).toString();
             if (window.innerWidth > 760) {
               closeMobileMenu();
             }
+
+            updateStickyHeaderPlaceholder();
           });
 
           window.addEventListener("didac-theme-change", renderThemeControls);
