@@ -1,14 +1,24 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { projectJsonLd } from "@/lib/structured-data";
 import { projects } from "@/projects";
 
 const project = projects.find((item) => item.slug === "atlasdocs");
+const structuredData = project ? projectJsonLd(project) : null;
 ---
 
 <BaseLayout
   title="AtlasDocs"
-  description={project?.summary ?? "AtlasDocs project documentation."}
+  description={
+    project?.summary ??
+    "AtlasDocs explores document intelligence and knowledge architecture with deterministic processing."
+  }
 >
+  {
+    structuredData && (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )
+  }
   <section class="section">
     <div class="page-container project-detail">
       <div class="page-hero" data-motion-enter>

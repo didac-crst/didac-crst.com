@@ -5,6 +5,7 @@ import ChipList from "@/components/ChipList.astro";
 import type { CollectionEntry } from "astro:content";
 import { getArticleSlug } from "@/lib/articles";
 import { joinOxford } from "@/lib/meta";
+import { articlePageJsonLd } from "@/lib/structured-data";
 import { SITE } from "@/site.config";
 
 type Props = {
@@ -16,26 +17,12 @@ type Props = {
 const { article, relatedArticles = [], readingTime } = Astro.props;
 const { title, description, published, updated, tags, living, version } = article.data;
 const articleSlug = getArticleSlug(article);
-const articleUrl = new URL(`/writing/${articleSlug}/`, SITE.domain).toString();
 const articleImage = `/og/writing/${articleSlug}.png`;
 const formatTag = (tag: string) => tag.replaceAll("-", " ");
 const tagDescription = tags.length > 0
   ? `Read more about ${joinOxford(tags.slice(0, 3).map(formatTag))} by ${SITE.name}.`
   : `Read more by ${SITE.name} at didac-crst.com.`;
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: title,
-  description,
-  datePublished: published.toISOString(),
-  dateModified: (updated ?? published).toISOString(),
-  author: {
-    "@type": "Person",
-    name: SITE.name,
-    url: SITE.domain
-  },
-  mainEntityOfPage: articleUrl
-};
+const structuredData = articlePageJsonLd(article, articleSlug);
 ---
 
 <BaseLayout

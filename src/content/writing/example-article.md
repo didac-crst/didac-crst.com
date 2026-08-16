@@ -1,6 +1,6 @@
 ---
 title: "Deterministic Systems Before Probabilistic AI"
-description: "Why the most capable model is not always the right architectural choice."
+description: "Why the most capable model is not always the right architectural choice—start with deterministic systems before probabilistic AI."
 published: 2027-03-12
 updated: 2027-03-12
 language: en
