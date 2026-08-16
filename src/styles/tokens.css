@@ -15,6 +15,7 @@
   --color-accent: var(--brand-cyan-text-light);
   --color-accent-strong: var(--brand-cyan-text-light);
   --color-warm-accent: var(--brand-beige-text-light);
+  --sticky-header-background: rgb(247 245 240 / 0.9);
   --color-code-background: #ebe9e2;
   --color-code-text: #1f2937;
   --width-site: 1280px;
@@ -53,6 +54,7 @@
   --color-accent: var(--brand-cyan);
   --color-accent-strong: var(--brand-cyan-text-dark);
   --color-warm-accent: var(--brand-beige-text-dark);
+  --sticky-header-background: rgb(16 16 16 / 0.9);
   --color-code-background: #1f2429;
   --color-code-text: #f4f1ea;
   --shadow-subtle: 0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px rgb(0 0 0 / 0.18);
@@ -71,6 +73,7 @@
     --color-accent: var(--brand-cyan);
     --color-accent-strong: var(--brand-cyan-text-dark);
     --color-warm-accent: var(--brand-beige-text-dark);
+    --sticky-header-background: rgb(16 16 16 / 0.9);
     --color-code-background: #1f2429;
     --color-code-text: #f4f1ea;
     --shadow-subtle: 0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px rgb(0 0 0 / 0.18);
