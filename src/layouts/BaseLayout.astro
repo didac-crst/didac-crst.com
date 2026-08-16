@@ -61,15 +61,23 @@ const imageUrl = new URL(image, SITE.domain).toString();
       (() => {
         const storageKey = "didac-crst-theme";
         const media = window.matchMedia("(prefers-color-scheme: dark)");
+        let sessionPreference = "system";
+        let storageUnavailable = false;
 
         const normalizeTheme = (value) =>
           value === "light" || value === "dark" || value === "system" ? value : "system";
 
         const getPreference = () => {
+          if (storageUnavailable) {
+            return sessionPreference;
+          }
+
           try {
-            return normalizeTheme(localStorage.getItem(storageKey));
+            sessionPreference = normalizeTheme(localStorage.getItem(storageKey));
+            return sessionPreference;
           } catch {
-            return "system";
+            storageUnavailable = true;
+            return sessionPreference;
           }
         };
 
@@ -79,11 +87,13 @@ const imageUrl = new URL(image, SITE.domain).toString();
         const applyThemePreference = (preference = getPreference(), persist = false) => {
           const theme = normalizeTheme(preference);
           const root = document.documentElement;
+          sessionPreference = theme;
 
           if (persist) {
             try {
               localStorage.setItem(storageKey, theme);
             } catch {
+              storageUnavailable = true;
               // Ignore storage errors; the current document can still reflect the choice.
             }
           }
