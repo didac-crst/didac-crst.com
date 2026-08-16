@@ -94,7 +94,7 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
                 <h3>Quality Engineering & Analytics</h3>
                 <p>
                   <span class="metadata-pill">Airbus</span>
-                  <time datetime="2025">2025–Present</time>
+                  <span class="metadata-pill">2025–Present</span>
                   <span class="metadata-pill">Toulouse</span>
                 </p>
               </div>
@@ -111,7 +111,7 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
                 <h3>Flight Data Analytics & Predictive Maintenance</h3>
                 <p>
                   <span class="metadata-pill">Airbus</span>
-                  <time datetime="2022/2025">2022–2025</time>
+                  <span class="metadata-pill">2022–2025</span>
                   <span class="metadata-pill">Hamburg</span>
                 </p>
               </div>
@@ -127,7 +127,7 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
                 <h3>Product Management</h3>
                 <p>
                   <span class="metadata-pill">Satair</span>
-                  <time datetime="2018/2022">2018–2022</time>
+                  <span class="metadata-pill">2018–2022</span>
                   <span class="metadata-pill">Hamburg</span>
                 </p>
               </div>
@@ -142,7 +142,7 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
                 <h3>Information Systems</h3>
                 <p>
                   <span class="metadata-pill">Airbus</span>
-                  <time datetime="2011/2018">2011–2018</time>
+                  <span class="metadata-pill">2011–2018</span>
                   <span class="metadata-pill">Hamburg</span>
                 </p>
               </div>
@@ -203,7 +203,7 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
                 <h3>Executive MBA</h3>
                 <p>
                   <span class="metadata-pill">ESADE Business School</span>
-                  <time datetime="2016/2018">2016–2018</time>
+                  <span class="metadata-pill">2016–2018</span>
                   <span class="metadata-pill">Barcelona</span>
                 </p>
               </div>
@@ -217,7 +217,7 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
                 <h3>MSc Electronic Engineering · Dual Degree</h3>
                 <p>
                   <span class="metadata-pill">Grenoble INP · Phelma</span>
-                  <time datetime="2007/2009">2007–2009</time>
+                  <span class="metadata-pill">2007–2009</span>
                   <span class="metadata-pill">Grenoble</span>
                 </p>
               </div>
@@ -231,7 +231,7 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
                 <h3>MSc Telecommunications Engineering</h3>
                 <p>
                   <span class="metadata-pill">UPC · TelecomBCN</span>
-                  <time datetime="2005/2008">2005–2008</time>
+                  <span class="metadata-pill">2005–2008</span>
                   <span class="metadata-pill">Barcelona</span>
                 </p>
               </div>
@@ -244,7 +244,7 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
                 <h3>BSc Telecommunications Engineering</h3>
                 <p>
                   <span class="metadata-pill">UPC</span>
-                  <time datetime="2001/2005">2001–2005</time>
+                  <span class="metadata-pill">2001–2005</span>
                   <span class="metadata-pill">Barcelona</span>
                 </p>
               </div>
@@ -523,9 +523,7 @@ const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
   }
 
   .experience-heading .metadata-pill,
-  .experience-heading time,
-  .item-heading .metadata-pill,
-  .item-heading time {
+  .item-heading .metadata-pill {
     width: fit-content;
     padding: 0.2rem 0.55rem;
     border: 1px solid color-mix(in srgb, var(--color-warm-accent) 42%, var(--color-border));
