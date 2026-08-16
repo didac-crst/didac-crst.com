@@ -4,6 +4,7 @@ import ArticleFooter from "@/components/ArticleFooter.astro";
 import ChipList from "@/components/ChipList.astro";
 import type { CollectionEntry } from "astro:content";
 import { getArticleSlug } from "@/lib/articles";
+import { joinOxford } from "@/lib/meta";
 import { SITE } from "@/site.config";
 
 type Props = {
@@ -17,6 +18,10 @@ const { title, description, published, updated, tags, living, version } = articl
 const articleSlug = getArticleSlug(article);
 const articleUrl = new URL(`/writing/${articleSlug}/`, SITE.domain).toString();
 const articleImage = `/og/writing/${articleSlug}.png`;
+const formatTag = (tag: string) => tag.replaceAll("-", " ");
+const tagDescription = tags.length > 0
+  ? `Read more about ${joinOxford(tags.slice(0, 3).map(formatTag))} by ${SITE.name}.`
+  : `Read more by ${SITE.name} at didac-crst.com.`;
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -36,7 +41,12 @@ const structuredData = {
 <BaseLayout
   title={title}
   description={description}
+  descriptionFallback={tagDescription}
   image={articleImage}
+  author={SITE.name}
+  authorUrl={SITE.domain}
+  publishedTime={published.toISOString()}
+  modifiedTime={(updated ?? published).toISOString()}
   type="article"
   canonical={`/writing/${articleSlug}/`}
 >
