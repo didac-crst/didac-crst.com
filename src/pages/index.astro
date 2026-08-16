@@ -2,6 +2,7 @@
 import ArticleCard from "@/components/ArticleCard.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import SocialLinks from "@/components/SocialLinks.astro";
+import home from "@/home.config.json";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { projects } from "@/projects";
 import { SITE } from "@/site.config";
@@ -25,11 +26,7 @@ const projectTitle =
     ? "Public work as it becomes ready to document."
     : "AtlasDocs";
 
-const pillars = [
-  "Knowledge Engineering",
-  "Structured Information",
-  "AI-Enhanced Systems"
-];
+const { motto, pillars } = home;
 ---
 
 <BaseLayout>
@@ -40,8 +37,8 @@ const pillars = [
         <h1 class="hero-name">{SITE.name}</h1>
         <div class="hero-details">
           <p class="hero-philosophy">
-            Engineering systems that transform<br />
-            information into trusted knowledge.
+            {motto[0]}<br />
+            {motto[1]}
           </p>
           <ul class="hero-pillars" aria-label="Areas of focus">
             {pillars.map((pillar) => <li>{pillar}</li>)}
@@ -154,6 +151,18 @@ const pillars = [
     font-size: 0.92rem;
     font-weight: 650;
     line-height: 1;
+    transition:
+      transform var(--motion-fast) var(--ease-standard),
+      border-color var(--motion-fast) var(--ease-standard),
+      background-color var(--motion-fast) var(--ease-standard),
+      color var(--motion-fast) var(--ease-standard);
+  }
+
+  .hero-pillars li:hover {
+    border-color: color-mix(in srgb, var(--color-warm-accent) 72%, var(--color-border));
+    background: color-mix(in srgb, var(--color-warm-accent) 10%, transparent);
+    color: color-mix(in srgb, var(--color-warm-accent) 88%, var(--color-text));
+    transform: translateY(-2px);
   }
 
   .hero-actions {

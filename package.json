@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "generate:og": "node scripts/generate-og-default.mjs",
+    "prebuild": "npm run generate:og",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check"
@@ -17,6 +19,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "sharp": "^0.35.3",
     "typescript": "^5.9.2"
   }
 }
