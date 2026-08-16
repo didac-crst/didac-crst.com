@@ -2,6 +2,7 @@
 import ArticleCard from "@/components/ArticleCard.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import SocialLinks from "@/components/SocialLinks.astro";
+import home from "@/home.config.json";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { projects } from "@/projects";
 import { SITE } from "@/site.config";
@@ -24,32 +25,29 @@ const projectTitle =
   projects.length >= 3
     ? "Public work as it becomes ready to document."
     : "AtlasDocs";
+
+const { motto, pillars } = home;
 ---
 
 <BaseLayout>
   <section class="hero page-container" data-motion-home>
     <div class="hero-copy">
-      <div class="hero-brand-lockup">
+      <div class="hero-lockup">
         <img class="hero-lockup-logo" src={SITE.logo} alt="" width="56" height="56" aria-hidden="true" />
         <h1 class="hero-name">{SITE.name}</h1>
+        <div class="hero-details">
+          <p class="hero-philosophy">
+            {motto[0]}<br />
+            {motto[1]}
+          </p>
+          <ul class="hero-pillars" aria-label="Areas of focus">
+            {pillars.map((pillar) => <li>{pillar}</li>)}
+          </ul>
+          <div class="hero-actions">
+            <SocialLinks />
+          </div>
+        </div>
       </div>
-      <div class="eyebrow hero-disciplines" aria-label="Knowledge Systems, Information Architecture, Applied AI">
-        <span>Knowledge Systems</span>
-        <span>Information Architecture</span>
-        <span>Applied AI</span>
-      </div>
-      <p class="lede">
-        I design systems that turn fragmented information into structured, traceable,
-        usable knowledge.
-      </p>
-    </div>
-    <aside class="positioning" aria-label="Positioning">
-      <p>Deterministic when possible.</p>
-      <p>Probabilistic when useful.</p>
-      <p>AI where it earns its complexity.</p>
-    </aside>
-    <div class="hero-actions">
-      <SocialLinks />
     </div>
   </section>
 
@@ -81,27 +79,26 @@ const projectTitle =
 <style>
   .hero {
     display: grid;
-    grid-template-columns: minmax(0, 1.55fr) minmax(19rem, 0.75fr);
-    column-gap: var(--space-7);
-    row-gap: var(--space-5);
-    align-items: end;
+    gap: var(--space-5);
+    align-items: start;
     padding-block: var(--space-8);
   }
 
   .hero-copy {
-    grid-column: 1;
     max-width: 58rem;
   }
 
-  .hero-brand-lockup {
-    display: inline-flex;
+  .hero-lockup {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
-    gap: 0.8rem;
+    column-gap: 0.8rem;
     max-width: 100%;
-    white-space: nowrap;
   }
 
   .hero-lockup-logo {
+    grid-column: 1;
+    grid-row: 1;
     width: clamp(4.55rem, 5.45vw, 5rem);
     height: clamp(4.55rem, 5.45vw, 5rem);
     flex: 0 0 auto;
@@ -110,47 +107,70 @@ const projectTitle =
   }
 
   .hero-name {
+    grid-column: 2;
+    grid-row: 1;
     margin: 0;
     font-size: clamp(3.15rem, 6.3vw, 6.3rem);
     line-height: 0.95;
     white-space: nowrap;
   }
 
-  .hero-brand-lockup + .hero-disciplines {
-    margin-top: var(--space-5);
-    font-size: 0.94rem;
-    font-weight: 750;
-    letter-spacing: 0.1em;
-  }
-
-  .hero .lede {
-    max-width: 40rem;
-    margin-block: var(--space-6) var(--space-5);
-  }
-
-  .positioning {
+  .hero-details {
     grid-column: 2;
-    grid-row: 1 / span 2;
-    max-width: 32rem;
-    padding: var(--space-5) 0 var(--space-1) var(--space-5);
-    border-left: 1px solid var(--color-border);
-    color: var(--color-muted);
-    font-size: clamp(1rem, 0.94rem + 0.28vw, 1.16rem);
-    line-height: 1.65;
+    display: grid;
+    gap: var(--space-5);
+    margin-top: var(--space-6);
   }
 
-  .positioning p {
+  .hero-philosophy {
+    max-width: 50rem;
     margin: 0;
-    color: var(--color-text);
+    color: var(--color-accent-strong);
+    font-size: clamp(1.35rem, 1.05rem + 1.25vw, 2.35rem);
     font-weight: 700;
+    line-height: 1.22;
   }
 
-  .positioning p + p {
-    margin-top: var(--space-2);
+  .hero-pillars {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hero-pillars li {
+    display: inline-flex;
+    min-height: 2.35rem;
+    align-items: center;
+    padding: 0.52rem 1.1rem;
+    border: 1px solid color-mix(in srgb, var(--color-warm-accent) 42%, transparent);
+    border-radius: 999px;
+    color: var(--color-warm-accent);
+    font-size: 0.92rem;
+    font-weight: 650;
+    line-height: 1;
+    transition:
+      transform var(--motion-fast) var(--ease-standard),
+      border-color var(--motion-fast) var(--ease-standard),
+      background-color var(--motion-fast) var(--ease-standard),
+      color var(--motion-fast) var(--ease-standard);
+  }
+
+  .hero-pillars li:hover {
+    border-color: color-mix(in srgb, var(--color-warm-accent) 72%, var(--color-border));
+    background: color-mix(in srgb, var(--color-warm-accent) 10%, transparent);
+    color: color-mix(in srgb, var(--color-warm-accent) 88%, var(--color-text));
+    transform: translateY(-2px);
   }
 
   .hero-actions {
-    grid-column: 1;
+    margin-top: var(--space-3);
+  }
+
+  .hero-actions :global(.social-links) {
+    margin: 0;
   }
 
   .section-heading {
@@ -165,18 +185,11 @@ const projectTitle =
 
   @media (max-width: 860px) {
     .hero {
-      grid-template-columns: 1fr;
       gap: var(--space-5);
     }
 
-    .hero-copy,
-    .positioning,
-    .hero-actions {
-      grid-column: 1;
-    }
-
-    .hero-brand-lockup {
-      gap: 0.65rem;
+    .hero-lockup {
+      column-gap: 0.65rem;
     }
 
     .hero-lockup-logo {
@@ -188,23 +201,29 @@ const projectTitle =
       font-size: clamp(2.1rem, 9.45vw, 3.6rem);
     }
 
-    .hero-brand-lockup + .hero-disciplines {
-      font-size: 0.86rem;
-      line-height: 1.65;
+    .hero-details {
+      grid-column: 1 / -1;
+      margin-top: var(--space-5);
     }
 
-    .positioning {
-      grid-row: auto;
-      max-width: 38rem;
-      padding: var(--space-4) 0 0;
-      border-left: 0;
-      border-top: 0;
+    .hero-philosophy {
+      font-size: clamp(1.25rem, 5.4vw, 2rem);
+    }
+
+    .hero-pillars {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.65rem;
+    }
+
+    .hero-pillars li {
+      width: fit-content;
     }
   }
 
   @media (max-width: 430px) {
-    .hero-brand-lockup {
-      gap: 0.55rem;
+    .hero-lockup {
+      column-gap: 0.55rem;
     }
 
     .hero-lockup-logo {

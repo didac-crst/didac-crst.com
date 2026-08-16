@@ -245,108 +245,6 @@ const imageUrl = new URL(image, SITE.domain).toString();
         const closeMobileMenu = () => setMobileMenuOpen(false);
 
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-        const stickyShowOffset = 120;
-        const stickyHideOffset = 60;
-
-        const updateStickyHeaderPlaceholder = (header = document.querySelector(".site-header")) => {
-          const root = document.documentElement;
-          if (!header || !root.classList.contains("has-sticky-header")) return;
-
-          root.style.setProperty("--sticky-header-placeholder", `${header.offsetHeight}px`);
-        };
-
-        const stopStickyHeaderResizeObserver = () => {
-          if (window.DidacUI?.stickyResizeObserver) {
-            window.DidacUI.stickyResizeObserver.disconnect();
-            window.DidacUI.stickyResizeObserver = null;
-          }
-        };
-
-        const observeStickyHeaderSize = (header) => {
-          if (window.DidacUI?.stickyResizeObserver || !("ResizeObserver" in window)) return;
-
-          window.DidacUI.stickyResizeObserver = new ResizeObserver(() => {
-            updateStickyHeaderPlaceholder(header);
-          });
-          window.DidacUI.stickyResizeObserver.observe(header);
-        };
-
-        const setStickyHeaderActive = (active) => {
-          const header = document.querySelector(".site-header");
-          const root = document.documentElement;
-          if (!header) return;
-
-          if (active) {
-            header.classList.add("is-sticky");
-            root.classList.add("has-sticky-header");
-            updateStickyHeaderPlaceholder(header);
-            observeStickyHeaderSize(header);
-          } else {
-            stopStickyHeaderResizeObserver();
-            header.classList.remove("is-sticky");
-            root.classList.remove("has-sticky-header");
-            root.style.removeProperty("--sticky-header-placeholder");
-          }
-        };
-
-        const removeStickySentinels = () => {
-          document.querySelectorAll("[data-sticky-header-sentinel]").forEach((element) => {
-            element.remove();
-          });
-        };
-
-        const createStickySentinel = (name, offset) => {
-          const sentinel = document.createElement("div");
-          sentinel.dataset.stickyHeaderSentinel = name;
-          sentinel.setAttribute("aria-hidden", "true");
-          sentinel.style.cssText = [
-            "position:absolute",
-            `top:${offset}px`,
-            "left:0",
-            "width:1px",
-            "height:1px",
-            "pointer-events:none"
-          ].join(";");
-          document.body.append(sentinel);
-          return sentinel;
-        };
-
-        const initStickyHeader = () => {
-          const header = document.querySelector(".site-header");
-
-          if (window.DidacUI?.stickyObserver) {
-            window.DidacUI.stickyObserver.disconnect();
-          }
-          stopStickyHeaderResizeObserver();
-
-          removeStickySentinels();
-
-          if (!header) {
-            return;
-          }
-
-          const showSentinel = createStickySentinel("show", stickyShowOffset);
-          const hideSentinel = createStickySentinel("hide", stickyHideOffset);
-
-          setStickyHeaderActive(window.scrollY >= stickyShowOffset);
-
-          window.DidacUI.stickyObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-              const sentinel = entry.target.dataset.stickyHeaderSentinel;
-
-              if (sentinel === "show" && !entry.isIntersecting) {
-                setStickyHeaderActive(true);
-              }
-
-              if (sentinel === "hide" && entry.isIntersecting) {
-                setStickyHeaderActive(false);
-              }
-            });
-          });
-
-          window.DidacUI.stickyObserver.observe(showSentinel);
-          window.DidacUI.stickyObserver.observe(hideSentinel);
-        };
 
         const decorateArticleContent = () => {
           document
@@ -367,7 +265,6 @@ const imageUrl = new URL(image, SITE.domain).toString();
           renderThemeControls();
           closeAllThemeMenus();
           closeMobileMenu();
-          initStickyHeader();
           decorateArticleContent();
           document.documentElement.classList.add("motion-ready");
 
@@ -403,8 +300,6 @@ const imageUrl = new URL(image, SITE.domain).toString();
         if (!window.DidacUI) {
           window.DidacUI = {
             motionObserver: null,
-            stickyObserver: null,
-            stickyResizeObserver: null,
             initPageInteractions
           };
 
@@ -494,8 +389,6 @@ const imageUrl = new URL(image, SITE.domain).toString();
             if (window.innerWidth > 760) {
               closeMobileMenu();
             }
-
-            updateStickyHeaderPlaceholder();
           });
 
           window.addEventListener("didac-theme-change", renderThemeControls);

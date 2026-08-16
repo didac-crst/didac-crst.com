@@ -16,6 +16,7 @@ const { article, relatedArticles = [], readingTime } = Astro.props;
 const { title, description, published, updated, tags, living, version } = article.data;
 const articleSlug = getArticleSlug(article);
 const articleUrl = new URL(`/writing/${articleSlug}/`, SITE.domain).toString();
+const articleImage = `/og/writing/${articleSlug}.png`;
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -32,7 +33,13 @@ const structuredData = {
 };
 ---
 
-<BaseLayout title={title} description={description} type="article" canonical={`/writing/${articleSlug}/`}>
+<BaseLayout
+  title={title}
+  description={description}
+  image={articleImage}
+  type="article"
+  canonical={`/writing/${articleSlug}/`}
+>
   <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <article>
     <div class="page-container article-layout">

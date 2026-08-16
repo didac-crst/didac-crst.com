@@ -20,7 +20,7 @@ export const projects: Project[] = [
     description:
       "Document intelligence and knowledge architecture.",
     summary:
-      "An open-source exploration of turning documents and metadata into structured, traceable knowledge while combining deterministic processing with AI only where it adds value.",
+      "An open-source exploration of turning documents and metadata into trusted knowledge while combining deterministic processing with AI only where it adds value.",
     status: "active",
     statusLabel: "Open source · Early development"
   }
