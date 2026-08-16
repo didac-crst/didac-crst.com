@@ -16,6 +16,7 @@ export const SITE = {
   favicon48: "/brand/favicon-48.png",
   appleTouchIcon: "/brand/apple-touch-icon.png",
   defaultOgImage: "/brand/og-default.png",
+  email: "contact@didac-crst.com",
   knowsAbout: [
     "Knowledge Engineering",
     "Information Architecture",
