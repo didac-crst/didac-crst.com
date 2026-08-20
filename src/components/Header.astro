@@ -323,13 +323,8 @@ const currentPath = Astro.url.pathname;
     }
   }
 
-  @media (prefers-color-scheme: dark) {
-    :global(:root:not([data-theme="light"])) .site-header {
-      background: color-mix(in srgb, var(--color-background) 78%, transparent);
-    }
-  }
-
-  :global(:root[data-theme="dark"]) .site-header {
+  :global(:root[data-theme="dark"]) .site-header,
+  :global(:root:not([data-theme="light"])) .site-header {
     background: color-mix(in srgb, var(--color-background) 78%, transparent);
   }
 </style>

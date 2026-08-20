@@ -2,3 +2,23 @@ language: "en-US"
 reviews:
   auto_review:
     enabled: false
+  path_filters:
+    # Content and docs — not application code
+    - "!**/*.md"
+    - "!**/*.mdx"
+    - "!**/docs/**"
+    - "!ARTICLE_GUIDELINES.md"
+    - "!VISUAL_GUIDELINES.md"
+    # Visual assets and binaries
+    - "!**/*.png"
+    - "!**/*.jpg"
+    - "!**/*.jpeg"
+    - "!**/*.webp"
+    - "!**/*.avif"
+    - "!**/*.gif"
+    - "!**/*.svg"
+    - "!**/*.ico"
+    - "!**/visuals/published/**"
+    - "!**/public/images/**"
+    - "!**/public/og/**"
+    - "!**/public/brand/**"

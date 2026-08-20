@@ -1,23 +1,25 @@
 :root {
-  color-scheme: light;
+  color-scheme: dark;
   --brand-cyan: #6bc7b3;
   --brand-cyan-text-light: #176f67;
   --brand-cyan-text-dark: #7fe0d0;
   --brand-beige: #d0b99b;
   --brand-beige-text-light: #80684c;
   --brand-beige-text-dark: #dcc7aa;
-  --color-background: #f7f5f0;
-  --color-surface: #ffffff;
-  --color-surface-muted: #efede7;
-  --color-text: #171717;
-  --color-muted: #61615b;
-  --color-border: #d8d4ca;
-  --color-accent: var(--brand-cyan-text-light);
-  --color-accent-strong: var(--brand-cyan-text-light);
-  --color-warm-accent: var(--brand-beige-text-light);
-  --sticky-header-background: rgb(247 245 240 / 0.9);
-  --color-code-background: #ebe9e2;
-  --color-code-text: #1f2937;
+
+  /* Default climate: dark (aligned with editorial illustration plates) */
+  --color-background: #101214;
+  --color-surface: #171a1d;
+  --color-surface-muted: #202428;
+  --color-text: #f4f1ea;
+  --color-muted: #aaa398;
+  --color-border: #32373c;
+  --color-accent: var(--brand-cyan);
+  --color-accent-strong: var(--brand-cyan-text-dark);
+  --color-warm-accent: var(--brand-beige-text-dark);
+  --sticky-header-background: rgb(16 16 16 / 0.9);
+  --color-code-background: #1f2429;
+  --color-code-text: #f4f1ea;
   --width-site: 1280px;
   --width-content: 1160px;
   --width-reading: 760px;
@@ -39,24 +41,24 @@
   --motion-slow: 540ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
-  --shadow-subtle: 0 1px 2px rgb(23 23 23 / 0.06), 0 12px 32px rgb(23 23 23 / 0.04);
-  --shadow-lifted: 0 2px 4px rgb(23 23 23 / 0.08), 0 18px 44px rgb(23 23 23 / 0.09);
+  --shadow-subtle: 0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px rgb(0 0 0 / 0.18);
+  --shadow-lifted: 0 2px 4px rgb(0 0 0 / 0.24), 0 22px 52px rgb(0 0 0 / 0.24);
 
-  /* Reader size preference (Aa) — reading surfaces only; default M */
+  /* Reader size preference (Aa) — reading surfaces only; default S */
   --article-font-size: 1.125rem;
   --article-line-height: 1.72;
 
-  /* Technical diagram dual palette (quiet editorial) — light */
+  /* Technical diagram dual palette — dark */
   --diagram-surface: transparent;
-  --diagram-border: #d8d4ca;
-  --diagram-text: #171717;
-  --diagram-muted: #61615b;
-  --diagram-arrow: #8a8580;
-  --diagram-machine: #176f67;
-  --diagram-machine-fill: color-mix(in srgb, #176f67 8%, transparent);
-  --diagram-human: #80684c;
-  --diagram-human-fill: color-mix(in srgb, #80684c 8%, transparent);
-  --diagram-output-border: #b8b3a8;
+  --diagram-border: #2b3742;
+  --diagram-text: #e9f0f5;
+  --diagram-muted: #91a1ae;
+  --diagram-arrow: #667783;
+  --diagram-machine: #55c7c2;
+  --diagram-machine-fill: color-mix(in srgb, #55c7c2 9%, transparent);
+  --diagram-human: #d9b76e;
+  --diagram-human-fill: color-mix(in srgb, #d9b76e 9%, transparent);
+  --diagram-output-border: #46545f;
 }
 
 html[data-reader-size="xs"] {
@@ -84,63 +86,32 @@ html[data-reader-size="xl"] {
   --article-line-height: 1.62;
 }
 
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --color-background: #101214;
-  --color-surface: #171a1d;
-  --color-surface-muted: #202428;
-  --color-text: #f4f1ea;
-  --color-muted: #aaa398;
-  --color-border: #32373c;
-  --color-accent: var(--brand-cyan);
-  --color-accent-strong: var(--brand-cyan-text-dark);
-  --color-warm-accent: var(--brand-beige-text-dark);
-  --sticky-header-background: rgb(16 16 16 / 0.9);
-  --color-code-background: #1f2429;
-  --color-code-text: #f4f1ea;
-  --shadow-subtle: 0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px rgb(0 0 0 / 0.18);
-  --shadow-lifted: 0 2px 4px rgb(0 0 0 / 0.24), 0 22px 52px rgb(0 0 0 / 0.24);
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-background: #f7f5f0;
+  --color-surface: #ffffff;
+  --color-surface-muted: #efede7;
+  --color-text: #171717;
+  --color-muted: #61615b;
+  --color-border: #d8d4ca;
+  --color-accent: var(--brand-cyan-text-light);
+  --color-accent-strong: var(--brand-cyan-text-light);
+  --color-warm-accent: var(--brand-beige-text-light);
+  --sticky-header-background: rgb(247 245 240 / 0.9);
+  --color-code-background: #ebe9e2;
+  --color-code-text: #1f2937;
+  --shadow-subtle: 0 1px 2px rgb(23 23 23 / 0.06), 0 12px 32px rgb(23 23 23 / 0.04);
+  --shadow-lifted: 0 2px 4px rgb(23 23 23 / 0.08), 0 18px 44px rgb(23 23 23 / 0.09);
 
-  /* Technical diagram dual palette — dark */
+  /* Technical diagram dual palette — light */
   --diagram-surface: transparent;
-  --diagram-border: #2b3742;
-  --diagram-text: #e9f0f5;
-  --diagram-muted: #91a1ae;
-  --diagram-arrow: #667783;
-  --diagram-machine: #55c7c2;
-  --diagram-machine-fill: color-mix(in srgb, #55c7c2 9%, transparent);
-  --diagram-human: #d9b76e;
-  --diagram-human-fill: color-mix(in srgb, #d9b76e 9%, transparent);
-  --diagram-output-border: #46545f;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --color-background: #101214;
-    --color-surface: #171a1d;
-    --color-surface-muted: #202428;
-    --color-text: #f4f1ea;
-    --color-muted: #aaa398;
-    --color-border: #32373c;
-    --color-accent: var(--brand-cyan);
-    --color-accent-strong: var(--brand-cyan-text-dark);
-    --color-warm-accent: var(--brand-beige-text-dark);
-    --sticky-header-background: rgb(16 16 16 / 0.9);
-    --color-code-background: #1f2429;
-    --color-code-text: #f4f1ea;
-    --shadow-subtle: 0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px rgb(0 0 0 / 0.18);
-    --shadow-lifted: 0 2px 4px rgb(0 0 0 / 0.24), 0 22px 52px rgb(0 0 0 / 0.24);
-
-    --diagram-surface: transparent;
-    --diagram-border: #2b3742;
-    --diagram-text: #e9f0f5;
-    --diagram-muted: #91a1ae;
-    --diagram-arrow: #667783;
-    --diagram-machine: #55c7c2;
-    --diagram-machine-fill: color-mix(in srgb, #55c7c2 9%, transparent);
-    --diagram-human: #d9b76e;
-    --diagram-human-fill: color-mix(in srgb, #d9b76e 9%, transparent);
-    --diagram-output-border: #46545f;
-  }
+  --diagram-border: #d8d4ca;
+  --diagram-text: #171717;
+  --diagram-muted: #61615b;
+  --diagram-arrow: #8a8580;
+  --diagram-machine: #176f67;
+  --diagram-machine-fill: color-mix(in srgb, #176f67 8%, transparent);
+  --diagram-human: #80684c;
+  --diagram-human-fill: color-mix(in srgb, #80684c 8%, transparent);
+  --diagram-output-border: #b8b3a8;
 }

@@ -1,4 +1,4 @@
-<div class="theme-control" data-theme-control>
+<div class="theme-control" data-theme-control data-theme-preference="dark">
   <button
     class="theme-trigger"
     type="button"
@@ -7,28 +7,21 @@
     aria-expanded="false"
     data-theme-trigger
   >
-    <svg class="theme-icon theme-icon-system" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v7a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 12.5v-7Z" />
-      <path d="M9 21h6M12 15v6" />
+    <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M20 15.2A8.5 8.5 0 0 1 8.8 4a7.2 7.2 0 1 0 11.2 11.2Z" />
     </svg>
     <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M12 4V2M12 22v-2M4.93 4.93 3.52 3.52M20.48 20.48l-1.41-1.41M4 12H2M22 12h-2M4.93 19.07l-1.41 1.41M20.48 3.52l-1.41 1.41" />
       <circle cx="12" cy="12" r="4" />
     </svg>
-    <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M20 15.2A8.5 8.5 0 0 1 8.8 4a7.2 7.2 0 1 0 11.2 11.2Z" />
-    </svg>
-    <span data-theme-label>System</span>
+    <span data-theme-label>Dark</span>
   </button>
   <div class="theme-menu" role="menu" aria-label="Choose theme" hidden data-theme-menu>
-    <button type="button" role="menuitemradio" aria-checked="true" data-theme-choice="system">
-      System
+    <button type="button" role="menuitemradio" aria-checked="true" data-theme-choice="dark">
+      Dark
     </button>
     <button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="light">
       Light
-    </button>
-    <button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="dark">
-      Dark
     </button>
   </div>
 </div>
@@ -70,9 +63,8 @@
     stroke-width: 1.8;
   }
 
-  .theme-control[data-theme-preference="system"] .theme-icon-system,
-  .theme-control[data-theme-preference="light"] .theme-icon-light,
-  .theme-control[data-theme-preference="dark"] .theme-icon-dark {
+  .theme-control[data-theme-preference="dark"] .theme-icon-dark,
+  .theme-control[data-theme-preference="light"] .theme-icon-light {
     display: block;
   }
 
@@ -81,7 +73,7 @@
     top: calc(100% + var(--space-2));
     right: 0;
     z-index: 200;
-    min-width: 9rem;
+    min-width: 8rem;
     padding: var(--space-2);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-medium);

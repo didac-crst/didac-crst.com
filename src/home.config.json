@@ -7,5 +7,12 @@
     "Knowledge Engineering",
     "Information Architecture",
     "Decision Intelligence"
-  ]
+  ],
+  "stance": {
+    "title": "Engineering information that stays understandable.",
+    "paragraphs": [
+      "AI systems rarely fail first because models lack intelligence. They fail when the information architecture around them is weak — when instruction is polished and the world the model must reason about is not.",
+      "This site is where I publish that point of view — in writing and in projects: context as an engineered asset, structure before intelligence, and deterministic controls where probabilistic systems need them."
+    ]
+  }
 }

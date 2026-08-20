@@ -43,7 +43,7 @@ const imageUrl = new URL(image, SITE.domain).toString();
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -76,12 +76,14 @@ const imageUrl = new URL(image, SITE.domain).toString();
     <script is:inline>
       (() => {
         const storageKey = "didac-crst-theme";
-        const media = window.matchMedia("(prefers-color-scheme: dark)");
-        let sessionPreference = "system";
+        let sessionPreference = "dark";
         let storageUnavailable = false;
 
-        const normalizeTheme = (value) =>
-          value === "light" || value === "dark" || value === "system" ? value : "system";
+        const normalizeTheme = (value) => {
+          if (value === "light" || value === "dark") return value;
+          // Former "system" (and anything unknown) → dark default
+          return "dark";
+        };
 
         const getPreference = () => {
           if (storageUnavailable) {
@@ -97,9 +99,6 @@ const imageUrl = new URL(image, SITE.domain).toString();
           }
         };
 
-        const getEffectiveTheme = (preference) =>
-          preference === "system" ? (media.matches ? "dark" : "light") : preference;
-
         const applyThemePreference = (preference = getPreference(), persist = false) => {
           const theme = normalizeTheme(preference);
           const root = document.documentElement;
@@ -114,19 +113,14 @@ const imageUrl = new URL(image, SITE.domain).toString();
             }
           }
 
-          if (theme === "system") {
-            root.removeAttribute("data-theme");
-          } else {
-            root.setAttribute("data-theme", theme);
-          }
-
+          root.setAttribute("data-theme", theme);
           root.setAttribute("data-theme-preference", theme);
-          root.setAttribute("data-theme-effective", getEffectiveTheme(theme));
+          root.setAttribute("data-theme-effective", theme);
           window.dispatchEvent(
             new CustomEvent("didac-theme-change", {
               detail: {
                 preference: theme,
-                effective: getEffectiveTheme(theme)
+                effective: theme
               }
             })
           );
@@ -135,12 +129,6 @@ const imageUrl = new URL(image, SITE.domain).toString();
         applyThemePreference();
 
         if (!window.DidacTheme) {
-          media.addEventListener("change", () => {
-            if (getPreference() === "system") {
-              applyThemePreference("system");
-            }
-          });
-
           document.addEventListener("astro:after-swap", () => {
             applyThemePreference();
           });
@@ -265,7 +253,7 @@ const imageUrl = new URL(image, SITE.domain).toString();
         };
 
         const renderThemeControls = () => {
-          const preference = window.DidacTheme?.getPreference?.() || "system";
+          const preference = window.DidacTheme?.getPreference?.() || "dark";
           document.querySelectorAll("[data-theme-control]").forEach((control) => {
             renderThemeControl(control, preference);
           });
@@ -462,7 +450,7 @@ const imageUrl = new URL(image, SITE.domain).toString();
             const themeChoice = target.closest("[data-theme-choice]");
             if (themeChoice) {
               const control = themeChoice.closest("[data-theme-control]");
-              const theme = themeChoice.dataset.themeChoice || "system";
+              const theme = themeChoice.dataset.themeChoice || "dark";
               window.DidacTheme?.setPreference?.(theme);
               renderThemeControls();
               closeThemeMenu(control, true);
