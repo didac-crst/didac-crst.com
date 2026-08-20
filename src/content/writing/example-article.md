@@ -8,8 +8,8 @@ tags:
   - architecture
   - artificial-intelligence
   - knowledge-systems
-draft: false
-featured: true
+draft: true
+featured: false
 living: true
 version: "v1"
 discussionUrl: "https://github.com/didac-crst/didac-crst.com/discussions"

@@ -157,6 +157,69 @@ const imageUrl = new URL(image, SITE.domain).toString();
         }
       })();
     </script>
+    <script is:inline>
+      (() => {
+        const storageKey = "didac-crst-reader-size-v2";
+        const sizes = new Set(["xs", "s", "m", "l", "xl"]);
+        let sessionSize = "s";
+        let storageUnavailable = false;
+
+        const normalizeSize = (value) => (sizes.has(value) ? value : "s");
+
+        const getPreference = () => {
+          if (storageUnavailable) {
+            return sessionSize;
+          }
+
+          try {
+            sessionSize = normalizeSize(localStorage.getItem(storageKey));
+            return sessionSize;
+          } catch {
+            storageUnavailable = true;
+            return sessionSize;
+          }
+        };
+
+        const applyReaderSize = (preference = getPreference(), persist = false) => {
+          const size = normalizeSize(preference);
+          const root = document.documentElement;
+          sessionSize = size;
+
+          if (persist) {
+            try {
+              localStorage.setItem(storageKey, size);
+            } catch {
+              storageUnavailable = true;
+            }
+          }
+
+          root.setAttribute("data-reader-size", size);
+          window.dispatchEvent(
+            new CustomEvent("didac-reader-size-change", {
+              detail: { size }
+            })
+          );
+        };
+
+        applyReaderSize();
+
+        if (!window.DidacReaderSize) {
+          document.addEventListener("astro:after-swap", () => {
+            applyReaderSize();
+          });
+
+          window.DidacReaderSize = {
+            getPreference,
+            applyReaderSize,
+            setPreference: (preference) => applyReaderSize(preference, true)
+          };
+        } else {
+          window.DidacReaderSize.applyReaderSize = applyReaderSize;
+          window.DidacReaderSize.getPreference = getPreference;
+          window.DidacReaderSize.setPreference = (preference) => applyReaderSize(preference, true);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div class="site-shell">
@@ -208,6 +271,32 @@ const imageUrl = new URL(image, SITE.domain).toString();
           });
         };
 
+        const renderReaderControl = (control, size) => {
+          const trigger = control.querySelector("[data-reader-trigger]");
+          const label = control.querySelector("[data-reader-label]");
+          const buttons = Array.from(control.querySelectorAll("[data-reader-choice]"));
+          const labelText = String(size || "s").toUpperCase();
+
+          control.dataset.readerSize = size;
+
+          if (label) {
+            label.textContent = labelText;
+          }
+
+          trigger?.setAttribute("aria-label", `Reading text size: ${labelText}`);
+
+          buttons.forEach((button) => {
+            button.setAttribute("aria-checked", button.dataset.readerChoice === size ? "true" : "false");
+          });
+        };
+
+        const renderReaderControls = () => {
+          const preference = window.DidacReaderSize?.getPreference?.() || "s";
+          document.querySelectorAll("[data-reader-control]").forEach((control) => {
+            renderReaderControl(control, preference);
+          });
+        };
+
         const closeThemeMenu = (control, focusTrigger = false) => {
           const trigger = control?.querySelector("[data-theme-trigger]");
           const menu = control?.querySelector("[data-theme-menu]");
@@ -225,6 +314,28 @@ const imageUrl = new URL(image, SITE.domain).toString();
           document.querySelectorAll("[data-theme-control]").forEach((control) => closeThemeMenu(control));
         };
 
+        const closeReaderMenu = (control, focusTrigger = false) => {
+          const trigger = control?.querySelector("[data-reader-trigger]");
+          const menu = control?.querySelector("[data-reader-menu]");
+          if (!trigger || !menu) return;
+
+          trigger.setAttribute("aria-expanded", "false");
+          menu.hidden = true;
+
+          if (focusTrigger) {
+            trigger.focus();
+          }
+        };
+
+        const closeAllReaderMenus = () => {
+          document.querySelectorAll("[data-reader-control]").forEach((control) => closeReaderMenu(control));
+        };
+
+        const closeAllPreferenceMenus = () => {
+          closeAllThemeMenus();
+          closeAllReaderMenus();
+        };
+
         const openThemeMenu = (control) => {
           const trigger = control.querySelector("[data-theme-trigger]");
           const menu = control.querySelector("[data-theme-menu]");
@@ -233,7 +344,7 @@ const imageUrl = new URL(image, SITE.domain).toString();
             control.querySelector("[data-theme-choice]");
           if (!trigger || !menu) return;
 
-          closeAllThemeMenus();
+          closeAllPreferenceMenus();
           trigger.setAttribute("aria-expanded", "true");
           menu.hidden = false;
           checkedButton?.focus();
@@ -246,6 +357,30 @@ const imageUrl = new URL(image, SITE.domain).toString();
             closeThemeMenu(control);
           } else {
             openThemeMenu(control);
+          }
+        };
+
+        const openReaderMenu = (control) => {
+          const trigger = control.querySelector("[data-reader-trigger]");
+          const menu = control.querySelector("[data-reader-menu]");
+          const checkedButton =
+            control.querySelector('[data-reader-choice][aria-checked="true"]') ||
+            control.querySelector("[data-reader-choice]");
+          if (!trigger || !menu) return;
+
+          closeAllPreferenceMenus();
+          trigger.setAttribute("aria-expanded", "true");
+          menu.hidden = false;
+          checkedButton?.focus();
+        };
+
+        const toggleReaderMenu = (control) => {
+          const trigger = control.querySelector("[data-reader-trigger]");
+          const isOpen = trigger?.getAttribute("aria-expanded") === "true";
+          if (isOpen) {
+            closeReaderMenu(control);
+          } else {
+            openReaderMenu(control);
           }
         };
 
@@ -279,7 +414,8 @@ const imageUrl = new URL(image, SITE.domain).toString();
         const initPageInteractions = () => {
           syncActiveNavigation();
           renderThemeControls();
-          closeAllThemeMenus();
+          renderReaderControls();
+          closeAllPreferenceMenus();
           closeMobileMenu();
           decorateArticleContent();
           document.documentElement.classList.add("motion-ready");
@@ -333,11 +469,30 @@ const imageUrl = new URL(image, SITE.domain).toString();
               return;
             }
 
+            const readerChoice = target.closest("[data-reader-choice]");
+            if (readerChoice) {
+              const control = readerChoice.closest("[data-reader-control]");
+              const size = readerChoice.dataset.readerChoice || "s";
+              window.DidacReaderSize?.setPreference?.(size);
+              renderReaderControls();
+              closeReaderMenu(control, true);
+              return;
+            }
+
             const themeTrigger = target.closest("[data-theme-trigger]");
             if (themeTrigger) {
               const control = themeTrigger.closest("[data-theme-control]");
               if (control) {
                 toggleThemeMenu(control);
+              }
+              return;
+            }
+
+            const readerTrigger = target.closest("[data-reader-trigger]");
+            if (readerTrigger) {
+              const control = readerTrigger.closest("[data-reader-control]");
+              if (control) {
+                toggleReaderMenu(control);
               }
               return;
             }
@@ -353,8 +508,8 @@ const imageUrl = new URL(image, SITE.domain).toString();
               return;
             }
 
-            if (!target.closest("[data-theme-control]")) {
-              closeAllThemeMenus();
+            if (!target.closest("[data-theme-control]") && !target.closest("[data-reader-control]")) {
+              closeAllPreferenceMenus();
             }
           });
 
@@ -366,6 +521,14 @@ const imageUrl = new URL(image, SITE.domain).toString();
               if (openThemeControl) {
                 event.preventDefault();
                 closeThemeMenu(openThemeControl, true);
+                return;
+              }
+
+              const openReaderControl = document.querySelector('[data-reader-trigger][aria-expanded="true"]')?.closest("[data-reader-control]");
+              if (openReaderControl) {
+                event.preventDefault();
+                closeReaderMenu(openReaderControl, true);
+                return;
               }
 
               const mobileTrigger = document.querySelector("[data-mobile-menu-trigger]");
@@ -376,16 +539,41 @@ const imageUrl = new URL(image, SITE.domain).toString();
               }
             }
 
-            const activeChoice = target?.closest("[data-theme-choice]");
-            if (!activeChoice) return;
+            const activeThemeChoice = target?.closest("[data-theme-choice]");
+            if (activeThemeChoice) {
+              const control = activeThemeChoice.closest("[data-theme-control]");
+              const buttons = Array.from(control?.querySelectorAll("[data-theme-choice]") || []);
+              const currentIndex = buttons.indexOf(activeThemeChoice);
 
-            const control = activeChoice.closest("[data-theme-control]");
-            const buttons = Array.from(control?.querySelectorAll("[data-theme-choice]") || []);
-            const currentIndex = buttons.indexOf(activeChoice);
+              if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+                event.preventDefault();
+                const offset = event.key === "ArrowDown" ? 1 : -1;
+                const nextIndex = (currentIndex + offset + buttons.length) % buttons.length;
+                buttons[nextIndex]?.focus();
+              }
 
-            if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+              if (event.key === "Home") {
+                event.preventDefault();
+                buttons[0]?.focus();
+              }
+
+              if (event.key === "End") {
+                event.preventDefault();
+                buttons[buttons.length - 1]?.focus();
+              }
+              return;
+            }
+
+            const activeReaderChoice = target?.closest("[data-reader-choice]");
+            if (!activeReaderChoice) return;
+
+            const control = activeReaderChoice.closest("[data-reader-control]");
+            const buttons = Array.from(control?.querySelectorAll("[data-reader-choice]") || []);
+            const currentIndex = buttons.indexOf(activeReaderChoice);
+
+            if (event.key === "ArrowRight" || event.key === "ArrowLeft" || event.key === "ArrowDown" || event.key === "ArrowUp") {
               event.preventDefault();
-              const offset = event.key === "ArrowDown" ? 1 : -1;
+              const offset = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : -1;
               const nextIndex = (currentIndex + offset + buttons.length) % buttons.length;
               buttons[nextIndex]?.focus();
             }
@@ -408,6 +596,7 @@ const imageUrl = new URL(image, SITE.domain).toString();
           });
 
           window.addEventListener("didac-theme-change", renderThemeControls);
+          window.addEventListener("didac-reader-size-change", renderReaderControls);
 
           document.addEventListener("astro:page-load", initPageInteractions);
         } else {

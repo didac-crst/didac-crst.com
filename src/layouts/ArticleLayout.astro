@@ -2,6 +2,7 @@
 import BaseLayout from "./BaseLayout.astro";
 import ArticleFooter from "@/components/ArticleFooter.astro";
 import ChipList from "@/components/ChipList.astro";
+import SeriesNext from "@/components/SeriesNext.astro";
 import type { CollectionEntry } from "astro:content";
 import { getArticleSlug } from "@/lib/articles";
 import { joinOxford } from "@/lib/meta";
@@ -15,9 +16,13 @@ type Props = {
 };
 
 const { article, relatedArticles = [], readingTime } = Astro.props;
-const { title, description, published, updated, tags, living, version } = article.data;
+const { title, description, published, updated, tags, living, version, seriesNext, hero } = article.data;
 const articleSlug = getArticleSlug(article);
+const seriesNextHref = seriesNext?.slug ? `/writing/${seriesNext.slug}/` : undefined;
 const articleImage = `/og/writing/${articleSlug}.png`;
+const heroFallback = hero?.fallback ?? hero?.src;
+const heroWidth = hero?.width ?? 1600;
+const heroHeight = hero?.height ?? 900;
 const formatTag = (tag: string) => tag.replaceAll("-", " ");
 const tagDescription = tags.length > 0
   ? `Read more about ${joinOxford(tags.slice(0, 3).map(formatTag))} by ${SITE.name}.`
@@ -75,9 +80,41 @@ const structuredData = articlePageJsonLd(article, articleSlug);
           )
         }
       </header>
+      {
+        hero && (
+          <figure class="article-hero" data-motion-enter>
+            <picture>
+              {
+                hero.src.endsWith(".avif") ? (
+                  <source srcset={hero.src} type="image/avif" />
+                ) : hero.src.endsWith(".webp") ? (
+                  <source srcset={hero.src} type="image/webp" />
+                ) : null
+              }
+              <img
+                src={heroFallback}
+                alt={hero.alt}
+                width={heroWidth}
+                height={heroHeight}
+                decoding="async"
+                fetchpriority="high"
+              />
+            </picture>
+          </figure>
+        )
+      }
       <div class="article-content">
         <slot />
       </div>
+      {
+        seriesNext && (
+          <SeriesNext
+            title={seriesNext.title}
+            description={seriesNext.description}
+            href={seriesNextHref}
+          />
+        )
+      }
     </div>
     <ArticleFooter article={article} relatedArticles={relatedArticles} />
   </article>

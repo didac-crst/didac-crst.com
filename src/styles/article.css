@@ -1,19 +1,21 @@
 .article-layout {
   width: min(calc(100% - var(--page-gutter) - var(--page-gutter)), var(--width-content));
   max-width: none;
+  min-width: 0;
 }
 
 .article-header {
   width: 100%;
   max-width: none;
+  min-width: 0;
   padding-block: var(--space-8) var(--space-7);
 }
 
 .article-header h1 {
   margin: 0;
+  max-width: none;
   font-size: clamp(2.2rem, 1.55rem + 3vw, 4.6rem);
   line-height: 0.98;
-  max-width: 52rem;
 }
 
 .article-header .lede {
@@ -22,6 +24,25 @@
 
 .article-header .eyebrow {
   margin: 0;
+}
+
+.article-hero {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 var(--space-7);
+}
+
+.article-hero picture,
+.article-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.article-hero img {
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  background: #0b0d10;
 }
 
 .status-badge {
@@ -38,16 +59,23 @@
 
 .article-content {
   width: 100%;
-  max-width: none;
+  max-width: 100%;
+  min-width: 0;
   padding-bottom: var(--space-8);
   color: var(--color-text);
-  font-size: 1.05rem;
-  line-height: 1.78;
+  font-size: var(--article-font-size);
+  line-height: var(--article-line-height);
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-x: clip;
 }
 
 .article-wide {
   width: 100%;
   max-width: 100%;
+  min-width: 0;
   margin-inline: 0;
 }
 
@@ -59,24 +87,72 @@
 .article-content h3,
 .article-content h4 {
   margin-top: 2.4em;
-  line-height: 1.18;
+  line-height: 1.15;
+  text-align: left;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
 }
 
 .article-content h2 {
-  font-size: 1.65rem;
+  margin-top: 2.75em;
+  margin-bottom: 0.45em;
+  font-size: clamp(1.45em, 1.25em + 0.55vw, 1.85em);
+  font-weight: 750;
 }
 
 .article-content h3 {
-  font-size: 1.3rem;
+  font-size: clamp(1.15em, 1.05em + 0.3vw, 1.3em);
+  font-weight: 700;
 }
 
 .article-content h4 {
-  font-size: 1.1rem;
+  font-size: 1.05em;
+  font-weight: 700;
 }
 
 .article-content p,
 .article-content li {
   color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+}
+
+.article-content strong,
+.article-content b {
+  color: var(--color-text);
+  font-weight: 950;
+}
+
+.article-content em,
+.article-content i {
+  color: var(--color-text);
+  font-style: italic;
+}
+
+/* Narrative lead: everything before the first h2 (automatic via rehype-article-story) */
+.article-content .article-story {
+  margin: 0 0 var(--space-7);
+  padding: var(--space-5) clamp(1.25rem, 4vw, 2.5rem) var(--space-6);
+  border-left: 2px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-surface-muted) 55%, transparent);
+  border-radius: 0 var(--radius-medium) var(--radius-medium) 0;
+}
+
+.article-content .article-story > * + * {
+  margin-top: 1.4em;
+}
+
+.article-content .article-story p,
+.article-content .article-story li {
+  color: var(--color-text);
+  font-size: 1.05em;
+  line-height: calc(var(--article-line-height) + 0.1);
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+.article-content .article-story + h2 {
+  margin-top: 2.75em;
 }
 
 .article-content blockquote {
@@ -87,6 +163,12 @@
   border-left: 3px solid var(--color-accent);
   background: color-mix(in srgb, var(--color-surface-muted) 56%, transparent);
   color: var(--color-text);
+  text-align: left;
+}
+
+.article-content pre,
+.article-content figure {
+  text-align: left;
 }
 
 .article-content code {
@@ -113,13 +195,30 @@
   background: transparent;
 }
 
-.article-content table {
-  display: block;
+.article-content .table-scroll {
   width: 100%;
   max-width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.article-content .table-scroll table {
+  width: auto;
+  max-width: none;
+  margin-inline: auto;
   border-collapse: collapse;
   font-size: 0.95rem;
+  text-align: left;
+}
+
+.article-content table {
+  width: auto;
+  max-width: 100%;
+  margin-inline: auto;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  text-align: left;
 }
 
 .article-content th,
@@ -132,21 +231,30 @@
 
 .article-content th {
   background: var(--color-surface-muted);
+  font-weight: 700;
 }
 
 .article-content figure {
   width: 100%;
   max-width: 100%;
+  min-width: 0;
   margin: 2em 0;
 }
 
-.article-content figure svg,
 .article-content figure img {
   display: block;
   width: 100%;
+  max-width: 100%;
+  height: auto;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-medium);
   background: var(--color-surface);
+}
+
+.article-content figure picture {
+  display: block;
+  width: 100%;
+  max-width: 100%;
 }
 
 .article-content figcaption {
@@ -154,6 +262,121 @@
   color: var(--color-muted);
   font-size: 0.9rem;
   line-height: 1.5;
+}
+
+/* Centered figures: media + caption share the same width */
+.article-content figure:has(.diagram),
+.article-content figure:has(picture) {
+  display: grid;
+  justify-items: center;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.article-content figure:has(.diagram) figcaption {
+  width: min(100%, 48rem);
+  text-align: left;
+}
+
+.article-content figure:has(picture) figcaption {
+  width: 100%;
+  max-width: 100%;
+  text-align: left;
+}
+
+.article-content .diagram {
+  display: block;
+  width: min(100%, 48rem);
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+  overflow: hidden;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.article-content .diagram-connectors {
+  stroke: var(--diagram-arrow);
+  fill: none;
+  opacity: 0.72;
+}
+
+.article-content .diagram-node rect,
+.article-content .diagram-node circle {
+  fill: var(--diagram-surface);
+  stroke: var(--diagram-border);
+  stroke-width: 1.25;
+}
+
+.article-content .diagram-node--machine rect,
+.article-content .diagram-node--machine circle {
+  fill: var(--diagram-machine-fill);
+  stroke: var(--diagram-machine);
+  stroke-width: 1.25;
+}
+
+.article-content .diagram-node--human rect,
+.article-content .diagram-node--human circle {
+  fill: var(--diagram-human-fill);
+  stroke: var(--diagram-human);
+  stroke-width: 1.25;
+}
+
+.article-content .diagram-node--output rect {
+  fill: transparent;
+  stroke: var(--diagram-output-border);
+  stroke-width: 1.15;
+}
+
+.article-content .diagram-gate line {
+  stroke: var(--diagram-human);
+  stroke-width: 1.15;
+  opacity: 0.72;
+}
+
+.article-content .diagram-gate-mark {
+  fill: var(--diagram-human-fill);
+  stroke: var(--diagram-human);
+  stroke-width: 1.25;
+}
+
+/* Compact textual process cue — not a code block, not a diagram */
+.article-content .process-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.55rem;
+  margin: 1.35em 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--diagram-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.article-content .process-strip-arrow {
+  color: var(--diagram-arrow);
+  font-weight: 400;
+}
+
+.article-content .process-strip-human {
+  color: var(--diagram-human);
+  font-weight: 600;
+}
+
+.article-content .process-strip-machine {
+  color: var(--diagram-machine);
+  font-weight: 600;
+}
+
+.article-content .process-strip-strong {
+  color: var(--diagram-text);
+  font-weight: 600;
 }
 
 .article-content a[href^="http"]::after {

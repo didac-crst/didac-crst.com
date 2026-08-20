@@ -71,6 +71,9 @@ body,
 .theme-trigger,
 .theme-menu,
 .theme-menu button,
+.reader-trigger,
+.reader-menu,
+.reader-menu button,
 .article-content blockquote,
 .article-content pre,
 .article-content th,
@@ -218,7 +221,8 @@ body,
   transform: translateY(-2px);
 }
 
-.theme-menu:not([hidden]) {
+.theme-menu:not([hidden]),
+.reader-menu:not([hidden]) {
   animation: motion-menu var(--motion-fast) var(--ease-enter) both;
   transform-origin: top right;
 }

@@ -41,6 +41,47 @@
   --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
   --shadow-subtle: 0 1px 2px rgb(23 23 23 / 0.06), 0 12px 32px rgb(23 23 23 / 0.04);
   --shadow-lifted: 0 2px 4px rgb(23 23 23 / 0.08), 0 18px 44px rgb(23 23 23 / 0.09);
+
+  /* Reader size preference (Aa) — reading surfaces only; default M */
+  --article-font-size: 1.125rem;
+  --article-line-height: 1.72;
+
+  /* Technical diagram dual palette (quiet editorial) — light */
+  --diagram-surface: transparent;
+  --diagram-border: #d8d4ca;
+  --diagram-text: #171717;
+  --diagram-muted: #61615b;
+  --diagram-arrow: #8a8580;
+  --diagram-machine: #176f67;
+  --diagram-machine-fill: color-mix(in srgb, #176f67 8%, transparent);
+  --diagram-human: #80684c;
+  --diagram-human-fill: color-mix(in srgb, #80684c 8%, transparent);
+  --diagram-output-border: #b8b3a8;
+}
+
+html[data-reader-size="xs"] {
+  --article-font-size: 1rem;
+  --article-line-height: 1.7;
+}
+
+html[data-reader-size="s"] {
+  --article-font-size: 1.125rem;
+  --article-line-height: 1.72;
+}
+
+html[data-reader-size="m"] {
+  --article-font-size: 1.25rem;
+  --article-line-height: 1.68;
+}
+
+html[data-reader-size="l"] {
+  --article-font-size: 1.375rem;
+  --article-line-height: 1.65;
+}
+
+html[data-reader-size="xl"] {
+  --article-font-size: 1.5rem;
+  --article-line-height: 1.62;
 }
 
 :root[data-theme="dark"] {
@@ -59,6 +100,18 @@
   --color-code-text: #f4f1ea;
   --shadow-subtle: 0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px rgb(0 0 0 / 0.18);
   --shadow-lifted: 0 2px 4px rgb(0 0 0 / 0.24), 0 22px 52px rgb(0 0 0 / 0.24);
+
+  /* Technical diagram dual palette — dark */
+  --diagram-surface: transparent;
+  --diagram-border: #2b3742;
+  --diagram-text: #e9f0f5;
+  --diagram-muted: #91a1ae;
+  --diagram-arrow: #667783;
+  --diagram-machine: #55c7c2;
+  --diagram-machine-fill: color-mix(in srgb, #55c7c2 9%, transparent);
+  --diagram-human: #d9b76e;
+  --diagram-human-fill: color-mix(in srgb, #d9b76e 9%, transparent);
+  --diagram-output-border: #46545f;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -78,5 +131,16 @@
     --color-code-text: #f4f1ea;
     --shadow-subtle: 0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px rgb(0 0 0 / 0.18);
     --shadow-lifted: 0 2px 4px rgb(0 0 0 / 0.24), 0 22px 52px rgb(0 0 0 / 0.24);
+
+    --diagram-surface: transparent;
+    --diagram-border: #2b3742;
+    --diagram-text: #e9f0f5;
+    --diagram-muted: #91a1ae;
+    --diagram-arrow: #667783;
+    --diagram-machine: #55c7c2;
+    --diagram-machine-fill: color-mix(in srgb, #55c7c2 9%, transparent);
+    --diagram-human: #d9b76e;
+    --diagram-human-fill: color-mix(in srgb, #d9b76e 9%, transparent);
+    --diagram-output-border: #46545f;
   }
 }

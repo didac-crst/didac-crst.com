@@ -54,11 +54,13 @@ const structuredData = project ? projectJsonLd(project) : null;
   .reading-flow {
     display: grid;
     gap: var(--space-4);
-    max-width: var(--width-reading);
+    max-width: none;
+    width: 100%;
   }
 
   h1 {
     margin: 0;
+    max-width: none;
     font-size: clamp(2.8rem, 2rem + 4vw, 6rem);
     line-height: 0.95;
   }
@@ -66,8 +68,12 @@ const structuredData = project ? projectJsonLd(project) : null;
   p:not(.eyebrow) {
     margin: 0;
     color: var(--color-muted);
-    font-size: 1.05rem;
-    line-height: 1.75;
+    font-size: 1em;
+    line-height: inherit;
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
 
   .project-repo {

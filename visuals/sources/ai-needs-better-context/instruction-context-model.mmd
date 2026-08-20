@@ -1,0 +1,23 @@
+%% Source: ai-needs-better-context — instruction vs context
+%% Publish as: editorial SVG in the article (not Mermaid output)
+%% Theme: visuals/sources/_site/diagram-theme.json
+%% Composition intent: Instruction + Context are labels (no boxes).
+%% Only Model is a machine object. Candidate answer is plain text.
+%% Preview rules: no multi-line init, no <small>, quote special chars
+flowchart LR
+    I["Instruction / What should you do?"]
+    C["Context / What reality?"]
+    M(["Model"])
+    A["Candidate answer"]
+
+    I --> M
+    C --> M
+    M --> A
+
+    classDef neutral fill:transparent,stroke:#2B3742,color:#E9F0F5,stroke-width:0px
+    classDef machine fill:#122525,stroke:#55C7C2,color:#E9F0F5,stroke-width:1.5px
+    classDef output fill:transparent,stroke:#46545F,color:#E9F0F5,stroke-width:0px
+
+    class I,C neutral
+    class M machine
+    class A output

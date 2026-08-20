@@ -29,6 +29,18 @@ body {
   background-image: linear-gradient(180deg, rgb(15 118 110 / 0.05), transparent 28rem);
 }
 
+strong,
+b {
+  color: var(--color-text);
+  font-weight: 950;
+}
+
+em,
+i {
+  color: var(--color-text);
+  font-style: italic;
+}
+
 a {
   color: inherit;
   text-decoration-color: color-mix(in srgb, var(--color-accent) 46%, transparent);
@@ -131,27 +143,58 @@ select {
   color: var(--color-warm-accent);
 }
 
-.lede {
-  color: var(--color-muted);
-  font-size: clamp(1.08rem, 1rem + 0.35vw, 1.25rem);
-  line-height: 1.65;
-}
-
 .page-hero {
   display: grid;
   gap: var(--space-4);
   max-width: none;
+  width: 100%;
 }
 
 .page-title {
   margin: 0;
-  max-width: 20ch;
+  max-width: none;
   font-size: clamp(2.8rem, 2rem + 3vw, 5rem);
   line-height: 0.98;
 }
 
 .page-hero .lede {
-  max-width: 46rem;
+  max-width: none;
+}
+
+.lede {
+  color: var(--color-muted);
+  font-size: calc(var(--article-font-size) * 1.06);
+  line-height: var(--article-line-height);
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* Reading surfaces scale with Aa; chrome / display type do not */
+.reading-flow,
+.section-body,
+.about-hero-content {
+  width: 100%;
+  max-width: none;
+  font-size: var(--article-font-size);
+  line-height: var(--article-line-height);
+}
+
+.reading-flow h2,
+.section-body h2 {
+  font-size: 1.2em;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.reading-flow p,
+.section-body p,
+.about-hero-content p:not(.eyebrow) {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
 
 .muted {
@@ -172,10 +215,12 @@ select {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
   gap: var(--space-5);
   align-items: stretch;
+  width: 100%;
 }
 
 .card-grid.single > * {
-  max-width: min(100%, 44rem);
+  max-width: none;
+  width: 100%;
 }
 
 .stack {
@@ -252,6 +297,8 @@ select {
 .card p {
   margin: 0;
   color: var(--color-muted);
+  font-size: calc(var(--article-font-size) * 0.95);
+  line-height: var(--article-line-height);
 }
 
 .meta {

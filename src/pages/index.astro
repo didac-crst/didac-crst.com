@@ -42,8 +42,7 @@ const structuredData = homeJsonLd();
         <h1 class="hero-name">{SITE.name}</h1>
         <div class="hero-details">
           <p class="hero-philosophy">
-            {motto[0]}<br />
-            {motto[1]}
+            {motto.join(" ")}
           </p>
           <ul class="hero-pillars" aria-label="Areas of focus">
             {pillars.map((pillar) => <li>{pillar}</li>)}
@@ -90,7 +89,8 @@ const structuredData = homeJsonLd();
   }
 
   .hero-copy {
-    max-width: 58rem;
+    max-width: none;
+    width: 100%;
   }
 
   .hero-lockup {
@@ -128,7 +128,7 @@ const structuredData = homeJsonLd();
   }
 
   .hero-philosophy {
-    max-width: 50rem;
+    max-width: none;
     margin: 0;
     color: var(--color-accent-strong);
     font-size: clamp(1.35rem, 1.05rem + 1.25vw, 2.35rem);
@@ -179,7 +179,8 @@ const structuredData = homeJsonLd();
   }
 
   .section-heading {
-    max-width: 42rem;
+    max-width: none;
+    width: 100%;
   }
 
   .section-heading h2 {

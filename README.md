@@ -27,6 +27,8 @@ npm run check
 npm run build
 ```
 
+`npm run check` runs Astro type-checking and validates every Mermaid source under `visuals/sources/` (`npm run check:mermaid`). Theme-only snippets are skipped; invalid diagrams fail the check.
+
 ## Preview
 
 ```sh
@@ -64,9 +66,15 @@ The article template intentionally supports RSS, reading time, last updated date
 - Site-wide styling should be driven by tokens in `src/styles/tokens.css`.
 - Keep page/layout width separate from long-form reading width.
 - Prefer reusable components over page-specific styling.
-- Keep body text left-aligned; do not justify prose.
+- Keep article body text justified (`text-align: justify`); keep headings left-aligned and visually prominent; center tables as blocks (cell text stays left).
 - Preserve accessibility and reduced-motion behavior.
 - Avoid unnecessary dependencies.
+
+Writing and visual standards:
+
+- [`ARTICLE_GUIDELINES.md`](ARTICLE_GUIDELINES.md) / [`docs/writing-guidelines.md`](docs/writing-guidelines.md)
+- [`VISUAL_GUIDELINES.md`](VISUAL_GUIDELINES.md) / [`docs/visual-guidelines.md`](docs/visual-guidelines.md)
+- Editable diagram sources: [`visuals/`](visuals/)
 
 ## Scope
 

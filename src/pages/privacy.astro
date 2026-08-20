@@ -8,7 +8,7 @@ import { SITE } from "@/site.config";
   description="How personal information is handled on didac-crst.com, including hosting, infrastructure providers, and external links."
 >
   <section class="section">
-    <div class="reading-container stack policy-page">
+    <div class="page-container stack policy-page">
       <header class="page-hero" data-motion-enter>
         <p class="eyebrow">Privacy</p>
         <h1 class="page-title">Privacy</h1>
@@ -65,19 +65,25 @@ import { SITE } from "@/site.config";
   .reading-flow {
     display: grid;
     gap: var(--space-4);
-    max-width: var(--width-reading);
+    max-width: none;
+    width: 100%;
   }
 
   .reading-flow h2 {
     margin: var(--space-3) 0 0;
-    font-size: 1.25rem;
+    font-size: 1.2em;
     line-height: 1.25;
+    text-align: left;
   }
 
   .reading-flow p {
     margin: 0;
     color: var(--color-muted);
-    font-size: 1.05rem;
-    line-height: 1.75;
+    font-size: 1em;
+    line-height: inherit;
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
 </style>

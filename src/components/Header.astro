@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
+import ReaderSizeToggle from "./ReaderSizeToggle.astro";
 import { NAVIGATION, SITE } from "@/site.config";
 
 const currentPath = Astro.url.pathname;
@@ -25,6 +26,7 @@ const currentPath = Astro.url.pathname;
     </nav>
     <div class="header-utility">
       <ThemeToggle />
+      <ReaderSizeToggle />
     </div>
     <button
       class="mobile-menu-trigger"
@@ -51,9 +53,15 @@ const currentPath = Astro.url.pathname;
           ))
         }
       </nav>
-      <div class="mobile-theme">
-        <span>Theme</span>
-        <ThemeToggle />
+      <div class="mobile-prefs">
+        <div class="mobile-pref-row">
+          <span>Theme</span>
+          <ThemeToggle />
+        </div>
+        <div class="mobile-pref-row">
+          <span>Text size</span>
+          <ReaderSizeToggle />
+        </div>
       </div>
     </div>
   </div>
@@ -125,6 +133,7 @@ const currentPath = Astro.url.pathname;
   .header-utility {
     justify-content: end;
     justify-self: end;
+    gap: var(--space-2);
   }
 
   .primary-nav {
@@ -247,14 +256,19 @@ const currentPath = Astro.url.pathname;
     color: var(--color-text);
   }
 
-  .mobile-theme {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .mobile-prefs {
+    display: grid;
     gap: var(--space-3);
     margin-top: var(--space-3);
     padding: var(--space-3) 0.7rem 0;
     border-top: 1px solid var(--color-border);
+  }
+
+  .mobile-pref-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
     color: var(--color-muted);
     font-size: 0.84rem;
     font-weight: 700;

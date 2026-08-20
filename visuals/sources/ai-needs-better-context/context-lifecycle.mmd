@@ -1,0 +1,32 @@
+%% Source: ai-needs-better-context — context lifecycle with human gates
+%% Publish as: editorial SVG in the article (not Mermaid output)
+%% Theme: visuals/sources/_site/diagram-theme.json
+%% Semantic grammar:
+%%   plain labels = information states
+%%   teal box = model operation
+%%   gold gate = human judgment
+%% Preview rules: no multi-line init, no <small>, quote special chars
+flowchart TD
+    R["Raw information"]
+    E(["Model extraction"])
+    C["Candidate context"]
+    P{{"Promotion gate"}}
+    T["Trusted context"]
+    V{{"Relevance gate"}}
+    S["Selected context"]
+    I["Instruction"]
+    M(["Model reasoning"])
+    A["Candidate result"]
+
+    R --> E --> C --> P --> T --> V --> S
+    S --> M
+    I --> M
+    M --> A
+
+    classDef neutral fill:transparent,stroke:#2B3742,color:#E9F0F5,stroke-width:0px
+    classDef machine fill:#122525,stroke:#55C7C2,color:#E9F0F5,stroke-width:1.5px
+    classDef human fill:#211D15,stroke:#D9B76E,color:#E9F0F5,stroke-width:1.5px
+
+    class R,C,T,S,I,A neutral
+    class E,M machine
+    class P,V human

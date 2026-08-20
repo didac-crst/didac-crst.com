@@ -9,9 +9,12 @@
     "prebuild": "npm run generate:og",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
-    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check"
+    "check:mermaid": "node scripts/check-mermaid.mjs",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check && npm run check:mermaid",
+    "pdf:article": "node scripts/print-article-pdf.mjs"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^7.2.4",
     "@astrojs/mdx": "^7.0.5",
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.5.1",
@@ -19,6 +22,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "jsdom": "^30.0.1",
+    "mermaid": "^11.17.0",
+    "puppeteer-core": "^24.43.1",
     "sharp": "^0.35.3",
     "typescript": "^5.9.2"
   }

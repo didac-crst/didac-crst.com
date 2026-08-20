@@ -1,0 +1,106 @@
+{
+  "$comment": "Quiet technical editorial — dual palette. Mermaid .mmd sources use dark for stable IDE preview. Published SVGs switch via CSS tokens or by selecting modes.dark / modes.light at render. See docs/visual-guidelines.md §5–6.",
+  "defaultMode": "dark",
+  "shared": {
+    "fontFamily": "Inter, ui-sans-serif, system-ui, sans-serif",
+    "fontSize": "15px",
+    "flowchart": {
+      "curve": "basis",
+      "nodeSpacing": 48,
+      "rankSpacing": 64,
+      "padding": 16
+    },
+    "accents": {
+      "machine": "#55C7C2",
+      "human": "#D9B76E"
+    }
+  },
+  "modes": {
+    "dark": {
+      "theme": "base",
+      "themeVariables": {
+        "fontFamily": "Inter, ui-sans-serif, system-ui, sans-serif",
+        "fontSize": "15px",
+        "primaryColor": "#11171D",
+        "primaryTextColor": "#E9F0F5",
+        "primaryBorderColor": "#2B3742",
+        "lineColor": "#667783",
+        "secondaryColor": "#11171D",
+        "tertiaryColor": "#11171D"
+      },
+      "palette": {
+        "surface": "transparent",
+        "border": "#2B3742",
+        "text": "#E9F0F5",
+        "mutedText": "#91A1AE",
+        "arrow": "#667783",
+        "machineAccent": "#55C7C2",
+        "humanAccent": "#D9B76E",
+        "machineFill": "color-mix(in srgb, #55C7C2 9%, transparent)",
+        "humanFill": "color-mix(in srgb, #D9B76E 9%, transparent)",
+        "outputBorder": "#46545F"
+      },
+      "semanticClasses": {
+        "neutral": "fill:transparent,stroke:#2B3742,color:#E9F0F5,stroke-width:1.35px",
+        "machine": "fill:#122525,stroke:#55C7C2,color:#E9F0F5,stroke-width:1.35px",
+        "human": "fill:#211D15,stroke:#D9B76E,color:#E9F0F5,stroke-width:1.35px",
+        "output": "fill:transparent,stroke:#46545F,color:#E9F0F5,stroke-width:1.25px"
+      },
+      "cssVariables": {
+        "--diagram-surface": "transparent",
+        "--diagram-border": "#2B3742",
+        "--diagram-text": "#E9F0F5",
+        "--diagram-muted": "#91A1AE",
+        "--diagram-arrow": "#667783",
+        "--diagram-machine": "#55C7C2",
+        "--diagram-machine-fill": "color-mix(in srgb, #55C7C2 9%, transparent)",
+        "--diagram-human": "#D9B76E",
+        "--diagram-human-fill": "color-mix(in srgb, #D9B76E 9%, transparent)",
+        "--diagram-output-border": "#46545F"
+      }
+    },
+    "light": {
+      "theme": "base",
+      "themeVariables": {
+        "fontFamily": "Inter, ui-sans-serif, system-ui, sans-serif",
+        "fontSize": "15px",
+        "primaryColor": "#FFFFFF",
+        "primaryTextColor": "#171717",
+        "primaryBorderColor": "#D8D4CA",
+        "lineColor": "#8A8580",
+        "secondaryColor": "#F7F5F0",
+        "tertiaryColor": "#FFFFFF"
+      },
+      "palette": {
+        "surface": "transparent",
+        "border": "#D8D4CA",
+        "text": "#171717",
+        "mutedText": "#61615B",
+        "arrow": "#8A8580",
+        "machineAccent": "#176F67",
+        "humanAccent": "#80684C",
+        "machineFill": "color-mix(in srgb, #176F67 8%, transparent)",
+        "humanFill": "color-mix(in srgb, #80684C 8%, transparent)",
+        "outputBorder": "#B8B3A8"
+      },
+      "semanticClasses": {
+        "neutral": "fill:transparent,stroke:#D8D4CA,color:#171717,stroke-width:1.35px",
+        "machine": "fill:#E7F4F1,stroke:#176F67,color:#171717,stroke-width:1.35px",
+        "human": "fill:#F5EFE6,stroke:#80684C,color:#171717,stroke-width:1.35px",
+        "output": "fill:transparent,stroke:#B8B3A8,color:#171717,stroke-width:1.25px"
+      },
+      "cssVariables": {
+        "--diagram-surface": "transparent",
+        "--diagram-border": "#D8D4CA",
+        "--diagram-text": "#171717",
+        "--diagram-muted": "#61615B",
+        "--diagram-arrow": "#8A8580",
+        "--diagram-machine": "#176F67",
+        "--diagram-machine-fill": "color-mix(in srgb, #176F67 8%, transparent)",
+        "--diagram-human": "#80684C",
+        "--diagram-human-fill": "color-mix(in srgb, #80684C 8%, transparent)",
+        "--diagram-output-border": "#B8B3A8"
+      }
+    }
+  }
+}

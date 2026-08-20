@@ -1,0 +1,12 @@
+%% Site visual system — production decision tree
+%% Documented in docs/visual-guidelines.md §2
+%% Keep labels quoted — unquoted /, ?, and unicode arrows break many Markdown previews
+flowchart TD
+    N["Visual needed"] --> Q{"What does it carry?"}
+    Q -->|"Logic / architecture / flow"| T["Mermaid to SVG"]
+    Q -->|"Memorable concept"| B["ChatGPT visual brief"]
+    B --> R["Recraft"]
+    R --> I["AVIF / WebP"]
+    Q -->|"Measured evidence"| D["Deterministic plot to SVG"]
+    Q -->|"Share / OG card"| C["Article cover"]
+    Q -->|"Poster summary"| X["Infographic - exceptional only"]
