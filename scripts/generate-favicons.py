@@ -2,6 +2,14 @@
 """Generate circular favicon set from the simplified DC draft mark.
 
 Only writes favicon assets (not apple-touch / PWA icons).
+
+Local/manual use (not wired into npm — source lives under gitignored `_drafts/`
+and requires Pillow):
+
+    python3 scripts/generate-favicons.py
+
+Committed favicon outputs under public/brand/ and public/favicon.ico are the
+source of truth for builds.
 """
 
 from __future__ import annotations

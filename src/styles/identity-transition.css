@@ -9,6 +9,7 @@
   --name-scale: 1;
   --name-nudge-x: 0px;
   --hero-opacity: 1;
+
   pointer-events: none;
 }
 
@@ -16,6 +17,7 @@ html.identity-transition-enabled [data-hero-identity] {
   position: relative;
   z-index: 90;
   transform: translate3d(var(--identity-x), var(--identity-y), 0);
+
   opacity: var(--hero-opacity);
   will-change: transform, opacity;
 }
@@ -42,6 +44,7 @@ html.identity-transition-enabled [data-hero-identity].is-docked {
 html.identity-transition-boot [data-home-transition="true"] [data-header-identity],
 html.identity-transition-enabled [data-home-transition="true"] [data-header-identity] {
   --header-identity-opacity: 0;
+
   opacity: var(--header-identity-opacity);
   pointer-events: none;
 }

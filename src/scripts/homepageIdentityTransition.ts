@@ -251,12 +251,14 @@ export function initHomepageIdentityTransition(): Controller | null {
   let reducedMotion = prefersReducedMotion();
   let ticking = false;
   let resizeTicking = false;
+  let disposed = false;
 
   document.documentElement.classList.add("identity-transition-enabled");
   // Disable immediately — don't wait for measure/fonts (morph can leave is-interactive on).
   setHeaderIdentityInteractive(headerIdentity, false);
 
   const update = (): void => {
+    if (disposed) return;
     if (!geometry) {
       geometry = measureGeometry(elements, transitionDistance);
     }
@@ -265,6 +267,7 @@ export function initHomepageIdentityTransition(): Controller | null {
   };
 
   const remeasure = (): void => {
+    if (disposed) return;
     transitionDistance = readTransitionDistance();
     reducedMotion = prefersReducedMotion();
     geometry = measureGeometry(elements, transitionDistance);
@@ -272,25 +275,28 @@ export function initHomepageIdentityTransition(): Controller | null {
   };
 
   const onScroll = (): void => {
-    if (ticking) return;
+    if (disposed || ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      update();
       ticking = false;
+      if (disposed) return;
+      update();
     });
   };
 
   const onResize = (): void => {
-    if (resizeTicking) return;
+    if (disposed || resizeTicking) return;
     resizeTicking = true;
     requestAnimationFrame(() => {
-      remeasure();
       resizeTicking = false;
+      if (disposed) return;
+      remeasure();
     });
   };
 
   const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const onMotionChange = (): void => {
+    if (disposed) return;
     remeasure();
   };
 
@@ -318,9 +324,12 @@ export function initHomepageIdentityTransition(): Controller | null {
     } catch {
       // Font loading failures should not block the transition.
     }
+    if (disposed) return;
     // Extra frames: ClientRouter morph/layout can still be settling on return visits.
     requestAnimationFrame(() => {
+      if (disposed) return;
       requestAnimationFrame(() => {
+        if (disposed) return;
         if (!heroIdentity.isConnected || !headerIdentity.isConnected) return;
         remeasure();
       });
@@ -331,6 +340,8 @@ export function initHomepageIdentityTransition(): Controller | null {
 
   return {
     dispose: () => {
+      if (disposed) return;
+      disposed = true;
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("orientationchange", onResize);

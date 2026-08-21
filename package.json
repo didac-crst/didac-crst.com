@@ -11,7 +11,6 @@
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "check:mermaid": "node scripts/check-mermaid.mjs",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check && npm run check:mermaid",
-    "generate:favicons": "python3 scripts/generate-favicons.py",
     "pdf:article": "node scripts/print-article-pdf.mjs"
   },
   "dependencies": {
