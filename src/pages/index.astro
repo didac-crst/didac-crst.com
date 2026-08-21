@@ -217,7 +217,8 @@ const structuredData = homeJsonLd();
     }
 
     .hero-details {
-      margin-top: var(--space-5);
+      /* Extra room so the docking logo doesn’t graze the motto while scrolling. */
+      margin-top: clamp(2.75rem, 8vw, 3.5rem);
       padding-left: 0;
     }
 
