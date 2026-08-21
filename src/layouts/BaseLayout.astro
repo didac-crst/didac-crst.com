@@ -56,10 +56,12 @@ const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
     <meta name="description" content={metaDescription} />
     <meta name="author" content={author} />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="icon" href={SITE.faviconIco} sizes="any" />
-    <link rel="icon" type="image/png" sizes="16x16" href={SITE.favicon16} />
-    <link rel="icon" type="image/png" sizes="32x32" href={SITE.favicon32} />
+    <link rel="icon" type="image/svg+xml" href={SITE.faviconSvg} />
     <link rel="icon" type="image/png" sizes="48x48" href={SITE.favicon48} />
+    <link rel="icon" type="image/png" sizes="96x96" href={SITE.favicon96} />
+    <link rel="icon" type="image/png" sizes="32x32" href={SITE.favicon32} />
+    <link rel="icon" type="image/png" sizes="16x16" href={SITE.favicon16} />
+    <link rel="icon" href={SITE.faviconIco} sizes="any" />
     <link rel="apple-touch-icon" sizes="180x180" href={SITE.appleTouchIcon} />
     <link rel="alternate" type="application/rss+xml" title={`${SITE.title} Writing`} href="/rss.xml" />
     <meta property="og:type" content={type} />
