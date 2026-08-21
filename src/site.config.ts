@@ -38,7 +38,7 @@ export const SITE = {
     "Knowledge Engineering",
     "Information Architecture",
     "Software Architecture",
-    "Decision Intelligence",
+    "Decision Systems",
     "AI-Enhanced Systems",
     "Open Source"
   ] as const

@@ -3,16 +3,18 @@
     "Engineering systems that transform",
     "information into trusted knowledge."
   ],
+  "lede": "I build software experiments that help humans and machines understand complexity and make better decisions.",
   "pillars": [
     "Knowledge Engineering",
     "Information Architecture",
-    "Decision Intelligence"
+    "Decision Systems"
   ],
   "stance": {
-    "title": "Engineering information that stays understandable.",
+    "title": "The information is usually already there.",
     "paragraphs": [
-      "AI systems rarely fail first because models lack intelligence. They fail when the information architecture around them is weak — when instruction is polished and the world the model must reason about is not.",
-      "This site is where I publish that point of view — in writing and in projects: context as an engineered asset, structure before intelligence, and deterministic controls where probabilistic systems need them."
+      "In documents. Databases. Sensors. Numbers. Human experiences.",
+      "The challenge is not always collecting more information — it is connecting the dots, revealing patterns, and creating systems that make complexity understandable.",
+      "This site is where I explore that idea through writing and projects: knowledge as an engineered asset, structure before intelligence, and deterministic systems where probabilistic approaches need stronger foundations."
     ]
   }
 }

@@ -11,7 +11,7 @@ const structuredData = personPageJsonLd();
 
 <BaseLayout
   title="About"
-  description={`About ${SITE.fullName}: knowledge engineering, information architecture, and AI-enhanced systems.`}
+  description={`About ${SITE.fullName}: systems that turn information into understanding and better decisions.`}
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <section class="section">
@@ -39,43 +39,58 @@ const structuredData = personPageJsonLd();
           <div class="about-hero-content">
             <div class="reading-flow">
               <p class="lede">
-                I am an engineer working at the intersection of information systems, data,
-                knowledge architecture, and applied AI.
+                I am an engineer interested in how systems transform information into
+                understanding and better decisions.
               </p>
               <p>
-                I design systems by choosing the simplest reliable method for each problem:
-                deterministic logic where rules are sufficient, statistical and machine-learning
-                methods where they fit, and language models where semantic reasoning genuinely
-                adds value.
+                My work sits at the intersection of software architecture, data, knowledge
+                engineering, and applied AI.
+              </p>
+              <p>
+                I design systems by choosing the simplest reliable approach for each problem:
+                deterministic logic when rules are enough, statistical methods when patterns
+                need to be discovered, and semantic AI when meaning and reasoning genuinely
+                add value.
+              </p>
+              <p>
+                <strong>
+                  The goal is not to add intelligence everywhere. It is to build systems where
+                  each component does what it is best suited for.
+                </strong>
               </p>
             </div>
-            <section class="hero-subsection" aria-labelledby="how-i-work-heading">
-              <h2 id="how-i-work-heading">How I work</h2>
-              <div class="reading-flow">
-                <p>
-                  I approach problems as systems rather than isolated features.
-                </p>
-                <p>
-                  That usually means understanding where information comes from, how it changes,
-                  how reliable it is, how different concepts relate to one another, and which
-                  parts of the process should remain deterministic.
-                </p>
-                <p>
-                  I am particularly interested in architectures that combine structured data,
-                  documents, ontologies, classifiers, clustering, embeddings, and language models
-                  without making probabilistic AI responsible for problems that can be solved more
-                  predictably.
-                </p>
-              </div>
-            </section>
-            <ol class="principle-flow hero-principles" aria-label="Architectural principle">
-              <li>Deterministic when possible</li>
-              <li>Statistical when appropriate</li>
-              <li>Semantic AI when valuable</li>
-            </ol>
           </div>
         </div>
       </header>
+
+      <section class="about-section" data-motion-reveal>
+        <div class="section-label">
+          <h2>How I work</h2>
+        </div>
+        <div class="section-body">
+          <div class="reading-flow">
+            <p>
+              I approach problems as systems rather than isolated features.
+            </p>
+            <p>
+              That means understanding where information comes from, how it evolves, how
+              trustworthy it is, how concepts relate to each other, and which parts should
+              remain predictable.
+            </p>
+            <p>
+              I am particularly interested in architectures that combine structured data,
+              documents, ontologies, classifiers, clustering, embeddings, and language
+              models — while keeping clear boundaries between deterministic foundations and
+              probabilistic capabilities.
+            </p>
+          </div>
+          <ol class="principle-flow" aria-label="Architectural principle">
+            <li>Deterministic when possible</li>
+            <li>Statistical when appropriate</li>
+            <li>Semantic AI when valuable</li>
+          </ol>
+        </div>
+      </section>
 
       <section class="about-section" data-motion-reveal>
         <div class="section-label">
@@ -184,6 +199,24 @@ const structuredData = personPageJsonLd();
 
       <section class="about-section" data-motion-reveal>
         <div class="section-label">
+          <h2>Beyond professional work</h2>
+        </div>
+        <div class="section-body reading-flow">
+          <p>
+            Beyond professional projects, I enjoy building small systems that apply the same
+            principles to everyday life — from home automation and personal dashboards to
+            simulations exploring long-term decisions and trade-offs.
+          </p>
+          <p>
+            These experiments are a way to explore ideas through building: observing systems,
+            modelling complexity, testing assumptions, and turning abstract concepts into
+            something tangible.
+          </p>
+        </div>
+      </section>
+
+      <section class="about-section" data-motion-reveal>
+        <div class="section-label">
           <h2>Education</h2>
         </div>
         <div class="section-body">
@@ -253,19 +286,19 @@ const structuredData = personPageJsonLd();
 
       <section class="about-section compact" data-motion-reveal>
         <div class="section-label">
-          <h2>Languages</h2>
+          <h2>Current interests</h2>
         </div>
         <div class="section-body">
-          <ChipList items={languages} label="Languages" />
+          <ChipList items={interests} label="Current interests" />
         </div>
       </section>
 
       <section class="about-section compact" data-motion-reveal>
         <div class="section-label">
-          <h2>Current interests</h2>
+          <h2>Languages</h2>
         </div>
         <div class="section-body">
-          <ChipList items={interests} label="Current interests" />
+          <ChipList items={languages} label="Languages" />
         </div>
       </section>
 
@@ -433,26 +466,12 @@ const structuredData = personPageJsonLd();
     gap: var(--space-5);
   }
 
-  .hero-subsection {
-    display: grid;
-    gap: var(--space-3);
-    margin-top: 1.25rem;
-  }
-
-  .hero-subsection h2 {
-    margin: 0;
-    color: var(--color-accent-strong);
-    font-size: var(--title-accent-size);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
   .principle-flow {
     display: grid;
     gap: var(--space-3);
     max-width: none;
     width: 100%;
-    margin: var(--space-2) 0 0;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
@@ -475,10 +494,6 @@ const structuredData = personPageJsonLd();
     width: 1px;
     height: 0.8rem;
     background: var(--color-accent);
-  }
-
-  .hero-principles {
-    margin-top: 0;
   }
 
   .timeline {

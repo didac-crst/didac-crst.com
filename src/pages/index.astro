@@ -17,9 +17,9 @@ const latestArticle = allArticles[0];
 const currentProject =
   projects.find((project) => project.status === "active") ?? projects[0];
 
-const { motto, pillars, stance } = home;
+const { motto, lede, pillars, stance } = home;
 const homeDescription =
-  `${motto.join(" ")} Focus areas: ${pillars.join(", ")}.`;
+  `${motto.join(" ")} ${lede} Focus areas: ${pillars.join(", ")}.`;
 const structuredData = homeJsonLd();
 ---
 
@@ -35,6 +35,7 @@ const structuredData = homeJsonLd();
           <p class="hero-philosophy">
             {motto.join(" ")}
           </p>
+          <p class="hero-support">{lede}</p>
           <ul class="hero-pillars" aria-label="Areas of focus">
             {pillars.map((pillar) => <li>{pillar}</li>)}
           </ul>
@@ -130,6 +131,24 @@ const structuredData = homeJsonLd();
     font-size: clamp(1.35rem, 1.05rem + 1.25vw, 2.35rem);
     font-weight: 700;
     line-height: 1.22;
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+
+  .hero-support {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: calc(var(--article-font-size) * 1.06);
+    font-weight: 500;
+    line-height: var(--article-line-height);
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
 
   .hero-pillars {
