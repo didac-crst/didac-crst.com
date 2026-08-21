@@ -12,12 +12,10 @@ import { getCollection } from "astro:content";
 const allArticles = (await getCollection("writing"))
   .filter((article) => !article.data.draft)
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
-const articles = allArticles.slice(0, 2);
+const latestArticle = allArticles[0];
 
-const writingHeading =
-  allArticles.length >= 3 ? "Selected Writing" : "Latest Writing";
-const projectHeading =
-  projects.length >= 3 ? "Selected Projects" : "Current Project";
+const currentProject =
+  projects.find((project) => project.status === "active") ?? projects[0];
 
 const { motto, pillars, stance } = home;
 const homeDescription =
@@ -60,31 +58,33 @@ const structuredData = homeJsonLd();
     </div>
   </section>
 
-  <section class="section" data-motion-reveal>
+  <section class="section" data-motion-reveal aria-labelledby="home-writing-heading">
     <div class="page-container stack">
-      <div class="section-heading">
-        <p class="eyebrow">{writingHeading}</p>
-        <h2>
-          <a href="/writing/">Thinking out loud</a>
-        </h2>
-      </div>
-      <div class={`card-grid ${articles.length === 1 ? "single" : ""}`}>
-        {articles.map((article) => <ArticleCard article={article} />)}
-      </div>
+      <h2 id="home-writing-heading" class="eyebrow section-label">
+        <a href="/writing/">Writing</a>
+      </h2>
+      {
+        latestArticle && (
+          <div class="card-grid single">
+            <ArticleCard article={latestArticle} badge="Latest" />
+          </div>
+        )
+      }
     </div>
   </section>
 
-  <section class="section" data-motion-reveal>
+  <section class="section" data-motion-reveal aria-labelledby="home-projects-heading">
     <div class="page-container stack">
-      <div class="section-heading">
-        <p class="eyebrow">{projectHeading}</p>
-        <h2>
-          <a href="/projects/">Building systems in public</a>
-        </h2>
-      </div>
-      <div class={`card-grid ${projects.length === 1 ? "single" : ""}`}>
-        {projects.map((project) => <ProjectCard project={project} />)}
-      </div>
+      <h2 id="home-projects-heading" class="eyebrow section-label">
+        <a href="/projects/">Projects</a>
+      </h2>
+      {
+        currentProject && (
+          <div class="card-grid single">
+            <ProjectCard project={currentProject} badge="Current" />
+          </div>
+        )
+      }
     </div>
   </section>
 </BaseLayout>
@@ -185,14 +185,18 @@ const structuredData = homeJsonLd();
     line-height: 1.08;
   }
 
-  .section-heading h2 a {
-    color: inherit;
-    text-decoration: none;
-    transition: color var(--motion-fast) var(--ease-standard);
+  .section-label {
+    margin-bottom: 0;
   }
 
-  .section-heading h2 a:hover {
-    color: var(--color-accent-strong);
+  .section-label a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .section-label a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
   }
 
   .stance {

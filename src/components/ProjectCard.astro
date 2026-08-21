@@ -4,9 +4,11 @@ import ChipList from "./ChipList.astro";
 
 type Props = {
   project: Project;
+  /** Optional status pill next to the date (e.g. homepage “Current”) */
+  badge?: string;
 };
 
-const { project } = Astro.props;
+const { project, badge } = Astro.props;
 ---
 
 <a class="card project-card" href={`/projects/${project.slug}/`}>
@@ -24,6 +26,7 @@ const { project } = Astro.props;
         day: "numeric"
       })}
     </time>
+    {badge && <span class="status-badge">{badge}</span>}
   </div>
   <h3>{project.name}</h3>
   <p>{project.description}</p>

@@ -5,9 +5,11 @@ import { getArticleSlug } from "@/lib/articles";
 
 type Props = {
   article: CollectionEntry<"writing">;
+  /** Optional status pill next to the date (e.g. homepage “Latest”) */
+  badge?: string;
 };
 
-const { article } = Astro.props;
+const { article, badge } = Astro.props;
 const { title, description, published, tags } = article.data;
 const slug = getArticleSlug(article);
 ---
@@ -21,6 +23,7 @@ const slug = getArticleSlug(article);
         day: "numeric"
       })}
     </time>
+    {badge && <span class="status-badge">{badge}</span>}
   </div>
   <h3>{title}</h3>
   <p>{description}</p>
