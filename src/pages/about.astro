@@ -5,7 +5,7 @@ import { personPageJsonLd } from "@/lib/structured-data";
 import { projects } from "@/projects";
 import { SITE } from "@/site.config";
 
-const languages = ["English", "French", "German", "Spanish", "Catalan", "Italian"];
+const languages = [...SITE.knowsLanguage];
 const interests = [...SITE.knowsAbout];
 const atlasDocs = projects.find((project) => project.slug === "atlasdocs");
 const structuredData = personPageJsonLd();
