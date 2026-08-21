@@ -2,7 +2,7 @@
 title: "AI Usually Needs Better Context, Not Better Prompts"
 description: "AI rarely fails first from weak models. It fails from weak information architecture around them — and the human job is to engineer that context."
 published: 2026-08-19
-updated: 2026-08-20
+updated: 2026-08-21
 language: en
 tags:
   - AI Engineering
@@ -271,20 +271,6 @@ Plain text survives tool migrations. It diffs cleanly in version control. It ref
 
 Operational habits that help: one primary problem per session; summarize before switching tasks; version assumptions explicitly; treat exploratory chats as disposable.
 
-## Where This Breaks
-
-Context is not a universal fix.
-
-Some tasks need little surrounding knowledge: rephrase this paragraph, explain a standard algorithm, summarize a public document. Adding organizational context would add weight without improving the result.
-
-Some problems are hard because the knowledge **does not exist yet** — not because it was not pasted into the chat. No amount of context compensates for unresolved requirements or contradictory stakeholder intent.
-
-Context can also **mislead**. Stale documentation, wrong assumptions treated as facts, and internal jargon without definitions can steer the model confidently in the wrong direction. More material increases the risk unless someone curates it.
-
-And context has a cost: assembly time, maintenance, cognitive load, and the need to decide what to exclude. For quick, low-stakes work, a minimal instruction may be the rational choice. The error is treating that as the model for every kind of work — especially work that feeds production systems or durable decisions.
-
-The goal is not maximal context. The goal is **appropriate context**: enough reality to reason well, not so much that signal drowns.
-
 ## Context Hygiene and Human Judgment
 
 Better context improves reasoning. It does not replace judgment over **candidate results**.
@@ -299,6 +285,20 @@ There is a subtler failure mode than accepting bad answers: **outsourcing unders
 
 The model can propose. A person still owns acceptance — especially when consequences extend beyond the chat window. That ownership is not a soft “human in the loop” slogan. It is the same responsibility you already accept when you merge code or change a production rule.
 
+## Where This Breaks
+
+Context is not a universal fix.
+
+Some tasks need little surrounding knowledge: rephrase this paragraph, explain a standard algorithm, summarize a public document. Adding organizational context would add weight without improving the result.
+
+Some problems are hard because the knowledge **does not exist yet** — not because it was not pasted into the chat. No amount of context compensates for unresolved requirements or contradictory stakeholder intent.
+
+Context can also **mislead**. Stale documentation, wrong assumptions treated as facts, and internal jargon without definitions can steer the model confidently in the wrong direction. More material increases the risk unless someone curates it.
+
+And context has a cost: assembly time, maintenance, cognitive load, and the need to decide what to exclude. For quick, low-stakes work, a minimal instruction may be the rational choice. The error is treating that as the model for every kind of work — especially work that feeds production systems or durable decisions.
+
+The goal is not maximal context. The goal is **appropriate context**: enough reality to reason well, not so much that signal drowns.
+
 ## The Human Work Is Context Architecture
 
 Fluent generation can make expertise look less necessary. In practice, it makes expert judgment more valuable. When producing plausible text becomes cheap, the scarce skill is deciding:
@@ -310,16 +310,9 @@ Fluent generation can make expertise look less necessary. In practice, it makes 
 - what knowledge deserves to persist;
 - what should be excluded because it does not improve reasoning.
 
-That is **context architecture**: engineering the information environment in which a probabilistic system is allowed to operate. It sits at the intersection of domain knowledge and information architecture. It is not prompt trivia. It is not “checking the AI.” It is designing quality gates, lifecycles, and representations so that what reaches the model is selected, validated, and fit for the task.
+That is **context architecture**: engineering the information environment in which a probabilistic system operates. It sits at the intersection of domain knowledge and information architecture. It is not prompt trivia. It is not simply "checking the AI." It is designing quality gates, lifecycles, and representations so that what reaches the model is selected, validated, and fit for the task.
 
-A context architect:
-
-- frames the problem in the world that actually exists;
-- selects evidence worth trusting;
-- states constraints explicitly;
-- represents relationships the model would otherwise have to infer;
-- decides what knowledge should become reusable;
-- accepts responsibility for the outcome.
+A context architect does not provide the model with more text. They **design the conditions** under which the model can **reason reliably**.
 
 > Better AI starts with better context.  
 > Better context starts with better information architecture.
