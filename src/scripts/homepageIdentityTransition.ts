@@ -88,6 +88,34 @@ const measureGeometry = (
   };
 };
 
+const setHeaderIdentityInteractive = (
+  headerIdentity: HTMLElement,
+  interactive: boolean
+): void => {
+  headerIdentity.classList.toggle("is-interactive", interactive);
+  // Inline style beats leftover classes after ClientRouter morphs.
+  headerIdentity.style.pointerEvents = interactive ? "auto" : "none";
+  if (interactive) {
+    headerIdentity.removeAttribute("tabindex");
+    headerIdentity.removeAttribute("aria-hidden");
+  } else {
+    headerIdentity.setAttribute("tabindex", "-1");
+    headerIdentity.setAttribute("aria-hidden", "true");
+  }
+};
+
+/** Reset the live header brand link (safe across ClientRouter element reuse). */
+export const resetHeaderIdentityInteraction = (interactive: boolean): void => {
+  const headerIdentity = document.querySelector<HTMLElement>("[data-header-identity]");
+  if (!headerIdentity) return;
+  setHeaderIdentityInteractive(headerIdentity, interactive);
+  if (interactive) {
+    headerIdentity.style.removeProperty("pointer-events");
+    headerIdentity.style.removeProperty("--header-identity-opacity");
+    headerIdentity.classList.remove("is-interactive");
+  }
+};
+
 const applyState = (
   elements: TransitionElements,
   geometry: Geometry,
@@ -103,6 +131,7 @@ const applyState = (
     heroIdentity.style.setProperty("--hero-opacity", "1");
     heroIdentity.classList.remove("is-docked");
     headerIdentity.style.setProperty("--header-identity-opacity", atTop ? "0" : "1");
+    setHeaderIdentityInteractive(headerIdentity, !atTop);
     return;
   }
 
@@ -127,6 +156,7 @@ const applyState = (
   heroIdentity.style.setProperty("--hero-opacity", String(heroOpacity));
   heroIdentity.classList.toggle("is-docked", docked);
   headerIdentity.style.setProperty("--header-identity-opacity", String(headerOpacity));
+  setHeaderIdentityInteractive(headerIdentity, headerOpacity > 0.05);
 
   if (isDebugEnabled()) {
     heroIdentity.dataset.debugIdentity = [
@@ -156,6 +186,10 @@ const clearAppliedState = (elements: TransitionElements): void => {
   }
   if (headerIdentity.isConnected) {
     headerIdentity.style.removeProperty("--header-identity-opacity");
+    headerIdentity.style.removeProperty("pointer-events");
+    headerIdentity.classList.remove("is-interactive");
+    headerIdentity.removeAttribute("tabindex");
+    headerIdentity.removeAttribute("aria-hidden");
   }
 };
 
@@ -219,6 +253,8 @@ export function initHomepageIdentityTransition(): Controller | null {
   let resizeTicking = false;
 
   document.documentElement.classList.add("identity-transition-enabled");
+  // Disable immediately — don't wait for measure/fonts (morph can leave is-interactive on).
+  setHeaderIdentityInteractive(headerIdentity, false);
 
   const update = (): void => {
     if (!geometry) {
@@ -301,6 +337,8 @@ export function initHomepageIdentityTransition(): Controller | null {
       motionQuery.removeEventListener("change", onMotionChange);
       resizeObserver?.disconnect();
       clearAppliedState(elements);
+      // Morph may have replaced nodes; always reset the live header brand.
+      resetHeaderIdentityInteraction(true);
       document.documentElement.classList.remove("identity-transition-enabled");
       document.documentElement.classList.remove("identity-transition-boot");
     }

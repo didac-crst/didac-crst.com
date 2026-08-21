@@ -229,7 +229,10 @@ const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
       <Footer />
     </div>
     <script>
-      import { initHomepageIdentityTransition } from "@/scripts/homepageIdentityTransition";
+      import {
+        initHomepageIdentityTransition,
+        resetHeaderIdentityInteraction
+      } from "@/scripts/homepageIdentityTransition";
 
       let identityController: ReturnType<typeof initHomepageIdentityTransition> = null;
 
@@ -242,11 +245,15 @@ const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
           document.documentElement.setAttribute("data-page", "home");
           document.documentElement.classList.add("identity-transition-boot");
           header?.setAttribute("data-home-transition", "true");
+          // Hide + disable brand until the transition module applies scroll state.
+          resetHeaderIdentityInteraction(false);
         } else {
           document.documentElement.removeAttribute("data-page");
           document.documentElement.classList.remove("identity-transition-boot");
           document.documentElement.classList.remove("identity-transition-enabled");
           header?.removeAttribute("data-home-transition");
+          // Other pages: brand must be a normal home link again.
+          resetHeaderIdentityInteraction(true);
         }
 
         return isHome;

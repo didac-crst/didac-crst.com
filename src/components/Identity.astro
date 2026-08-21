@@ -74,17 +74,17 @@ const isHeader = variant === "header";
     object-fit: contain;
   }
 
-  /* Hero — original display lockup sizes */
+  /* Hero — original display lockup sizes (vars from .hero-lockup when present) */
   .identity--hero {
     display: inline-flex;
     align-items: center;
-    column-gap: 0.8rem;
+    column-gap: var(--hero-identity-gap, 0.8rem);
     max-width: 100%;
   }
 
   .hero-lockup-logo {
-    width: clamp(4.55rem, 5.45vw, 5rem);
-    height: clamp(4.55rem, 5.45vw, 5rem);
+    width: var(--hero-logo-size, clamp(4.55rem, 5.45vw, 5rem));
+    height: var(--hero-logo-size, clamp(4.55rem, 5.45vw, 5rem));
     flex: 0 0 auto;
     object-fit: contain;
     transform: translateY(0.18rem);
@@ -99,12 +99,12 @@ const isHeader = variant === "header";
 
   @media (max-width: 860px) {
     .identity--hero {
-      column-gap: 0.65rem;
+      column-gap: var(--hero-identity-gap, 0.65rem);
     }
 
     .hero-lockup-logo {
-      width: clamp(3rem, 11vw, 3.15rem);
-      height: clamp(3rem, 11vw, 3.15rem);
+      width: var(--hero-logo-size, clamp(3rem, 11vw, 3.15rem));
+      height: var(--hero-logo-size, clamp(3rem, 11vw, 3.15rem));
     }
 
     .hero-name {
@@ -114,12 +114,12 @@ const isHeader = variant === "header";
 
   @media (max-width: 430px) {
     .identity--hero {
-      column-gap: 0.55rem;
+      column-gap: var(--hero-identity-gap, 0.55rem);
     }
 
     .hero-lockup-logo {
-      width: clamp(3rem, 12.5vw, 3.1rem);
-      height: clamp(3rem, 12.5vw, 3.1rem);
+      width: var(--hero-logo-size, clamp(3rem, 12.5vw, 3.1rem));
+      height: var(--hero-logo-size, clamp(3rem, 12.5vw, 3.1rem));
     }
 
     .hero-name {

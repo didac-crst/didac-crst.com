@@ -107,6 +107,8 @@ const structuredData = homeJsonLd();
   }
 
   .hero-lockup {
+    --hero-logo-size: clamp(4.55rem, 5.45vw, 5rem);
+    --hero-identity-gap: 0.8rem;
     display: grid;
     gap: 0;
     max-width: 100%;
@@ -121,6 +123,8 @@ const structuredData = homeJsonLd();
     display: grid;
     gap: var(--space-5);
     margin-top: var(--space-6);
+    /* Wide screens: align with the name (D of Didac), not the logo. */
+    padding-left: calc(var(--hero-logo-size) + var(--hero-identity-gap));
   }
 
   .hero-philosophy {
@@ -207,8 +211,14 @@ const structuredData = homeJsonLd();
       gap: var(--space-5);
     }
 
+    .hero-lockup {
+      --hero-logo-size: clamp(3rem, 11vw, 3.15rem);
+      --hero-identity-gap: 0.65rem;
+    }
+
     .hero-details {
       margin-top: var(--space-5);
+      padding-left: 0;
     }
 
     .hero-philosophy {
@@ -223,6 +233,13 @@ const structuredData = homeJsonLd();
 
     .hero-pillars li {
       width: fit-content;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .hero-lockup {
+      --hero-logo-size: clamp(3rem, 12.5vw, 3.1rem);
+      --hero-identity-gap: 0.55rem;
     }
   }
 </style>

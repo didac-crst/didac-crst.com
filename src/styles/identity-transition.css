@@ -43,6 +43,11 @@ html.identity-transition-boot [data-home-transition="true"] [data-header-identit
 html.identity-transition-enabled [data-home-transition="true"] [data-header-identity] {
   --header-identity-opacity: 0;
   opacity: var(--header-identity-opacity);
+  pointer-events: none;
+}
+
+html.identity-transition-enabled [data-home-transition="true"] [data-header-identity].is-interactive {
+  pointer-events: auto;
 }
 
 html.identity-transition-enabled [data-home-transition="true"] [data-header-identity] {
