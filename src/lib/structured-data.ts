@@ -19,8 +19,19 @@ export function personJsonLd(): JsonLd {
     alternateName: SITE.fullName,
     url: SITE.domain,
     image: absoluteUrl(SITE.portrait),
+    jobTitle: SITE.jobTitle,
     sameAs: [SITE.github, SITE.linkedin],
-    knowsAbout: [...SITE.knowsAbout]
+    knowsLanguage: [...SITE.knowsLanguage],
+    knowsAbout: [...SITE.knowsAbout],
+    homeLocation: {
+      "@type": "Place",
+      name: `${SITE.homeLocation.locality}, ${SITE.homeLocation.countryName}`,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: SITE.homeLocation.locality,
+        addressCountry: SITE.homeLocation.country
+      }
+    }
   };
 }
 

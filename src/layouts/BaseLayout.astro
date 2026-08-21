@@ -36,7 +36,10 @@ const {
   type = "website"
 } = Astro.props;
 
-const pageTitle = title === SITE.title ? title : `${title} | ${SITE.title}`;
+const pageTitle =
+  title === SITE.title || title === SITE.homeTitle
+    ? SITE.homeTitle
+    : `${title} | ${SITE.title}`;
 const metaDescription = ensureMetaDescription(description, descriptionFallback);
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, SITE.domain).toString();
 const imageUrl = new URL(image, SITE.domain).toString();
