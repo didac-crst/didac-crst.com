@@ -1,79 +1,99 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import ChipList from "@/components/ChipList.astro";
+import { getReadingTime } from "@/lib/articles";
 import { projectJsonLd } from "@/lib/structured-data";
 import { projects } from "@/projects";
+import { getEntry, render } from "astro:content";
 
 const project = projects.find((item) => item.slug === "atlasdocs");
-const structuredData = project ? projectJsonLd(project) : null;
+const story = await getEntry("projects", "atlasdocs");
+
+if (!project || !story) {
+  throw new Error("AtlasDocs project or story entry is missing.");
+}
+
+const { Content } = await render(story);
+const readingTime = getReadingTime(story.body ?? "");
+const structuredData = projectJsonLd(project);
+
+const formatLongDate = (date: Date) =>
+  date.toLocaleDateString("en", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
 ---
 
 <BaseLayout
-  title="AtlasDocs"
-  description={
-    project?.summary ??
-    "AtlasDocs explores document intelligence and knowledge architecture with deterministic processing."
-  }
+  title={story.data.title}
+  description={story.data.description}
+  author={undefined}
+  type="article"
+  publishedTime={project.started.toISOString()}
+  modifiedTime={project.updated.toISOString()}
+  canonical="/projects/atlasdocs/"
 >
-  {
-    structuredData && (
-      <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-    )
-  }
-  <section class="section">
-    <div class="page-container project-detail">
-      <div class="page-hero" data-motion-enter>
-        <p class="eyebrow">{project?.statusLabel ?? "Project"}</p>
-        <h1>AtlasDocs</h1>
-        <p class="lede">{project?.description}</p>
-      </div>
-      <div class="reading-flow" data-motion-reveal>
-        <p>{project?.summary}</p>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  <article>
+    <div class="page-container article-layout">
+      <header class="article-header stack" data-motion-enter>
+        <p class="eyebrow">Projects</p>
+        <div class="project-title">
+          <h1>{story.data.title}</h1>
+          {project.version && <span class="status-badge">{project.version}</span>}
+        </div>
+        <p class="lede">{story.data.description}</p>
+        <div class="meta">
+          <span>{readingTime} min read</span>
+          <time datetime={project.started.toISOString()}>
+            Started {formatLongDate(project.started)}
+          </time>
+          <time datetime={project.updated.toISOString()}>
+            Updated {formatLongDate(project.updated)}
+          </time>
+        </div>
         {
-          project?.githubUrl && (
+          project.tags.length > 0 && (
+            <ChipList items={project.tags} label="Tags" />
+          )
+        }
+      </header>
+
+      <div class="article-content">
+        <Content />
+        {
+          project.githubUrl && (
             <p>
-              <a class="button-link project-repo" href={project.githubUrl} rel="noopener noreferrer" target="_blank">
+              <a
+                class="button-link project-repo"
+                href={project.githubUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.78.6-3.37-1.2-3.37-1.2-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.35 1.08 2.92.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.48 9.48 0 0 1 12 6.99c.85 0 1.7.11 2.5.34 1.9-1.29 2.74-1.02 2.74-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
                 </svg>
-                <span>View repository</span>
+                <span>View on GitHub</span>
               </a>
             </p>
           )
         }
       </div>
     </div>
-  </section>
+  </article>
 </BaseLayout>
 
 <style>
-  .project-detail {
-    display: grid;
-    gap: var(--space-5);
+  .project-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
   }
 
-  .reading-flow {
-    display: grid;
-    gap: var(--space-4);
-    max-width: none;
-    width: 100%;
-  }
-
-  h1 {
+  .project-title :global(h1) {
     margin: 0;
-    max-width: none;
-    font-size: clamp(2.8rem, 2rem + 4vw, 6rem);
-    line-height: 0.95;
-  }
-
-  p:not(.eyebrow) {
-    margin: 0;
-    color: var(--color-muted);
-    font-size: 1em;
-    line-height: inherit;
-    text-align: justify;
-    text-justify: inter-word;
-    hyphens: auto;
-    -webkit-hyphens: auto;
   }
 
   .project-repo {
@@ -84,5 +104,11 @@ const structuredData = project ? projectJsonLd(project) : null;
     width: 1rem;
     height: 1rem;
     fill: currentColor;
+  }
+
+  :global(.article-content figure.article-wide .diagram) {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
   }
 </style>

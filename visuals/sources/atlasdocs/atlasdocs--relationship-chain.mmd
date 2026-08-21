@@ -1,0 +1,16 @@
+%% Source: atlasdocs — explicit relationship chain vs a flat tag
+%% Theme: visuals/sources/_site/diagram-theme.json
+%% Preview rules: no multi-line init, no <small>, quote special chars
+flowchart TD
+    D(["Document"])
+    T(["Tax Declaration"])
+    Y(["2026 Fiscal Year"])
+
+    D -->|"generated for"| T
+    T -->|"belongs to"| Y
+
+    classDef neutral fill:transparent,stroke:#2B3742,color:#E9F0F5,stroke-width:1.35px
+    classDef machine fill:#122525,stroke:#55C7C2,color:#E9F0F5,stroke-width:1.35px
+
+    class D machine
+    class T,Y neutral

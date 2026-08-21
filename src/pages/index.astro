@@ -16,16 +16,8 @@ const articles = allArticles.slice(0, 2);
 
 const writingHeading =
   allArticles.length >= 3 ? "Selected Writing" : "Latest Writing";
-const writingTitle =
-  allArticles.length >= 3
-    ? "Notes on durable technical systems."
-    : "Thinking out loud.";
 const projectHeading =
   projects.length >= 3 ? "Selected Projects" : "Current Project";
-const projectTitle =
-  projects.length >= 3
-    ? "Public work as it becomes ready to document."
-    : "AtlasDocs";
 
 const { motto, pillars, stance } = home;
 const homeDescription =
@@ -72,7 +64,9 @@ const structuredData = homeJsonLd();
     <div class="page-container stack">
       <div class="section-heading">
         <p class="eyebrow">{writingHeading}</p>
-        <h2>{writingTitle}</h2>
+        <h2>
+          <a href="/writing/">Thinking out loud</a>
+        </h2>
       </div>
       <div class={`card-grid ${articles.length === 1 ? "single" : ""}`}>
         {articles.map((article) => <ArticleCard article={article} />)}
@@ -84,7 +78,9 @@ const structuredData = homeJsonLd();
     <div class="page-container stack">
       <div class="section-heading">
         <p class="eyebrow">{projectHeading}</p>
-        <h2>{projectTitle}</h2>
+        <h2>
+          <a href="/projects/">Building systems in public</a>
+        </h2>
       </div>
       <div class={`card-grid ${projects.length === 1 ? "single" : ""}`}>
         {projects.map((project) => <ProjectCard project={project} />)}
@@ -147,13 +143,13 @@ const structuredData = homeJsonLd();
 
   .hero-pillars li {
     display: inline-flex;
-    min-height: 2.35rem;
+    min-height: 2.5rem;
     align-items: center;
-    padding: 0.52rem 1.1rem;
+    padding: 0.52rem 1.15rem;
     border: 1px solid color-mix(in srgb, var(--color-warm-accent) 42%, transparent);
     border-radius: 999px;
     color: var(--color-warm-accent);
-    font-size: 0.92rem;
+    font-size: 1.05rem;
     font-weight: 650;
     line-height: 1;
     transition:
@@ -187,6 +183,16 @@ const structuredData = homeJsonLd();
     margin: 0;
     font-size: clamp(1.85rem, 1.55rem + 1.1vw, 2.7rem);
     line-height: 1.08;
+  }
+
+  .section-heading h2 a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--motion-fast) var(--ease-standard);
+  }
+
+  .section-heading h2 a:hover {
+    color: var(--color-accent-strong);
   }
 
   .stance {

@@ -48,13 +48,15 @@
 .status-badge {
   display: inline-flex;
   align-items: center;
-  min-height: 1.7rem;
-  padding: 0.2rem 0.55rem;
+  box-sizing: border-box;
+  min-height: var(--tag-min-height);
+  padding: 0 0.7rem;
   border: 1px solid color-mix(in srgb, var(--color-accent) 38%, var(--color-border));
   border-radius: var(--radius-small);
   color: var(--color-accent-strong);
-  font-size: 0.78rem;
+  font-size: var(--tag-font-size);
   font-weight: 750;
+  line-height: 1;
 }
 
 .article-content {

@@ -1,0 +1,34 @@
+%% Source: atlasdocs — semantic layer on top of Paperless
+%% Theme: visuals/sources/_site/diagram-theme.json
+%% Preview rules: no multi-line init, no <small>, quote special chars
+flowchart LR
+    subgraph Atlas["AtlasDocs / Semantic layer"]
+      direction TB
+      E(["Entities"])
+      R(["Relationships"])
+      O(["Ontologies"])
+      P(["Provenance"])
+      E ~~~ R ~~~ O ~~~ P
+    end
+
+    API(["REST API"])
+
+    subgraph Paperless["Paperless-ngx / Document system"]
+      direction TB
+      F(["Files"])
+      OCR(["OCR"])
+      S(["Search"])
+      A(["Permissions"])
+      F ~~~ OCR ~~~ S ~~~ A
+    end
+
+    Atlas --> API
+    API --> Paperless
+
+    classDef neutral fill:transparent,stroke:#2B3742,color:#E9F0F5,stroke-width:1.35px
+    classDef machine fill:#122525,stroke:#55C7C2,color:#E9F0F5,stroke-width:1.35px
+    classDef human fill:#211D15,stroke:#D9B76E,color:#E9F0F5,stroke-width:1.35px
+
+    class E,R,O,P machine
+    class API human
+    class F,OCR,S,A neutral

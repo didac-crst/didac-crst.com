@@ -1,0 +1,20 @@
+---
+type Props = {
+  file: string;
+  caption: string;
+};
+
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
+const { file, caption } = Astro.props;
+const svg = readFileSync(
+  resolve("public/images/projects/atlasdocs", file),
+  "utf8"
+);
+---
+
+<figure class="article-wide">
+  <Fragment set:html={svg} />
+  <figcaption>{caption}</figcaption>
+</figure>

@@ -374,12 +374,23 @@ const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
         const getElement = (target) => (target instanceof Element ? target : target?.parentElement);
 
         const syncActiveNavigation = () => {
-          const currentPath = window.location.pathname;
+          const normalizePath = (path) => {
+            const trimmed = path.replace(/\/+$/, "");
+            return trimmed === "" ? "/" : trimmed;
+          };
+
+          const currentPath = normalizePath(window.location.pathname);
 
           document.querySelectorAll(".primary-nav a, .mobile-nav a").forEach((link) => {
-            const linkPath = new URL(link.getAttribute("href") || "/", window.location.origin).pathname;
+            const linkPath = normalizePath(
+              new URL(link.getAttribute("href") || "/", window.location.origin).pathname
+            );
+            const isActive =
+              linkPath === "/"
+                ? currentPath === "/"
+                : currentPath === linkPath || currentPath.startsWith(`${linkPath}/`);
 
-            if (linkPath === currentPath) {
+            if (isActive) {
               link.setAttribute("aria-current", "page");
             } else {
               link.removeAttribute("aria-current");

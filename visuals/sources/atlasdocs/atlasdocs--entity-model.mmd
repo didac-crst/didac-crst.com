@@ -1,0 +1,24 @@
+%% Source: atlasdocs — document as entity in relationships
+%% Theme: visuals/sources/_site/diagram-theme.json
+%% Preview rules: no multi-line init, no <small>, quote special chars
+flowchart LR
+    Document(["Document"])
+    Payment(["Payment"])
+    Property(["Property"])
+    Company(["Company"])
+    Period(["Period"])
+    Country(["Country"])
+    Account(["Account"])
+
+    Document -->|"proves"| Payment
+    Document -->|"concerns"| Property
+    Document -->|"issued by"| Company
+    Document -->|"during"| Period
+    Property -->|"located in"| Country
+    Payment -->|"affects"| Account
+
+    classDef neutral fill:transparent,stroke:#2B3742,color:#E9F0F5,stroke-width:1.35px
+    classDef machine fill:#122525,stroke:#55C7C2,color:#E9F0F5,stroke-width:1.35px
+
+    class Document machine
+    class Payment,Property,Company,Period,Country,Account neutral

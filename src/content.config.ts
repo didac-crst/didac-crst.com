@@ -63,4 +63,14 @@ const writing = defineCollection({
   })
 });
 
-export const collections = { writing };
+const projects = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/projects" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    /** Wrap content before the first h2 as a narrative lead. Same as writing. */
+    storyLead: z.boolean().optional()
+  })
+});
+
+export const collections = { writing, projects };

@@ -52,6 +52,11 @@
   /* Reader size preference (Aa) — reading surfaces only; default S */
   --article-font-size: 1.125rem;
   --article-line-height: 1.72;
+  /* Cyan section/eyebrow titles — ~reader M prominence */
+  --title-accent-size: 1.25rem;
+  /* Shared chip / pill type size (~+2pt vs former 0.8rem) */
+  --tag-font-size: 0.9rem;
+  --tag-min-height: 1.9rem;
 
   /* Technical diagram dual palette — dark */
   --diagram-surface: transparent;

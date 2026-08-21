@@ -140,10 +140,16 @@ export function projectJsonLd(project: Project): JsonLd {
     "@context": "https://schema.org",
     "@type": "SoftwareSourceCode",
     name: project.name,
-    description: project.summary,
+    description: project.description,
     url: absoluteUrl(`/projects/${project.slug}/`),
+    dateCreated: project.started.toISOString(),
+    dateModified: project.updated.toISOString(),
     author: personJsonLd()
   };
+
+  if (project.version) {
+    data.softwareVersion = project.version;
+  }
 
   if (project.githubUrl) {
     data.codeRepository = project.githubUrl;

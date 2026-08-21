@@ -8,16 +8,29 @@ const { items, label } = Astro.props;
 ---
 
 <ul class="chip-list" aria-label={label}>
-  {items.map((item) => <li class="tag">{item}</li>)}
+  {
+    items.map((item) => (
+      <li>
+        <span class="tag">{item}</span>
+      </li>
+    ))
+  }
 </ul>
 
 <style>
   .chip-list {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: var(--space-2);
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .chip-list li {
+    margin: 0;
+    padding: 0;
+    line-height: 0;
   }
 </style>

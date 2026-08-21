@@ -1,0 +1,286 @@
+---
+title: "AtlasDocs"
+description: "When documents stop being files and become knowledge — a semantic layer on top of Paperless-ngx for entities, relationships, and provenance."
+---
+
+import ProjectDiagram from "../../components/ProjectDiagram.astro";
+
+For years, I organised my personal archive like many engineers probably do.
+
+I bought a NAS.
+
+I created folders.
+
+I invented naming conventions.
+
+I was convinced that if the structure was clean enough, future me would thank present me.
+
+Future me was… moderately grateful.
+
+The system worked.
+
+Until it didn't.
+
+```
+Documents/
+├── Finance/
+│   └── Taxes/
+│       └── 2025/
+│           └── declaration.pdf
+│
+├── Home/
+│   └── Electricity/
+│       └── invoice.pdf
+│
+└── Work/
+    └── Contracts/
+        └── employment.pdf
+```
+
+The problem was not storage.
+
+Storage was easy.
+
+Modern document systems are excellent at ingesting files, extracting text, running OCR, indexing content, and making documents searchable.
+
+The problem was something else:
+
+**A document rarely belongs to only one place.**
+
+## The problem with folders
+
+A folder forces every document to have a single home.
+
+But reality does not work like that.
+
+A rental contract is not only a legal document.
+
+It is also related to:
+
+- a property
+- a tenant
+- a landlord
+- a country
+- a period of time
+- financial transactions
+
+An electricity invoice is not only a bill.
+
+It is evidence of:
+
+- a service provider
+- a house
+- a contract
+- a payment
+- a consumption period
+
+The information exists.
+
+The documents exist.
+
+But the relationships are hidden.
+
+Usually somewhere between my memory, a spreadsheet, and a folder called `Misc` that nobody wants to open.
+
+A folder captures location.
+
+It does not capture meaning.
+
+## From hierarchy to relationships
+
+At some point, I stopped asking:
+
+> Where should I put this document?
+
+and started asking:
+
+> What is this document about?
+
+That small change completely changes the model.
+
+A document is not just a file.
+
+It is evidence about things that exist in the real world.
+
+<ProjectDiagram
+  file="atlasdocs--invoice-graph.svg"
+  caption="An invoice is evidence in a graph of entities — not a file that lives in one folder."
+/>
+
+The invoice is no longer something sitting inside a folder.
+
+It becomes a piece of evidence connected to a larger knowledge system.
+
+## The same problem I had seen before
+
+The interesting part is that this was not really a new problem.
+
+During my engineering work, I repeatedly encountered the same pattern:
+
+Information is everywhere.
+
+Meaning is not.
+
+Data exists in databases, documents, reports, emails, and people's heads.
+
+The difficult part is not storing more information.
+
+The difficult part is preserving the context that makes information useful.
+
+AtlasDocs started as a personal archive experiment, but the underlying question is much broader:
+
+**How do we build systems where information remains understandable over time?**
+
+## Why not just extend Paperless-ngx?
+
+When I started exploring this idea, Paperless-ngx was the obvious foundation.
+
+It already solves many difficult problems:
+
+- document ingestion
+- OCR
+- search
+- previews
+- permissions
+- lifecycle management
+
+The mistake would be asking it to solve a different problem.
+
+Paperless is excellent at answering:
+
+> Where is my document?
+
+But I needed something answering:
+
+> What does this document mean, and how does it connect to everything else?
+
+Trying to embed a semantic model directly into Paperless would couple two different responsibilities.
+
+Instead, AtlasDocs adds a semantic layer on top of it.
+
+<ProjectDiagram
+  file="atlasdocs--paperless-companion.svg"
+  caption="Paperless stays the system of record. AtlasDocs understands what those documents represent."
+/>
+
+Paperless remains the system of record for documents.
+
+AtlasDocs understands what those documents represent.
+
+## The AtlasDocs model
+
+The core idea is simple:
+
+**A document is an entity that can participate in relationships.**
+
+Instead of:
+
+```
+invoice.pdf
+```
+
+we model:
+
+<ProjectDiagram
+  file="atlasdocs--entity-model.svg"
+  caption="Documents as entities with typed relationships — the semantic layer folders cannot express."
+/>
+
+The goal is not to create a giant graph database.
+
+The goal is to add the missing semantic layer that allows information to remain understandable as the archive grows.
+
+## Design principles
+
+AtlasDocs follows a few principles.
+
+### Keep the existing archive
+
+Documents remain where they belong.
+
+AtlasDocs does not replace Paperless.
+
+It references it.
+
+<p class="process-strip">
+  <span class="process-strip-strong">AtlasDocs UUID</span>
+  <span class="process-strip-arrow" aria-hidden="true">→</span>
+  <span>ExternalReference</span>
+  <span class="process-strip-arrow" aria-hidden="true">→</span>
+  <span class="process-strip-machine">Paperless Document ID</span>
+</p>
+
+### Prefer explicit relationships over hidden assumptions
+
+A tag says:
+
+```
+Tax
+```
+
+A relationship says:
+
+<ProjectDiagram
+  file="atlasdocs--relationship-chain.svg"
+  caption="Typed links make meaning inspectable — not a folder path, not a single tag."
+/>
+
+Meaning becomes inspectable.
+
+### Preserve provenance
+
+Knowledge without origin becomes unreliable.
+
+Every relationship should eventually answer:
+
+- Where did this information come from?
+- Was it manually created?
+- Was it imported?
+- Was it inferred?
+
+## Current state
+
+AtlasDocs is still early.
+
+The current version focuses on the foundation:
+
+- Entity model
+- External references
+- Typed relationships
+- Ontologies
+- Reconciliation with Paperless
+- Classification workbench
+
+Not yet:
+
+- LLM enrichment
+- embeddings
+- automatic extraction
+- graph visualisation
+- intelligent assistants
+
+Those are possible because the semantic foundation exists first.
+
+## Why this matters beyond documents
+
+The interesting part is not document management.
+
+Documents are only one example.
+
+The same problem appears everywhere:
+
+- engineering knowledge
+- company processes
+- research
+- compliance
+- personal archives
+
+Information is usually abundant.
+
+Meaning is the scarce resource.
+
+AtlasDocs is an experiment around one question:
+
+> What happens when we stop organising information around files and start organising it around knowledge?
+
+**AtlasDocs** — an open source knowledge architecture experiment built on top of Paperless-ngx.

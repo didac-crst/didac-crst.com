@@ -2,9 +2,13 @@ export type Project = {
   name: string;
   slug: string;
   description: string;
-  summary: string;
   status: "planned" | "active" | "archived";
-  statusLabel: string;
+  tags: string[];
+  /** First public / repo start date */
+  started: Date;
+  /** Last meaningful update (curated, like article `updated`) */
+  updated: Date;
+  version?: string;
   externalUrl?: string;
   githubUrl?: string;
   programmingLanguage?: string[];
@@ -20,17 +24,21 @@ export const projects: Project[] = [
   {
     name: "AtlasDocs",
     slug: "atlasdocs",
-    description: "Document intelligence and knowledge architecture.",
-    summary:
-      "An open-source exploration of turning documents and metadata into trusted knowledge while combining deterministic processing with AI only where it adds value.",
+    description:
+      "When documents stop being files and become knowledge — a semantic layer on top of Paperless-ngx for entities, relationships, and provenance.",
     status: "active",
-    statusLabel: "Open source · Early development",
+    tags: ["Open source", "Early development", "Knowledge Architecture"],
+    started: new Date("2026-08-07"),
+    updated: new Date("2026-08-21"),
+    version: "v0.4",
+    githubUrl: "https://github.com/didac-crst/atlas-docs",
+    programmingLanguage: ["Python", "TypeScript"],
     keywords: [
       "document intelligence",
       "knowledge architecture",
-      "information architecture",
-      "deterministic systems",
-      "AI-enhanced systems"
+      "Paperless-ngx",
+      "semantic layer",
+      "information architecture"
     ]
   }
 ];

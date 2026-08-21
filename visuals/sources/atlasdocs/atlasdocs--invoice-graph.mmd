@@ -1,0 +1,22 @@
+%% Source: atlasdocs — invoice as evidence of related entities
+%% Theme: visuals/sources/_site/diagram-theme.json
+%% Preview rules: no multi-line init, no <small>, quote special chars
+flowchart TD
+    D(["Electricity Invoice"])
+    P(["Energy Provider"])
+    H(["House"])
+    C(["Contract"])
+    T(["2026 Period"])
+    PAY(["Payment"])
+
+    D -->|"issued by"| P
+    D -->|"concerns"| H
+    D -->|"belongs to"| C
+    D -->|"during"| T
+    D -->|"proves"| PAY
+
+    classDef neutral fill:transparent,stroke:#2B3742,color:#E9F0F5,stroke-width:1.35px
+    classDef machine fill:#122525,stroke:#55C7C2,color:#E9F0F5,stroke-width:1.35px
+
+    class D machine
+    class P,H,C,T,PAY neutral

@@ -121,7 +121,7 @@ select {
 .eyebrow {
   margin: 0 0 var(--space-3);
   color: var(--color-accent-strong);
-  font-size: 0.78rem;
+  font-size: var(--title-accent-size);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -283,8 +283,8 @@ select {
 .card h3 {
   margin: 0;
   color: var(--color-text);
-  font-size: clamp(1.12rem, 1rem + 0.35vw, 1.35rem);
-  line-height: 1.3;
+  font-size: clamp(1.4rem, 1.2rem + 0.55vw, 1.85rem);
+  line-height: 1.25;
   transition: color var(--duration-fast) ease;
 }
 
@@ -313,14 +313,17 @@ select {
 .tag {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   width: fit-content;
-  padding: 0.2rem 0.55rem;
+  min-height: var(--tag-min-height);
+  padding: 0 0.7rem;
   border: 1px solid color-mix(in srgb, var(--color-warm-accent) 42%, var(--color-border));
   border-radius: 999px;
   color: var(--color-warm-accent);
-  font-size: 0.8rem;
+  font-size: var(--tag-font-size);
   font-weight: 650;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 @media (max-width: 860px) {
