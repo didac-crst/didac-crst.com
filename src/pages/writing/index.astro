@@ -1,5 +1,6 @@
 ---
 import ArticleCard from "@/components/ArticleCard.astro";
+import RssLink from "@/components/RssLink.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
@@ -21,6 +22,9 @@ const articles = (await getCollection("writing"))
           Exploring technical decisions, architectural trade-offs, and the reasoning
           behind the systems I build.
         </p>
+        <p class="writing-subscribe">
+          <RssLink label="Copy RSS feed" />
+        </p>
       </div>
       <div class={`card-grid ${articles.length === 1 ? "single" : ""}`} data-motion-reveal>
         {articles.map((article) => <ArticleCard article={article} />)}
@@ -28,3 +32,9 @@ const articles = (await getCollection("writing"))
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .writing-subscribe {
+    margin: var(--space-2) 0 0;
+  }
+</style>

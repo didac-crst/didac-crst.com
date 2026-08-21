@@ -36,9 +36,10 @@ const formatLongDate = (date: Date) =>
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <article>
-    <div class="page-container article-layout">
+    <section class="section">
+      <div class="page-container article-layout">
       <header class="article-header stack" data-motion-enter>
-        <p class="eyebrow">Projects</p>
+        <p class="eyebrow"><a href="/projects/">Projects</a></p>
         <div class="project-title">
           <h1>{story.data.title}</h1>
           {project.version && <span class="status-badge">{project.version}</span>}
@@ -80,7 +81,8 @@ const formatLongDate = (date: Date) =>
           )
         }
       </div>
-    </div>
+      </div>
+    </section>
   </article>
 </BaseLayout>
 

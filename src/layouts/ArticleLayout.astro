@@ -44,10 +44,11 @@ const structuredData = articlePageJsonLd(article, articleSlug);
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <article>
-    <div class="page-container article-layout">
+    <section class="section">
+      <div class="page-container article-layout">
       <header class="article-header stack" data-motion-enter>
         <div class="cluster">
-          <p class="eyebrow">Writing</p>
+          <p class="eyebrow"><a href="/writing/">Writing</a></p>
           {living && <span class="status-badge">Living article</span>}
           {version && <span class="status-badge">{version}</span>}
         </div>
@@ -115,7 +116,8 @@ const structuredData = articlePageJsonLd(article, articleSlug);
           />
         )
       }
-    </div>
+      </div>
+    </section>
     <ArticleFooter article={article} relatedArticles={relatedArticles} />
   </article>
 </BaseLayout>

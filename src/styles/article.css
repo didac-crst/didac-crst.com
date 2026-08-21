@@ -8,7 +8,9 @@
   width: 100%;
   max-width: none;
   min-width: 0;
-  padding-block: var(--space-8) var(--space-7);
+  /* Vertical inset comes from .section (same as Writing / Projects index). */
+  padding-block: 0;
+  margin-bottom: var(--space-7);
 }
 
 .article-header h1 {
