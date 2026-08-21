@@ -36,17 +36,20 @@ const {
   type = "website"
 } = Astro.props;
 
-const pageTitle =
-  title === SITE.title || title === SITE.homeTitle
-    ? SITE.homeTitle
-    : `${title} | ${SITE.title}`;
+const pageTitle = title === SITE.title ? title : `${title} | ${SITE.title}`;
 const metaDescription = ensureMetaDescription(description, descriptionFallback);
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, SITE.domain).toString();
 const imageUrl = new URL(image, SITE.domain).toString();
+const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html
+  lang="en"
+  data-theme="dark"
+  data-page={isHome ? "home" : undefined}
+  transition:animate="none"
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -55,10 +58,12 @@ const imageUrl = new URL(image, SITE.domain).toString();
     <meta name="description" content={metaDescription} />
     <meta name="author" content={author} />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="icon" href={SITE.faviconIco} sizes="any" />
-    <link rel="icon" type="image/png" sizes="16x16" href={SITE.favicon16} />
-    <link rel="icon" type="image/png" sizes="32x32" href={SITE.favicon32} />
+    <link rel="icon" type="image/svg+xml" href={SITE.faviconSvg} />
     <link rel="icon" type="image/png" sizes="48x48" href={SITE.favicon48} />
+    <link rel="icon" type="image/png" sizes="96x96" href={SITE.favicon96} />
+    <link rel="icon" type="image/png" sizes="32x32" href={SITE.favicon32} />
+    <link rel="icon" type="image/png" sizes="16x16" href={SITE.favicon16} />
+    <link rel="icon" href={SITE.faviconIco} sizes="any" />
     <link rel="apple-touch-icon" sizes="180x180" href={SITE.appleTouchIcon} />
     <link rel="alternate" type="application/rss+xml" title={`${SITE.title} Writing`} href="/rss.xml" />
     <meta property="og:type" content={type} />
@@ -75,7 +80,14 @@ const imageUrl = new URL(image, SITE.domain).toString();
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={metaDescription} />
     <meta name="twitter:image" content={imageUrl} />
-    <ClientRouter />
+    <ClientRouter fallback="swap" />
+    <script is:inline>
+      (() => {
+        if (document.documentElement.getAttribute("data-page") === "home") {
+          document.documentElement.classList.add("identity-transition-boot");
+        }
+      })();
+    </script>
     <script is:inline>
       (() => {
         const storageKey = "didac-crst-theme";
@@ -220,6 +232,143 @@ const imageUrl = new URL(image, SITE.domain).toString();
       </main>
       <Footer />
     </div>
+    <script>
+      import {
+        initHomepageIdentityTransition,
+        resetHeaderIdentityInteraction
+      } from "@/scripts/homepageIdentityTransition";
+
+      let identityController: ReturnType<typeof initHomepageIdentityTransition> = null;
+
+      const syncHomeDocumentFlags = () => {
+        const isHome =
+          window.location.pathname === "/" || window.location.pathname === "";
+        const header = document.querySelector("[data-site-header]");
+
+        if (isHome) {
+          document.documentElement.setAttribute("data-page", "home");
+          document.documentElement.classList.add("identity-transition-boot");
+          header?.setAttribute("data-home-transition", "true");
+          // Hide + disable brand until the transition module applies scroll state.
+          resetHeaderIdentityInteraction(false);
+        } else {
+          document.documentElement.removeAttribute("data-page");
+          document.documentElement.classList.remove("identity-transition-boot");
+          document.documentElement.classList.remove("identity-transition-enabled");
+          header?.removeAttribute("data-home-transition");
+          // Other pages: brand must be a normal home link again.
+          resetHeaderIdentityInteraction(true);
+        }
+
+        return isHome;
+      };
+
+      const syncHomepageIdentityTransition = () => {
+        identityController?.dispose();
+        identityController = null;
+
+        if (!syncHomeDocumentFlags()) return;
+
+        // Defer one frame so ClientRouter morph/layout has settled before measuring.
+        requestAnimationFrame(() => {
+          if (!(window.location.pathname === "/" || window.location.pathname === "")) {
+            return;
+          }
+          identityController?.dispose();
+          identityController = initHomepageIdentityTransition();
+        });
+      };
+
+      document.addEventListener("astro:after-swap", syncHomeDocumentFlags);
+      document.addEventListener("astro:page-load", syncHomepageIdentityTransition);
+
+      const prefersReducedMotion = () =>
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      const pageHoldMs = () => {
+        const raw = getComputedStyle(document.documentElement)
+          .getPropertyValue("--motion-page-hold")
+          .trim();
+        const ms = Number.parseFloat(raw);
+        return Number.isFinite(ms) ? ms : 200;
+      };
+
+      let composeHoldTimer = 0;
+
+      const endPageCompose = (main: HTMLElement) => {
+        // Keep above-the-fold sections visible (they already developed with <main>).
+        // Leave the rest for scroll so they can wipe in later.
+        document.querySelectorAll("[data-motion-reveal]").forEach((element) => {
+          if (!(element instanceof HTMLElement)) return;
+          const rect = element.getBoundingClientRect();
+          const inView = rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
+          if (!inView) return;
+          element.classList.add("is-visible", "is-developed");
+          element.setAttribute("data-reveal-instant", "");
+        });
+        main.removeAttribute("data-compose");
+        document.documentElement.removeAttribute("data-composing");
+      };
+
+      const startPageCompose = (main: HTMLElement) => {
+        window.clearTimeout(composeHoldTimer);
+
+        document.documentElement.classList.add("motion-compose-nav");
+        document.documentElement.setAttribute("data-composing", "");
+        main.setAttribute("data-compose", "prep");
+
+        // Hold on empty/black content, then wipe in.
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            if (!(main.isConnected && main.classList.contains("site-main"))) return;
+            if (prefersReducedMotion()) {
+              endPageCompose(main);
+              document.documentElement.classList.remove("motion-compose-nav");
+              return;
+            }
+
+            composeHoldTimer = window.setTimeout(() => {
+              if (!(main.isConnected && main.classList.contains("site-main"))) return;
+
+              main.style.setProperty("animation", "none");
+              void main.offsetWidth;
+              main.style.removeProperty("animation");
+              main.setAttribute("data-compose", "on");
+
+              const onDone = (event: AnimationEvent) => {
+                if (event.target !== main) return;
+                if (event.animationName !== "motion-page-compose") return;
+                main.removeEventListener("animationend", onDone);
+                endPageCompose(main);
+              };
+
+              main.addEventListener("animationend", onDone);
+            }, pageHoldMs());
+          });
+        });
+      };
+
+      // Soft navigations: DOM is live here (VT animations disabled on <html>).
+      document.addEventListener("astro:after-swap", () => {
+        const main = document.querySelector(".site-main");
+        if (!(main instanceof HTMLElement) || prefersReducedMotion()) return;
+        startPageCompose(main);
+      });
+
+      // Hard reload / first paint: after-swap does not run.
+      // page-load can fire before this deferred module registers — also run once now.
+      const maybeComposeOnLoad = () => {
+        const main = document.querySelector(".site-main");
+        if (!(main instanceof HTMLElement) || prefersReducedMotion()) return;
+        if (main.getAttribute("data-compose") === "prep") return;
+        if (main.getAttribute("data-compose") === "on") return;
+        if (document.documentElement.hasAttribute("data-composing")) return;
+        startPageCompose(main);
+      };
+
+      document.addEventListener("astro:page-load", maybeComposeOnLoad);
+      maybeComposeOnLoad();
+    </script>
     <script is:inline>
       (() => {
         const getElement = (target) => (target instanceof Element ? target : target?.parentElement);
@@ -398,7 +547,8 @@ const imageUrl = new URL(image, SITE.domain).toString();
 
         const revealNow = () => {
           document.querySelectorAll("[data-motion-reveal]").forEach((element) => {
-            element.classList.add("is-visible");
+            element.classList.add("is-visible", "is-developed");
+            element.setAttribute("data-reveal-instant", "");
           });
         };
 
@@ -423,10 +573,22 @@ const imageUrl = new URL(image, SITE.domain).toString();
           window.DidacUI.motionObserver = new IntersectionObserver(
             (entries) => {
               entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                  entry.target.classList.add("is-visible");
-                  window.DidacUI.motionObserver?.unobserve(entry.target);
-                }
+                if (!entry.isIntersecting) return;
+
+                const element = entry.target;
+                if (!(element instanceof HTMLElement)) return;
+
+                element.classList.add("is-visible");
+                window.DidacUI.motionObserver?.unobserve(element);
+
+                const settleReveal = (event) => {
+                  if (event.target !== element) return;
+                  if (event.animationName !== "motion-page-develop") return;
+                  element.removeEventListener("animationend", settleReveal);
+                  element.classList.add("is-developed");
+                };
+
+                element.addEventListener("animationend", settleReveal);
               });
             },
             {

@@ -1,12 +1,12 @@
 ---
 import ArticleCard from "@/components/ArticleCard.astro";
+import Identity from "@/components/Identity.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import SocialLinks from "@/components/SocialLinks.astro";
 import home from "@/home.config.json";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { homeJsonLd } from "@/lib/structured-data";
 import { projects } from "@/projects";
-import { SITE } from "@/site.config";
 import { getCollection } from "astro:content";
 
 const allArticles = (await getCollection("writing"))
@@ -38,8 +38,9 @@ const structuredData = homeJsonLd();
   <section class="hero page-container" data-motion-home>
     <div class="hero-copy">
       <div class="hero-lockup">
-        <img class="hero-lockup-logo" src={SITE.logo} alt="" width="56" height="56" aria-hidden="true" />
-        <h1 class="hero-name">{SITE.name}</h1>
+        <div class="hero-identity-wrapper" data-hero-identity-wrapper>
+          <Identity variant="hero" />
+        </div>
         <div class="hero-details">
           <p class="hero-philosophy">
             {motto.join(" ")}
@@ -106,37 +107,24 @@ const structuredData = homeJsonLd();
   }
 
   .hero-lockup {
+    --hero-logo-size: clamp(4.55rem, 5.45vw, 5rem);
+    --hero-identity-gap: 0.8rem;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: center;
-    column-gap: 0.8rem;
+    gap: 0;
     max-width: 100%;
   }
 
-  .hero-lockup-logo {
-    grid-column: 1;
-    grid-row: 1;
-    width: clamp(4.55rem, 5.45vw, 5rem);
-    height: clamp(4.55rem, 5.45vw, 5rem);
-    flex: 0 0 auto;
-    object-fit: contain;
-    transform: translateY(0.18rem);
-  }
-
-  .hero-name {
-    grid-column: 2;
-    grid-row: 1;
-    margin: 0;
-    font-size: clamp(3.15rem, 6.3vw, 6.3rem);
-    line-height: 0.95;
-    white-space: nowrap;
+  .hero-identity-wrapper {
+    width: fit-content;
+    max-width: 100%;
   }
 
   .hero-details {
-    grid-column: 2;
     display: grid;
     gap: var(--space-5);
     margin-top: var(--space-6);
+    /* Wide screens: align with the name (D of Didac), not the logo. */
+    padding-left: calc(var(--hero-logo-size) + var(--hero-identity-gap));
   }
 
   .hero-philosophy {
@@ -224,21 +212,13 @@ const structuredData = homeJsonLd();
     }
 
     .hero-lockup {
-      column-gap: 0.65rem;
-    }
-
-    .hero-lockup-logo {
-      width: clamp(3rem, 11vw, 3.15rem);
-      height: clamp(3rem, 11vw, 3.15rem);
-    }
-
-    .hero-name {
-      font-size: clamp(2.1rem, 9.45vw, 3.6rem);
+      --hero-logo-size: clamp(3rem, 11vw, 3.15rem);
+      --hero-identity-gap: 0.65rem;
     }
 
     .hero-details {
-      grid-column: 1 / -1;
       margin-top: var(--space-5);
+      padding-left: 0;
     }
 
     .hero-philosophy {
@@ -258,16 +238,8 @@ const structuredData = homeJsonLd();
 
   @media (max-width: 430px) {
     .hero-lockup {
-      column-gap: 0.55rem;
-    }
-
-    .hero-lockup-logo {
-      width: clamp(3rem, 12.5vw, 3.1rem);
-      height: clamp(3rem, 12.5vw, 3.1rem);
-    }
-
-    .hero-name {
-      font-size: clamp(1.95rem, 8.8vw, 3rem);
+      --hero-logo-size: clamp(3rem, 12.5vw, 3.1rem);
+      --hero-identity-gap: 0.55rem;
     }
   }
 </style>
