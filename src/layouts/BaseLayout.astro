@@ -43,10 +43,11 @@ const pageTitle =
 const metaDescription = ensureMetaDescription(description, descriptionFallback);
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, SITE.domain).toString();
 const imageUrl = new URL(image, SITE.domain).toString();
+const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-page={isHome ? "home" : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -76,6 +77,13 @@ const imageUrl = new URL(image, SITE.domain).toString();
     <meta name="twitter:description" content={metaDescription} />
     <meta name="twitter:image" content={imageUrl} />
     <ClientRouter />
+    <script is:inline>
+      (() => {
+        if (document.documentElement.getAttribute("data-page") === "home") {
+          document.documentElement.classList.add("identity-transition-boot");
+        }
+      })();
+    </script>
     <script is:inline>
       (() => {
         const storageKey = "didac-crst-theme";
@@ -220,6 +228,49 @@ const imageUrl = new URL(image, SITE.domain).toString();
       </main>
       <Footer />
     </div>
+    <script>
+      import { initHomepageIdentityTransition } from "@/scripts/homepageIdentityTransition";
+
+      let identityController: ReturnType<typeof initHomepageIdentityTransition> = null;
+
+      const syncHomeDocumentFlags = () => {
+        const isHome =
+          window.location.pathname === "/" || window.location.pathname === "";
+        const header = document.querySelector("[data-site-header]");
+
+        if (isHome) {
+          document.documentElement.setAttribute("data-page", "home");
+          document.documentElement.classList.add("identity-transition-boot");
+          header?.setAttribute("data-home-transition", "true");
+        } else {
+          document.documentElement.removeAttribute("data-page");
+          document.documentElement.classList.remove("identity-transition-boot");
+          document.documentElement.classList.remove("identity-transition-enabled");
+          header?.removeAttribute("data-home-transition");
+        }
+
+        return isHome;
+      };
+
+      const syncHomepageIdentityTransition = () => {
+        identityController?.dispose();
+        identityController = null;
+
+        if (!syncHomeDocumentFlags()) return;
+
+        // Defer one frame so ClientRouter morph/layout has settled before measuring.
+        requestAnimationFrame(() => {
+          if (!(window.location.pathname === "/" || window.location.pathname === "")) {
+            return;
+          }
+          identityController?.dispose();
+          identityController = initHomepageIdentityTransition();
+        });
+      };
+
+      document.addEventListener("astro:after-swap", syncHomeDocumentFlags);
+      document.addEventListener("astro:page-load", syncHomepageIdentityTransition);
+    </script>
     <script is:inline>
       (() => {
         const getElement = (target) => (target instanceof Element ? target : target?.parentElement);

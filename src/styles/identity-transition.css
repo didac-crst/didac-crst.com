@@ -1,0 +1,92 @@
+:root {
+  --identity-transition-distance: 180px;
+}
+
+[data-hero-identity] {
+  --identity-x: 0px;
+  --identity-y: 0px;
+  --logo-scale: 1;
+  --name-scale: 1;
+  --name-nudge-x: 0px;
+  --hero-opacity: 1;
+  pointer-events: none;
+}
+
+html.identity-transition-enabled [data-hero-identity] {
+  position: relative;
+  z-index: 90;
+  transform: translate3d(var(--identity-x), var(--identity-y), 0);
+  opacity: var(--hero-opacity);
+  will-change: transform, opacity;
+}
+
+html.identity-transition-enabled [data-hero-identity] [data-identity-logo] {
+  transform-origin: left center;
+  transform: translateY(0.18rem) scale(var(--logo-scale));
+  will-change: transform;
+}
+
+html.identity-transition-enabled [data-hero-identity] [data-identity-name] {
+  display: inline-block;
+  transform-origin: left center;
+  transform: translate3d(var(--name-nudge-x), 0, 0) scale(var(--name-scale));
+  will-change: transform;
+}
+
+html.identity-transition-enabled [data-hero-identity].is-docked {
+  visibility: hidden;
+}
+
+/* Boot (inline) + enabled (module): hide header identity on home until scroll docks it.
+   Without JS neither class is set, so both identities remain visible. */
+html.identity-transition-boot [data-home-transition="true"] [data-header-identity],
+html.identity-transition-enabled [data-home-transition="true"] [data-header-identity] {
+  --header-identity-opacity: 0;
+  opacity: var(--header-identity-opacity);
+}
+
+html.identity-transition-enabled [data-home-transition="true"] [data-header-identity] {
+  will-change: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.identity-transition-enabled [data-hero-identity] {
+    transform: none;
+    will-change: opacity;
+  }
+
+  html.identity-transition-enabled [data-hero-identity] [data-identity-name] {
+    transform: none;
+    will-change: auto;
+  }
+
+  html.identity-transition-enabled [data-hero-identity] [data-identity-logo] {
+    transform: translateY(0.18rem);
+    will-change: auto;
+  }
+
+  html.identity-transition-enabled [data-hero-identity].is-docked {
+    visibility: visible;
+  }
+}
+
+[data-hero-identity][data-debug-identity] {
+  outline: 1px solid #6bc7b3;
+}
+
+[data-hero-identity][data-debug-identity]::after {
+  position: fixed;
+  top: 4.5rem;
+  left: var(--page-gutter);
+  z-index: 120;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  white-space: pre;
+  content: attr(data-debug-identity);
+  pointer-events: none;
+}

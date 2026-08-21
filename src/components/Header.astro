@@ -1,17 +1,20 @@
 ---
+import Identity from "./Identity.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 import ReaderSizeToggle from "./ReaderSizeToggle.astro";
-import { NAVIGATION, SITE } from "@/site.config";
+import { NAVIGATION } from "@/site.config";
 
 const currentPath = Astro.url.pathname;
+const isHome = currentPath === "/" || currentPath === "";
 ---
 
-<header class="site-header">
+<header
+  class="site-header"
+  data-site-header
+  data-home-transition={isHome ? "true" : undefined}
+>
   <div class="page-container header-inner">
-    <a class="brand" href="/" aria-label={`${SITE.name} home`}>
-      <img class="brand-mark" src={SITE.logo} alt="" width="40" height="40" aria-hidden="true" />
-      <span>{SITE.name}</span>
-    </a>
+    <Identity variant="header" />
     <nav class="primary-nav" aria-label="Primary navigation">
       {
         NAVIGATION.map((item) => (
@@ -95,32 +98,6 @@ const currentPath = Astro.url.pathname;
     min-height: 4.25rem;
     min-width: 0;
     transition: min-height var(--motion-fast) var(--ease-standard);
-  }
-
-  .brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
-    min-width: 0;
-    color: var(--color-text);
-    font-weight: 760;
-    text-decoration: none;
-    white-space: nowrap;
-    justify-self: start;
-  }
-
-  .brand span {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .brand-mark {
-    width: 2.5rem;
-    height: 2.5rem;
-    flex: 0 0 auto;
-    border-radius: var(--radius-small);
-    object-fit: contain;
   }
 
   .primary-nav,
@@ -307,16 +284,6 @@ const currentPath = Astro.url.pathname;
   }
 
   @media (max-width: 420px) {
-    .brand {
-      gap: 0.55rem;
-      font-size: 0.95rem;
-    }
-
-    .brand-mark {
-      width: 2.25rem;
-      height: 2.25rem;
-    }
-
     .mobile-menu-trigger {
       width: 2.35rem;
       height: 2.35rem;

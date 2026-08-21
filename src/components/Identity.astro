@@ -1,0 +1,141 @@
+---
+import { SITE } from "@/site.config";
+
+type Props = {
+  variant: "hero" | "header";
+};
+
+const { variant } = Astro.props;
+const isHeader = variant === "header";
+---
+
+{
+  isHeader ? (
+    <a
+      class="brand identity identity--header"
+      href="/"
+      data-header-identity
+      aria-label={`${SITE.name} — Home`}
+    >
+      <img
+        class="brand-mark identity-logo"
+        src={SITE.logo}
+        alt=""
+        width="40"
+        height="40"
+        aria-hidden="true"
+        data-identity-logo
+      />
+      <span class="identity-name" data-identity-name>{SITE.name}</span>
+    </a>
+  ) : (
+    <div class="identity identity--hero" data-hero-identity>
+      <img
+        class="hero-lockup-logo identity-logo"
+        src={SITE.logo}
+        alt=""
+        width="56"
+        height="56"
+        aria-hidden="true"
+        data-identity-logo
+      />
+      <h1 class="hero-name identity-name" data-identity-name>{SITE.name}</h1>
+    </div>
+  )
+}
+
+<style>
+  /* Header — original nav lockup sizes */
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 0;
+    color: var(--color-text);
+    font-size: 1.25rem;
+    font-weight: 760;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    justify-self: start;
+  }
+
+  .brand .identity-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .brand-mark {
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 auto;
+    border-radius: var(--radius-small);
+    object-fit: contain;
+  }
+
+  /* Hero — original display lockup sizes */
+  .identity--hero {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 0.8rem;
+    max-width: 100%;
+  }
+
+  .hero-lockup-logo {
+    width: clamp(4.55rem, 5.45vw, 5rem);
+    height: clamp(4.55rem, 5.45vw, 5rem);
+    flex: 0 0 auto;
+    object-fit: contain;
+    transform: translateY(0.18rem);
+  }
+
+  .hero-name {
+    margin: 0;
+    font-size: clamp(3.15rem, 6.3vw, 6.3rem);
+    line-height: 0.95;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 860px) {
+    .identity--hero {
+      column-gap: 0.65rem;
+    }
+
+    .hero-lockup-logo {
+      width: clamp(3rem, 11vw, 3.15rem);
+      height: clamp(3rem, 11vw, 3.15rem);
+    }
+
+    .hero-name {
+      font-size: clamp(2.1rem, 9.45vw, 3.6rem);
+    }
+  }
+
+  @media (max-width: 430px) {
+    .identity--hero {
+      column-gap: 0.55rem;
+    }
+
+    .hero-lockup-logo {
+      width: clamp(3rem, 12.5vw, 3.1rem);
+      height: clamp(3rem, 12.5vw, 3.1rem);
+    }
+
+    .hero-name {
+      font-size: clamp(1.95rem, 8.8vw, 3rem);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .brand {
+      gap: 0.55rem;
+      font-size: 1.05rem;
+    }
+
+    .brand-mark {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+  }
+</style>
