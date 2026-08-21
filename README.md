@@ -35,6 +35,16 @@ npm run build
 npm run preview
 ```
 
+## Print
+
+One-page PDF of a published article (Chromium / Chrome via Puppeteer; output under `_drafts/`, gitignored):
+
+```sh
+npm run pdf:article -- <slug>
+```
+
+Example: `npm run pdf:article -- ai-needs-better-context`
+
 ## Deployment
 
 Pushes to `main` are automatically built and deployed to GitHub Pages.
@@ -47,7 +57,9 @@ Cloudflare DNS is managed outside this repository. The current production securi
 
 - Writing: `src/content/writing/`
 - Projects: `src/projects.ts` and `src/pages/projects/`
-- Site identity and social URLs: `src/site.config.ts`
+- Home stance / motto: `src/home.config.json`
+- Site identity, SEO titles, Person schema fields, social URLs: `src/site.config.ts`
+- Structured data helpers: `src/lib/structured-data.ts`
 
 Articles support metadata such as:
 
@@ -64,6 +76,7 @@ The article template intentionally supports RSS, reading time, last updated date
 
 - Static-first and minimal client-side JavaScript.
 - Site-wide styling should be driven by tokens in `src/styles/tokens.css`.
+- Dark is the default theme; light is an explicit opt-in (no system-follow option).
 - Keep page/layout width separate from long-form reading width.
 - Prefer reusable components over page-specific styling.
 - Keep article body text justified (`text-align: justify`); keep headings left-aligned and visually prominent; center tables as blocks (cell text stays left).
@@ -101,21 +114,32 @@ CodeRabbit automatic review is disabled; request a manual full review once imple
 ```txt
 .
 ├── .github/workflows/deploy.yml
+├── docs/
 ├── public/
 │   ├── CNAME
-│   ├── favicon.svg
+│   ├── brand/
+│   ├── favicon.ico
+│   ├── images/
 │   ├── og/
-│   ├── robots.txt
-│   └── images/
+│   └── robots.txt
+├── scripts/
 ├── src/
+│   ├── assets/
 │   ├── components/
 │   ├── content/
 │   ├── layouts/
+│   ├── lib/
 │   ├── pages/
 │   ├── styles/
 │   ├── content.config.ts
+│   ├── home.config.json
 │   ├── projects.ts
 │   └── site.config.ts
+├── visuals/
+│   ├── published/
+│   └── sources/
+├── ARTICLE_GUIDELINES.md
+├── VISUAL_GUIDELINES.md
 ├── astro.config.mjs
 ├── package.json
 └── tsconfig.json
