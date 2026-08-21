@@ -34,26 +34,57 @@
   }
 }
 
-::view-transition-old(root) {
-  animation: motion-page-out var(--motion-medium) var(--ease-standard) both;
+::view-transition-old(root),
+::view-transition-new(root),
+::view-transition-group(*) {
+  /* Soft nav uses live DOM compose only — no VT snapshot crossfade. */
+  animation: none !important;
+  mix-blend-mode: normal;
+  opacity: 1;
 }
 
-::view-transition-new(root) {
-  animation: motion-page-in 420ms var(--ease-enter) both;
-}
-
-@keyframes motion-page-out {
-  to {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes motion-page-in {
+/*
+  Top→bottom fade/clip on the real <main> after swap.
+  Runs under the fixed header, so titles cannot paint over the tab.
+*/
+@keyframes motion-page-compose {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    clip-path: inset(0 0 100% 0);
   }
+
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.site-main[data-compose="prep"] {
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+}
+
+.site-main[data-compose="on"] {
+  animation: motion-page-compose var(--motion-page) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* While composing — and after a composed navigation — skip enter staggers (they fight the wipe). */
+html[data-composing] .motion-ready [data-motion-enter] > *,
+html[data-composing] .motion-ready [data-motion-home] .hero-copy > *,
+html[data-composing] .motion-ready [data-motion-home] .positioning,
+html[data-composing] .motion-ready [data-motion-home] .hero-actions,
+html[data-composing] .motion-ready [data-motion-reveal],
+html.motion-compose-nav .motion-ready [data-motion-enter] > *,
+html.motion-compose-nav .motion-ready [data-motion-home] .hero-copy > *,
+html.motion-compose-nav .motion-ready [data-motion-home] .positioning,
+html.motion-compose-nav .motion-ready [data-motion-home] .hero-actions {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+html[data-composing] .motion-ready [data-motion-reveal] {
+  clip-path: none !important;
 }
 
 html {
@@ -89,15 +120,24 @@ body,
 .motion-ready [data-motion-enter] > *,
 .motion-ready [data-motion-home] .hero-copy > *,
 .motion-ready [data-motion-home] .positioning,
-.motion-ready [data-motion-home] .hero-actions,
-.motion-ready [data-motion-reveal],
-.motion-ready [data-motion-reveal] .card,
-.motion-ready [data-motion-reveal] .timeline li,
-.motion-ready [data-motion-reveal] .education-item,
-.motion-ready [data-motion-reveal] .tag,
-.motion-ready [data-motion-reveal] .principle-flow li {
+.motion-ready [data-motion-home] .hero-actions {
   opacity: 0;
   transform: translateY(20px);
+}
+
+/* Scroll: top→bottom develop (same speed as page compose, no fade). */
+@keyframes motion-page-develop {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.motion-ready [data-motion-reveal] {
+  clip-path: inset(0 0 100% 0);
 }
 
 .motion-ready [data-motion-enter] > *,
@@ -155,48 +195,14 @@ body,
 }
 
 .motion-ready [data-motion-reveal].is-visible {
-  animation: motion-enter var(--motion-slow) var(--ease-enter) both;
+  animation: motion-page-develop var(--motion-reveal) cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.motion-ready [data-motion-reveal].is-visible .card,
-.motion-ready [data-motion-reveal].is-visible .timeline li,
-.motion-ready [data-motion-reveal].is-visible .education-item,
-.motion-ready [data-motion-reveal].is-visible .tag,
-.motion-ready [data-motion-reveal].is-visible .principle-flow li {
-  animation: motion-enter 500ms var(--ease-enter) both;
-}
-
-.motion-ready [data-motion-reveal].is-visible .card:nth-child(2),
-.motion-ready [data-motion-reveal].is-visible .timeline li:nth-child(2),
-.motion-ready [data-motion-reveal].is-visible .education-item:nth-child(2),
-.motion-ready [data-motion-reveal].is-visible .tag:nth-child(2),
-.motion-ready [data-motion-reveal].is-visible .principle-flow li:nth-child(2) {
-  animation-delay: 60ms;
-}
-
-.motion-ready [data-motion-reveal].is-visible .card:nth-child(3),
-.motion-ready [data-motion-reveal].is-visible .timeline li:nth-child(3),
-.motion-ready [data-motion-reveal].is-visible .education-item:nth-child(3),
-.motion-ready [data-motion-reveal].is-visible .tag:nth-child(3),
-.motion-ready [data-motion-reveal].is-visible .principle-flow li:nth-child(3) {
-  animation-delay: 120ms;
-}
-
-.motion-ready [data-motion-reveal].is-visible .card:nth-child(4),
-.motion-ready [data-motion-reveal].is-visible .timeline li:nth-child(4),
-.motion-ready [data-motion-reveal].is-visible .education-item:nth-child(4),
-.motion-ready [data-motion-reveal].is-visible .tag:nth-child(4),
-.motion-ready [data-motion-reveal].is-visible .principle-flow li:nth-child(4) {
-  animation-delay: 180ms;
-}
-
-.motion-ready [data-motion-reveal].is-visible .timeline li:nth-child(5),
-.motion-ready [data-motion-reveal].is-visible .tag:nth-child(5) {
-  animation-delay: 240ms;
-}
-
-.motion-ready [data-motion-reveal].is-visible .tag:nth-child(6) {
-  animation-delay: 300ms;
+/* Drop clipping after the wipe so hover lifts / shadows aren’t cut off. */
+.motion-ready [data-motion-reveal].is-developed,
+.motion-ready [data-motion-reveal].is-visible[data-reveal-instant] {
+  animation: none;
+  clip-path: none;
 }
 
 .card:hover {
@@ -242,17 +248,31 @@ body,
     animation: none !important;
   }
 
+  .site-main[data-compose="prep"],
+  .site-main[data-compose="on"] {
+    animation: none !important;
+    opacity: 1 !important;
+    clip-path: none !important;
+  }
+
+  html[data-composing] .motion-ready [data-motion-enter] > *,
+  html[data-composing] .motion-ready [data-motion-home] .hero-copy > *,
+  html[data-composing] .motion-ready [data-motion-home] .positioning,
+  html[data-composing] .motion-ready [data-motion-home] .hero-actions,
+  html[data-composing] .motion-ready [data-motion-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    clip-path: none !important;
+  }
+
   .motion-ready [data-motion-enter] > *,
   .motion-ready [data-motion-home] .hero-copy > *,
   .motion-ready [data-motion-home] .positioning,
   .motion-ready [data-motion-home] .hero-actions,
-  .motion-ready [data-motion-reveal],
-  .motion-ready [data-motion-reveal] .card,
-  .motion-ready [data-motion-reveal] .timeline li,
-  .motion-ready [data-motion-reveal] .education-item,
-  .motion-ready [data-motion-reveal] .tag,
-  .motion-ready [data-motion-reveal] .principle-flow li {
+  .motion-ready [data-motion-reveal] {
     opacity: 1 !important;
     transform: none !important;
+    clip-path: none !important;
   }
 }

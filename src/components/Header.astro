@@ -12,6 +12,7 @@ const isHome = currentPath === "/" || currentPath === "";
   class="site-header"
   data-site-header
   data-home-transition={isHome ? "true" : undefined}
+  transition:persist="site-header"
 >
   <div class="page-container header-inner">
     <Identity variant="header" />

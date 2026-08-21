@@ -39,6 +39,11 @@
   --motion-fast: 180ms;
   --motion-medium: 320ms;
   --motion-slow: 540ms;
+  /* ClientRouter page handoff — black hold, then top→bottom compose */
+  --motion-page-hold: 200ms;
+  --motion-page: 350ms;
+  /* Scroll section top→bottom develop */
+  --motion-reveal: 1000ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
   --shadow-subtle: 0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px rgb(0 0 0 / 0.18);

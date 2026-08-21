@@ -2,10 +2,8 @@ export const SITE = {
   name: "Didac Cristobal",
   fullName: "Didac Cristóbal Canals",
   domain: "https://didac-crst.com",
-  /** Short brand — used as `| ${SITE.title}` on inner pages */
+  /** Short brand — used as document title on home and `| ${SITE.title}` on inner pages */
   title: "Didac Cristobal",
-  /** Home / default document title — stronger SEO signal than the name alone */
-  homeTitle: "Didac Cristobal | Engineering Systems into Trusted Knowledge",
   description:
     "Engineering systems that transform information into trusted knowledge.",
   github: "https://github.com/didac-crst",
